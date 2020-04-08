@@ -1,0 +1,42 @@
+#:kivy 1.11.1
+
+
+<NetScanMenu@Screen>:
+    name: 'NetScanMenuScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        NetScanMenuButtons:
+            id: _Net_Scan_Menu_Buttons_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
+
+
+
+<NetScanMenuButtons@BoxLayout>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: 'Monitor Network Traffic With Wireshark'
+
+
+
+        
+		
+		
+		
+		
+		
+		
+		
+		

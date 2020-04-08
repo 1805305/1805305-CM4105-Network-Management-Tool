@@ -1,0 +1,20 @@
+#:kivy 1.11.1
+
+#:import BottomMenuBar BottomMenuBar
+
+<BottomMenuBar>:
+    main_menu_root: root
+    orientation: 'horizontal'
+    padding: 2
+
+    Button:
+        text: 'Return To Main Menu'
+        on_press: root.ReturnToMainMenu(*args)
+    Button:
+        text: 'Go Back a Level' 
+    Button:
+        text: 'Options'
+        on_press: root.Print(*args)
+    Button:
+        text: 'Exit Application'
+        on_press: app.stop()

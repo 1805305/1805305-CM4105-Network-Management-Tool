@@ -1,0 +1,67 @@
+#:kivy 1.11.1
+
+#:import MainMenu MainMenu
+
+<MainMenu@Screen>:
+    name: 'MainMenuScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MainMenuButtons:
+            id: _Main_Menu_Buttons_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
+
+
+
+<MainMenuButtons>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: 'Basic Configurations'
+        on_press: root.BasicConfMenuButton(*args)
+    Button:
+        text: 'Interface Configurations'
+        on_press: root.IntConfMenuButton(*args)
+    Button:
+        text: 'Routing Configurations'
+        on_press: root.RoutingIntMenuButton(*args)
+    Button:
+        text: 'Secuirty Configurations'
+        on_press: root.SecurityConfMenuButton(*args)
+    Button:
+        text: 'Network Monitoring and Management'
+        on_press: root.NetMonMenuButton(*args)
+    Button:
+        text: 'Device Information Extraction and Change Control'
+        on_press: root.DeviceInfoMenuButton(*args)
+    Button:
+        text: 'Network Scanning and Traffic Monitoring'
+        on_press: root.NetScanMenuButton(*args)
+    Button:
+        text: 'Network Testing'
+        on_press: root.NetTestingMenuButton(*args)
+    Button:
+        text: 'Set Storage Location'
+        on_press: root.BasicConfMenuButton(*args)
+
+
+        
+		
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,41 @@
+#:kivy 1.11.1
+
+<NetTestingMenu@Screen>:
+    name: 'NetTestingMenuScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        NetTestingMenuButtons:
+            id: _Net_Testing_Menu_Buttons_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
+
+
+
+<NetTestingMenuButtons@BoxLayout>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: 'Ping A Network Device'
+
+
+
+        
+		
+		
+		
+		
+		
+		
+		
+		
