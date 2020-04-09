@@ -1,18 +1,20 @@
 #:kivy 1.11.1
 
+#:import BasicConfMenu BasicConfMenu
 
 <BasicConfMenu@Screen>:
     name: 'BasicConfScreen'
     AnchorLayout:
         anchor_x: 'center'
-        anchor_y: 'bottom'
+        anchor_y: 'top'
         BottomMenuBar:
             id: _Bottom_Menu_Bar
+            main_menu_root: root
             size_hint: 1, None
             height: 50
     AnchorLayout:
         anchor_x: 'center'
-        anchor_y: 'top'
+        anchor_y: 'bottom'
         BasicConfMenuButtons:
             id: _Basic_Conf_Menu_Buttons_
             main_menu_root: root
@@ -22,7 +24,7 @@
 
 
 
-<BasicConfMenuButtons@BoxLayout>:
+<BasicConfMenuButtons>:
     orientation: 'vertical'
     padding: 5
     spacing: 2

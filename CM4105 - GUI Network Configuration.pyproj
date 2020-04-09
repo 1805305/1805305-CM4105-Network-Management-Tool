@@ -21,12 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BasicConfMenu.py" />
     <Compile Include="MainMenu.py" />
     <Compile Include="MenuManager.py" />
     <Compile Include="BottomMenuBar.py" />
     <Compile Include="CM4105___GUI_Network_Configuration.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LICENSE" />
     <Content Include="MenuManager.kv" />
     <Content Include="Menus\BasicConfMenu.kv" />
     <Content Include="Menus\DeviceInfoAndChangeControlMenu.kv" />
@@ -40,6 +42,7 @@
     <Content Include="MainApplication.kv" />
     <Content Include="BottomMenuBar.kv" />
     <Content Include="MenuBar.kv" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Menus\" />

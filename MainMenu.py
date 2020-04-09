@@ -7,7 +7,7 @@
 
 
 
-#Imports the require module from Kivy to esnure that the user is running the minimum required version of the software to operate the tool
+#Imports the require module from Kivy to ensure that the user is running the minimum required version of the software to operate the tool
 
 import kivy
 kivy.require('1.11.1')

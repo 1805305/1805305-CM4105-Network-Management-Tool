@@ -22,14 +22,18 @@ from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 
 
-#Loads Kivy files that contain instructions for the GUI 
+#The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
-
-Builder.load_file('MainMenu.kv')
-Builder.load_file('BottomMenuBar.kv')
+#Loads the Kivy file to control the different screens
 Builder.load_file('MenuManager.kv')
 
-#Loads Kivy files for each SubMenu
+#Loads the Kivy file for the bottom menu bar
+Builder.load_file('BottomMenuBar.kv')
+
+#Loads the Kivy file for the Main Menu
+Builder.load_file('MainMenu.kv')
+
+#Loads the Kivy files for the SubMenus
 
 Builder.load_file('Menus\BasicConfMenu.kv')
 Builder.load_file('Menus\IntConfMenu.kv')
