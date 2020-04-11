@@ -15,8 +15,26 @@ kivy.require('1.11.1')
 from kivy.uix.boxlayout import BoxLayout
 
 class BasicConfMenuButtons(BoxLayout):
+
+    def BasicConfHostnameButton(self, instance):
+        self.main_menu_root.manager.current = 'BasicConfHostnameScreen'
+
+    def BasicConfDomainButton(self, instance):
+        self.main_menu_root.manager.current = 'BasicConfDomainScreen'
+
+    def BasicConfReloadButton(self, instance):
+        self.main_menu_root.manager.current = 'BasicConfReloadScreen'
+
+
+class BasicConfHostnameLayout(BoxLayout):
+    pass
+
+class BasicConfDomainLayout(BoxLayout):
+    pass
+
+class BasicConfReloadLayout(BoxLayout):
     pass
 
     
         
-    
+   

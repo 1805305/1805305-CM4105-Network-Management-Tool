@@ -3,7 +3,7 @@
 #:import BasicConfMenu BasicConfMenu
 
 <BasicConfMenu@Screen>:
-    name: 'BasicConfScreen'
+    name: 'BasicConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'top'
@@ -30,17 +30,123 @@
     spacing: 2
     Button:
         text: 'Set Hostname'
+        on_press: root.BasicConfHostnameButton(*args)
     Button:
         text: 'Set Domain Name'
+        on_press: root.BasicConfDomainButton(*args)
     Button:
         text: 'Reload Device'
+        on_press: root.BasicConfReloadButton(*args)
 
+
+
+
+
+<BasicConfHostname@Screen>:
+    name: 'BasicConfHostnameScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BasicConfHostnameLayout:
+            id: _Basic_Conf_Hostname_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
 
 
         
-		
-		
-		
+<BasicConfHostnameLayout>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: 'Set Hostname'
+    Button:
+        text: ''
+    Button:
+        text: ''
+
+
+
+
+
+<BasicConfDomain@Screen>:
+    name: 'BasicConfDomainScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BasicConfDomainLayout:
+            id: _Basic_Conf_Domain_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
+
+
+        
+<BasicConfDomainLayout>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: ''
+    Button:
+        text: 'Set Domain Name'
+    Button:
+        text: ''
+
+
+
+
+<BasicConfReload@Screen>:
+    name: 'BasicConfReloadScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        BottomMenuBar:
+            id: _Bottom_Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        BasicConfReloadLayout:
+            id: _Basic_Conf_Reload_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+            padding: 50
+            height: root.height - _Bottom_Menu_Bar.height
+
+
+        
+<BasicConfReloadLayout>:
+    orientation: 'vertical'
+    padding: 5
+    spacing: 2
+    Button:
+        text: ''
+    Button:
+        text: ''
+    Button:
+        text: 'Reload Device'
 		
 		
 		

@@ -18,7 +18,7 @@ class MainMenuButtons(BoxLayout):
     
 
     def BasicConfMenuButton(self, instance):
-        self.main_menu_root.manager.current = 'BasicConfScreen'
+        self.main_menu_root.manager.current = 'BasicConfMenuScreen'
 
     def IntConfMenuButton(self, instance):
         self.main_menu_root.manager.current = 'IntConfMenuScreen'
