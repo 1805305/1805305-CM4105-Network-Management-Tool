@@ -12,7 +12,9 @@
 import kivy
 kivy.require('1.11.1')
 
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.textinput import TextInput
 
 class BasicConfMenuButtons(BoxLayout):
 
@@ -26,13 +28,13 @@ class BasicConfMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'BasicConfReloadScreen'
 
 
-class BasicConfHostnameLayout(BoxLayout):
+class BasicConfHostnameLayout(GridLayout):
     pass
 
-class BasicConfDomainLayout(BoxLayout):
+class BasicConfDomainLayout(GridLayout):
     pass
 
-class BasicConfReloadLayout(BoxLayout):
+class BasicConfReloadLayout(GridLayout):
     pass
 
     

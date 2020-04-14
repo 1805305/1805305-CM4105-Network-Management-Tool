@@ -19,3 +19,6 @@ class BottomMenuBar(BoxLayout):
     def ReturnToMainMenu(self, instance):
         self.main_menu_root.manager.current = 'MainMenuScreen'
     
+    def PreviousScreen(self, instance):
+        self.main_menu_root.manager.current = 'MainMenuScreen'
+        

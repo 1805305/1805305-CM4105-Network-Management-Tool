@@ -6,7 +6,6 @@
 
 
 
-
 #Imports the require module from Kivy to esnure that the user is running the minimum required version of the software to operate the tool
 
 from kivy import require

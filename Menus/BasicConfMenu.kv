@@ -54,27 +54,49 @@
             height: 50
     AnchorLayout:
         anchor_x: 'center'
-        anchor_y: 'bottom'
+        anchor_y: 'center'
         BasicConfHostnameLayout:
             id: _Basic_Conf_Hostname_Layout_
             main_menu_root: root
             size_hint: 0.9, None
-            padding: 50
-            height: root.height - _Bottom_Menu_Bar.height
+            #padding: 50
+            #height: root.height - _Bottom_Menu_Bar.height - _Execute_Button_.height
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+            
+
 
 
         
 <BasicConfHostnameLayout>:
     orientation: 'vertical'
+    cols: 2
     padding: 5
     spacing: 2
-    Button:
-        text: 'Set Hostname'
-    Button:
-        text: ''
-    Button:
-        text: ''
-
+    Label: 
+        text: 'Enter Desired Hostname of Device'
+        size_hint_y: None
+        height: HostnameTextInput.height
+    TextInput:
+        id: HostnameTextInput
+        hint_text:'Device Hostname'
+        multiline: False
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput     
+        
+    
+        
+    
 
 
 
@@ -88,29 +110,43 @@
             id: _Bottom_Menu_Bar
             main_menu_root: root
             size_hint: 1, None
-            height: 50
+            height: 50     
     AnchorLayout:
         anchor_x: 'center'
-        anchor_y: 'bottom'
+        anchor_y: 'center'
         BasicConfDomainLayout:
             id: _Basic_Conf_Domain_Layout_
             main_menu_root: root
             size_hint: 0.9, None
-            padding: 50
-            height: root.height - _Bottom_Menu_Bar.height
-
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
 
         
 <BasicConfDomainLayout>:
     orientation: 'vertical'
+    cols: 2
     padding: 5
     spacing: 2
-    Button:
-        text: ''
-    Button:
-        text: 'Set Domain Name'
-    Button:
-        text: ''
+    Label: 
+        text: 'Enter Desired Domain Name'
+        size_hint_y: None
+        height: HostnameTextInput.height
+    TextInput:
+        id: HostnameTextInput
+        hint_text:'Domain Name'
+        multiline: False
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput  
 
 
 
@@ -127,27 +163,30 @@
             height: 50
     AnchorLayout:
         anchor_x: 'center'
-        anchor_y: 'bottom'
+        anchor_y: 'center'
         BasicConfReloadLayout:
             id: _Basic_Conf_Reload_Layout_
             main_menu_root: root
             size_hint: 0.9, None
-            padding: 50
-            height: root.height - _Bottom_Menu_Bar.height
-
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
 
         
 <BasicConfReloadLayout>:
     orientation: 'vertical'
+    cols: 2
     padding: 5
     spacing: 2
-    Button:
-        text: ''
-    Button:
-        text: ''
-    Button:
-        text: 'Reload Device'
-		
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput  
 		
 		
 		
