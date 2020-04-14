@@ -1,0 +1,20 @@
+#:kivy 1.11.1
+
+#:import MenuBar MenuBar
+
+<MenuBar>:
+    
+    orientation: 'horizontal'
+    padding: 2
+
+    Button:
+        text: 'Return To Main Menu'
+        on_press: root.ReturnToMainMenu(*args)
+    Button:
+        text: 'Go Back a Level' 
+        on_press: root.PreviousScreen(*args)
+    Button:
+        text: 'Options'
+    Button:
+        text: 'Exit Application'
+        on_press: app.stop()

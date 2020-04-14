@@ -25,7 +25,7 @@
     <Compile Include="ConnectDevices.py" />
     <Compile Include="MainMenu.py" />
     <Compile Include="MenuManager.py" />
-    <Compile Include="BottomMenuBar.py" />
+    <Compile Include="MenuBar.py" />
     <Compile Include="CM4105___GUI_Network_Configuration.py" />
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +41,6 @@
     <Content Include="Menus\SecurityConfMenu.kv" />
     <Content Include="MainMenu.kv" />
     <Content Include="MainApplication.kv" />
-    <Content Include="BottomMenuBar.kv" />
     <Content Include="MenuBar.kv" />
     <Content Include="README.md" />
   </ItemGroup>

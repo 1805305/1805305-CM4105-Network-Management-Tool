@@ -26,8 +26,8 @@ from kivy.core.window import Window
 #Loads the Kivy file to control the different screens
 Builder.load_file('MenuManager.kv')
 
-#Loads the Kivy file for the bottom menu bar
-Builder.load_file('BottomMenuBar.kv')
+#Loads the Kivy file for the menu bar
+Builder.load_file('MenuBar.kv')
 
 #Loads the Kivy file for the Main Menu
 Builder.load_file('MainMenu.kv')
