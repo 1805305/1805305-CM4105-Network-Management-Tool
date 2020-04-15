@@ -42,7 +42,7 @@
 
 
 
-<BasicConfHostname@Screen>:
+<BasicConfHostname>:
     name: 'BasicConfHostnameScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -67,12 +67,13 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_press: root.Execute(*args)
             
 
 
 
         
-<BasicConfHostnameLayout>:
+<BasicConfHostnameLayout@GridLayout>:
     orientation: 'vertical'
     cols: 2
     padding: 5
@@ -101,7 +102,7 @@
 
 
 
-<BasicConfDomain@Screen>:
+<BasicConfDomain>:
     name: 'BasicConfDomainScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -126,7 +127,7 @@
             id: _Execute_Button_
 
         
-<BasicConfDomainLayout>:
+<BasicConfDomainLayout@GridLayout>:
     orientation: 'vertical'
     cols: 2
     padding: 5
@@ -151,7 +152,7 @@
 
 
 
-<BasicConfReload@Screen>:
+<BasicConfReload>:
     name: 'BasicConfReloadScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -176,7 +177,7 @@
             id: _Execute_Button_
 
         
-<BasicConfReloadLayout>:
+<BasicConfReloadLayout@GridLayout>:
     orientation: 'vertical'
     cols: 2
     padding: 5

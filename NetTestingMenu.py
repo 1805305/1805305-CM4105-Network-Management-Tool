@@ -15,6 +15,7 @@ kivy.require('1.11.1')
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
 
 class NetTestingMenuButtons(BoxLayout):
 
@@ -22,7 +23,7 @@ class NetTestingMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'NetTestingPingScreen'
 
 
-class NetTestingPingLayout(GridLayout):
+class NetTestingPing(Screen):        
     pass
 
 

@@ -15,6 +15,7 @@ kivy.require('1.11.1')
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
 
 class SecurityConfMenuButtons(BoxLayout):
 
@@ -28,13 +29,13 @@ class SecurityConfMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'SecurityConfAuxVtyConLinesScreen'
 
 
-class SecurityConfLocalUsernameDatabaseLayout(GridLayout):
+class SecurityConfLocalUsernameDatabase(Screen):        
     pass
 
-class SecurityConfPasswordEncryptionLayout(GridLayout):
+class SecurityConfPasswordEncryption(Screen):        
     pass
 
-class SecurityConfAuxVtyConLinesLayout(GridLayout):
+class SecurityConfAuxVtyConLines(Screen):        
     pass
 
     

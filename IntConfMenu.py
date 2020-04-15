@@ -15,6 +15,7 @@ kivy.require('1.11.1')
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
 
 class IntConfMenuButtons(BoxLayout):
 
@@ -26,10 +27,10 @@ class IntConfMenuButtons(BoxLayout):
 
 
 
-class IntConfAssignIPv4Layout(GridLayout):
+class IntConfAssignIPv4(Screen):        
     pass
 
-class IntConfEthernetIntLayout(GridLayout):
+class IntConfEthernetInt(Screen):        
     pass
 
 

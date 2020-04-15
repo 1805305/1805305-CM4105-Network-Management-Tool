@@ -15,6 +15,8 @@ kivy.require('1.11.1')
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
+
 
 class DeviceInfoMenuButtons(BoxLayout):
 
@@ -25,11 +27,13 @@ class DeviceInfoMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'DeviceInfoChangeControlScreen'
 
 
-class DeviceInfoPollAndExtractLayout(GridLayout):
+class DeviceInfoPollAndExtract(Screen):        
     pass
 
-class DeviceInfoChangeControlLayout(GridLayout):
+class DeviceInfoChangeControl(Screen):        
     pass
+
+
 
 
     

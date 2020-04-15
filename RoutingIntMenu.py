@@ -15,6 +15,7 @@ kivy.require('1.11.1')
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import Screen
 
 class RoutingIntMenuButtons(BoxLayout):
 
@@ -28,13 +29,13 @@ class RoutingIntMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'RoutingIntDefaultGatewayScreen'
 
 
-class RoutingIntStaticRouteLayout(GridLayout):
+class RoutingIntStaticRoute(Screen):        
     pass
 
-class RoutingIntDefaultRouteLayout(GridLayout):
+class RoutingIntDefaultRoute(Screen):        
     pass
 
-class RoutingIntDefaultGatewayLayout(GridLayout):
+class RoutingIntDefaultGateway(Screen):        
     pass
 
     
