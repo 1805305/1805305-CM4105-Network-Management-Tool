@@ -1,5 +1,6 @@
 #:kivy 1.11.1
 
+#:import IntConfMenu IntConfMenu
 
 <IntConfMenu@Screen>:
     name: 'IntConfMenuScreen'
@@ -23,18 +24,102 @@
 
 
 
-<IntConfMenuButtons@BoxLayout>:
+<IntConfMenuButtons>:
     orientation: 'vertical'
     padding: 5
     spacing: 2
     Button:
         text: 'Assign IPv4 Address'
+        on_press: root.IntConfAssignIPv4Button(*args)
     Button:
         text: 'Ethernet Interface Configuration'
-
+        on_press: root.IntConfEthernetIntButton(*args)
         
 		
-		
+
+
+
+
+<IntConfAssignIPv4@Screen>:
+    name: 'IntConfAssignIPv4Screen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        IntConfAssignIPv4Layout:
+            id: _Int_Conf_Assign_IPv4_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+                    
+<IntConfAssignIPv4Layout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
+
+
+
+
+
+<IntConfEthernetInt@Screen>:
+    name: 'IntConfEthernetIntScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        IntConfEthernetIntLayout:
+            id: _Int_Conf_Ethernet_Int_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+            
+
+
+
+        
+<IntConfEthernetIntLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
 		
 		
 		

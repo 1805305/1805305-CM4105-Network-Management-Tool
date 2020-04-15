@@ -21,6 +21,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="NetTestingMenu.py" />
+    <Compile Include="NetScanningAndTrafficMonMenu.py" />
+    <Compile Include="NetMonAndManageMenu.py" />
+    <Compile Include="SecurityConfMenu.py" />
+    <Compile Include="RoutingIntMenu.py" />
+    <Compile Include="IntConfMenu.py" />
+    <Compile Include="DeviceInfoAndChangeControlMenu.py" />
     <Compile Include="BasicConfMenu.py" />
     <Compile Include="ConnectDevices.py" />
     <Compile Include="MainMenu.py" />

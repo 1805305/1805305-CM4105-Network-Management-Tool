@@ -1,5 +1,6 @@
 #:kivy 1.11.1
 
+#:import SecurityConfMenu SecurityConfMenu
 
 <SecurityConfMenu@Screen>:
     name: 'SecurityConfMenuScreen'
@@ -23,20 +24,138 @@
 
 
 
-<SecurityConfMenuButtons@BoxLayout>:
+<SecurityConfMenuButtons>:
     orientation: 'vertical'
     padding: 5
     spacing: 2
     Button:
         text: 'Configure Local Username Database'
+        on_press: root.SecurityConfLocalUsernameDatabaseButton(*args)
     Button:
         text: 'Enable/Disable Service Password Encryption'
+        on_press: root.SecurityConfPasswordEncryptionButton(*args)
     Button:
         text: 'Configure Aux, Console or VTY Lines'
+        on_press: root.SecurityConfAuxVtyConLinesButton(*args)
 
 
 
-        
+
+
+<SecurityConfLocalUsernameDatabase@Screen>:
+    name: 'SecurityConfLocalUsernameDatabaseScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        SecurityConfLocalUsernameDatabaseLayout:
+            id: _Security_Conf_Local_Username_Database_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+                    
+<SecurityConfLocalUsernameDatabaseLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
+
+
+
+<SecurityConfPasswordEncryption@Screen>:
+    name: 'SecurityConfPasswordEncryptionScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        SecurityConfPasswordEncryptionLayout:
+            id: _Security_Conf_Password_Encryption_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+                    
+<SecurityConfPasswordEncryptionLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
+
+
+
+
+<SecurityConfAuxVtyConLines@Screen>:
+    name: 'SecurityConfAuxVtyConLinesScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        SecurityConfAuxVtyConLinesLayout:
+            id: _Security_Conf_Aux_Vty_Con_Lines_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+                    
+<SecurityConfAuxVtyConLinesLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
 		
 		
 		

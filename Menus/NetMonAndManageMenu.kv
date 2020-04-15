@@ -1,5 +1,6 @@
 #:kivy 1.11.1
 
+#:import NetMonAndManageMenu NetMonAndManageMenu
 
 <NetMonMenu@Screen>:
     name: 'NetMonMenuScreen'
@@ -23,12 +24,51 @@
 
 
 
-<NetMonMenuButtons@BoxLayout>:
+<NetMonMenuButtons>:
     orientation: 'vertical'
     padding: 5
     spacing: 2
     Button:
         text: 'SPAN Configuration'
+        on_press: root.NetMonSpanConfButton(*args)
+
+
+
+<NetMonSpanConf@Screen>:
+    name: 'NetMonSpanConfScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        NetMonSpanConfLayout:
+            id: _Net_Mon_Span_Conf_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+                    
+<NetMonSpanConfLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
 
 
 

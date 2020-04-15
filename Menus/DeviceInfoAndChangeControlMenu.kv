@@ -1,5 +1,6 @@
 #:kivy 1.11.1
 
+#:import DeviceInfoAndChangeControlMenu DeviceInfoAndChangeControlMenu
 
 <DeviceInfoMenu@Screen>:
     name: 'DeviceInfoMenuScreen'
@@ -23,20 +24,103 @@
 
 
 
-<DeviceInfoMenuButtons@BoxLayout>:
+<DeviceInfoMenuButtons>:
     orientation: 'vertical'
     padding: 5
     spacing: 2
     Button:
         text: 'Poll And Extract Device Information'
+        on_press: root.DeviceInfoPollAndExtractButton(*args)
     Button:
         text: 'Change Control'
+        on_press: root.DeviceInfoChangeControlButton(*args)
 
 
         
 		
 		
-		
+<DeviceInfoPollAndExtract@Screen>:
+    name: 'DeviceInfoPollAndExtractScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        DeviceInfoPollAndExtractLayout:
+            id: _Device_Info_Poll_And_Extract_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+            
+
+
+
+        
+<DeviceInfoPollAndExtractLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
+
+
+<DeviceInfoChangeControl@Screen>:
+    name: 'DeviceInfoChangeControlScreen'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _Menu_Bar
+            main_menu_root: root
+            size_hint: 1, None
+            height: 50
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        DeviceInfoChangeControlLayout:
+            id: _Device_Info_Change_Control_Layout_
+            main_menu_root: root
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 5
+        Execute:
+            id: _Execute_Button_
+            
+
+
+
+        
+<DeviceInfoChangeControlLayout>:
+    orientation: 'vertical'
+    cols: 2
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
 		
 		
 		
