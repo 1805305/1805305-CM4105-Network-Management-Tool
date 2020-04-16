@@ -31,7 +31,9 @@ class BasicConfMenuButtons(BoxLayout):
 
 
 class BasicConfHostname(Screen):        
-    pass
+    
+    def BasicConfHostnameExecute(self, instance):
+        self.manager.current = 'BasicConfDomainScreen'
 
 class BasicConfDomain(Screen):        
     pass

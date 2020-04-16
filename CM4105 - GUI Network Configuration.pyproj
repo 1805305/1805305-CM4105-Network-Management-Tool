@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="SetStorageLocation.py" />
     <Compile Include="NetTestingMenu.py" />
     <Compile Include="NetScanningAndTrafficMonMenu.py" />
     <Compile Include="NetMonAndManageMenu.py" />
@@ -38,6 +39,7 @@
   <ItemGroup>
     <Content Include="LICENSE" />
     <Content Include="MenuManager.kv" />
+    <Content Include="Menus\SetStorageLocation.kv" />
     <Content Include="Menus\BasicConfMenu.kv" />
     <Content Include="Menus\DeviceInfoAndChangeControlMenu.kv" />
     <Content Include="Menus\IntConfMenu.kv" />

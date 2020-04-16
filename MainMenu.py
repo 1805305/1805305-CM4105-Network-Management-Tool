@@ -40,5 +40,9 @@ class MainMenuButtons(BoxLayout):
 
     def NetTestingMenuButton(self, instance):
         self.main_menu_root.manager.current = 'NetTestingMenuScreen'
+    
+    def SetStorageLocationButton(self, instance):
+        self.main_menu_root.manager.current = 'SetStorageLocationScreen'
+        
         
     

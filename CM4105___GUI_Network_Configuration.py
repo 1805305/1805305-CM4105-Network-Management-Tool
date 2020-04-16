@@ -42,6 +42,7 @@ Builder.load_file('Menus\\NetMonAndManageMenu.kv')
 Builder.load_file('Menus\DeviceInfoAndChangeControlMenu.kv')
 Builder.load_file('Menus\\NetScanningAndTrafficMonMenu.kv')
 Builder.load_file('Menus\\NetTestingMenu.kv')
+Builder.load_file('Menus\SetStorageLocation.kv')
 #Creates the main class for the script that will create the window
 
 
