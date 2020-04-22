@@ -9,17 +9,15 @@
     ActionBar:
         pos_hint: {'top':1}
         ActionView:
-            #use_separator: True
+            use_separator: True
             ActionPrevious:
                 title: 'Action Bar'
                 on_release: app.GoPreviousScreen()
             ActionOverflow:
             ActionButton:
-                #important: True
                 text: 'Return To Main Menu'
                 on_release: root.ReturnToMainMenu(*args)
             ActionButton:
-                important: False
                 text: 'Set Storage Location'
                 on_release: root.SetStorageLocationButton(*args)
             ActionButton:
