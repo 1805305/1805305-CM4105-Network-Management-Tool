@@ -13,11 +13,11 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'top'
-        MenuBar:
+        MenuBar: 
             id: _Menu_Bar
             main_menu_root: root
             size_hint: 1, None
-            height: 50
+            height: 50        
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -35,36 +35,32 @@
     spacing: 2
     Button:
         text: 'Basic Configurations'
-        on_press: root.BasicConfMenuButton(*args)
+        on_release: root.BasicConfMenuButton(*args)
     Button:
         text: 'Interface Configurations'
-        on_press: root.IntConfMenuButton(*args)
+        on_release: root.IntConfMenuButton(*args)
     Button:
         text: 'Routing Configurations'
-        on_press: root.RoutingIntMenuButton(*args)
+        on_release: root.RoutingIntMenuButton(*args)
     Button:
         text: 'Secuirty Configurations'
-        on_press: root.SecurityConfMenuButton(*args)
+        on_release: root.SecurityConfMenuButton(*args)
     Button:
         text: 'Network Monitoring and Management'
-        on_press: root.NetMonMenuButton(*args)
+        on_release: root.NetMonMenuButton(*args)
     Button:
         text: 'Device Information Extraction and Change Control'
-        on_press: root.DeviceInfoMenuButton(*args)
+        on_release: root.DeviceInfoMenuButton(*args)
     Button:
         text: 'Network Scanning and Traffic Monitoring'
-        on_press: root.NetScanMenuButton(*args)
+        on_release: root.NetScanMenuButton(*args)
     Button:
         text: 'Network Testing'
-        on_press: root.NetTestingMenuButton(*args)
+        on_release: root.NetTestingMenuButton(*args)
     Button:
         text: 'Set Storage Location'
-        on_press: root.SetStorageLocationButton(*args)
+        on_release: root.SetStorageLocationButton(*args)
 
-
-        
-		
-		
 		
 		
 		

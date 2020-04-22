@@ -30,13 +30,13 @@
     spacing: 2
     Button:
         text: 'Configure Local Username Database'
-        on_press: root.SecurityConfLocalUsernameDatabaseButton(*args)
+        on_release: root.SecurityConfLocalUsernameDatabaseButton(*args)
     Button:
         text: 'Enable/Disable Service Password Encryption'
-        on_press: root.SecurityConfPasswordEncryptionButton(*args)
+        on_release: root.SecurityConfPasswordEncryptionButton(*args)
     Button:
         text: 'Configure Aux, Console or VTY Lines'
-        on_press: root.SecurityConfAuxVtyConLinesButton(*args)
+        on_release: root.SecurityConfAuxVtyConLinesButton(*args)
 
 
 

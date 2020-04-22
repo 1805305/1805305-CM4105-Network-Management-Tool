@@ -30,13 +30,13 @@
     spacing: 2
     Button:
         text: 'Set Hostname'
-        on_press: root.BasicConfHostnameButton(*args)
+        on_release: root.BasicConfHostnameButton(*args)
     Button:
         text: 'Set Domain Name'
-        on_press: root.BasicConfDomainButton(*args)
+        on_release: root.BasicConfDomainButton(*args)
     Button:
         text: 'Reload Device'
-        on_press: root.BasicConfReloadButton(*args)
+        on_release: root.BasicConfReloadButton(*args)
 
 
 
@@ -67,7 +67,7 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-            on_press: root.BasicConfHostnameExecute(*args)
+            on_release: root.BasicConfHostnameExecute(*args)
             
 
 

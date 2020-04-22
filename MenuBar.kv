@@ -9,13 +9,13 @@
 
     Button:
         text: 'Return To Main Menu'
-        on_press: root.ReturnToMainMenu(*args)
+        on_release: root.ReturnToMainMenu(*args)
     Button:
         text: 'Go Back a Level' 
-        on_press: root.PreviousScreen(*args)
+        on_release: app.GoPreviousScreen()
     Button:
         text: 'Options'
         disabled: True
     Button:
         text: 'Exit Application'
-        on_press: app.stop()
+        on_release: app.stop()

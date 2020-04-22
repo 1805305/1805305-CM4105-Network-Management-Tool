@@ -10,7 +10,7 @@
         anchor_x: 'center'
         anchor_y: 'top'
         MenuBar:
-            id: _Menu_Bart
+            id: _Menu_Bar
             main_menu_root: root
             size_hint: 1, None
             height: 50
@@ -42,12 +42,12 @@
             text: 'Icon View'
             state: 'down'
             group: 'filechooser'
-            on_press: filechooser.view_mode = 'icon'
+            on_release: filechooser.view_mode = 'icon'
 
         ToggleButton:
             text: 'List View'
             group: 'filechooser'
-            on_press: filechooser.view_mode = 'list'
+            on_release: filechooser.view_mode = 'list'
 
     FileChooser:
         id: filechooser

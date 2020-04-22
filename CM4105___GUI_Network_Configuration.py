@@ -20,6 +20,10 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.window import Window
 
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+
+from kivy.properties import ListProperty
 
 #The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
@@ -48,11 +52,11 @@ Builder.load_file('Menus\SetStorageLocation.kv')
 
 
 class MainApplicationApp(App):
+
+
     def build(self):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window
         return MenuManager()
-
-
 
 
 class MenuManager(ScreenManager):

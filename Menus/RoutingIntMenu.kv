@@ -30,13 +30,13 @@
     spacing: 2
     Button:
         text: 'Configure A Static Route'
-        on_press: root.RoutingIntStaticRouteButton(*args)
+        on_release: root.RoutingIntStaticRouteButton(*args)
     Button:
         text: 'Configure A Default Route'
-        on_press: root.RoutingIntDefaultRouteButton(*args)
+        on_release: root.RoutingIntDefaultRouteButton(*args)
     Button:
         text: 'Configure A Default Gateway'
-        on_press: root.RoutingIntDefaultGatewayButton(*args)
+        on_release: root.RoutingIntDefaultGatewayButton(*args)
 
 
 
