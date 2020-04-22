@@ -2,20 +2,31 @@
 
 #:import MenuBar MenuBar
 
+
+
 <MenuBar>:
     
-    orientation: 'horizontal'
-    padding: 2
+    ActionBar:
+        pos_hint: {'top':1}
+        ActionView:
+            use_separator: True
+            ActionPrevious:
+                title: 'Action Bar'
+                on_release: app.GoPreviousScreen()
+            ActionOverflow:
+            ActionButton:
+                text: 'Return To Main Menu'
+                on_release: root.ReturnToMainMenu(*args)
+            ActionButton:
+                text: 'Set Storage Location'
+                on_release: root.SetStorageLocationButton(*args)
+            ActionButton:
+                important: False
+                text: 'Options'
+                disabled: True
+            ActionButton:
+                text: 'Exit Application'
+                on_release: app.stop()
 
-    Button:
-        text: 'Return To Main Menu'
-        on_release: root.ReturnToMainMenu(*args)
-    Button:
-        text: 'Go Back a Level' 
-        on_release: app.GoPreviousScreen()
-    Button:
-        text: 'Options'
-        disabled: True
-    Button:
-        text: 'Exit Application'
-        on_release: app.stop()
+
+        
