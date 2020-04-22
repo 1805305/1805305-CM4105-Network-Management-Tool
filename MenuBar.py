@@ -19,6 +19,9 @@ class MenuBar(BoxLayout):
     def ReturnToMainMenu(self, instance):
         self.main_menu_root.manager.current = 'MainMenuScreen'
     
+    def SetStorageLocationButton(self, instance):
+        self.main_menu_root.manager.current = 'SetStorageLocationScreen'
+
     def PreviousScreen(self, instance):
         self.main_menu_root.manager.current = 'MainMenuScreen'
         
