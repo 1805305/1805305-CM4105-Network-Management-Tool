@@ -3,6 +3,7 @@
 #:import IntConfMenu IntConfMenu
 
 <IntConfMenu@Screen>:
+    on_pre_enter: app.current_screen = "Interface Configuration"
     name: 'IntConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -41,6 +42,7 @@
 
 
 <IntConfAssignIPv4>:
+    on_pre_enter: app.current_screen = "Interface Configuration - Assign IPv4 Address"
     name: 'IntConfAssignIPv4Screen'
     AnchorLayout:
         anchor_x: 'center'
@@ -82,6 +84,7 @@
 
 
 <IntConfEthernetInt>:
+    on_pre_enter: app.current_screen = "Interface Configuration - Ethernet Interface Configuration"
     name: 'IntConfEthernetIntScreen'
     AnchorLayout:
         anchor_x: 'center'

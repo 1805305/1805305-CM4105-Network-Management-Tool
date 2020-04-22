@@ -23,7 +23,7 @@ from kivy.core.window import Window
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, StringProperty
 
 #The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
@@ -52,6 +52,9 @@ Builder.load_file('Menus\SetStorageLocation.kv')
 
 
 class MainApplicationApp(App):
+
+    current_screen = StringProperty('Main Menu')
+    previous_screen = ListProperty([])
 
 
     def build(self):

@@ -3,6 +3,7 @@
 #:import NetScanningAndTrafficMonMenu NetScanningAndTrafficMonMenu
 
 <NetScanMenu@Screen>:
+    on_pre_enter: app.current_screen = "Network Scanning and Traffic Monitoring"
     name: 'NetScanMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -35,6 +36,7 @@
 
 
 <NetScanWireshark>:
+    on_pre_enter: app.current_screen = "Network Scanning and Traffic Monitoring - Wireshark"
     name: 'NetScanWiresharkScreen'
     AnchorLayout:
         anchor_x: 'center'

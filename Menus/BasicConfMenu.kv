@@ -3,6 +3,7 @@
 #:import BasicConfMenu BasicConfMenu
 
 <BasicConfMenu@Screen>:
+    on_pre_enter: app.current_screen = "Basic Configuration"
     name: 'BasicConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -43,6 +44,7 @@
 
 
 <BasicConfHostname>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Hostname"
     name: 'BasicConfHostnameScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -103,6 +105,7 @@
 
 
 <BasicConfDomain>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Domain"
     name: 'BasicConfDomainScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -153,6 +156,7 @@
 
 
 <BasicConfReload>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Reload"
     name: 'BasicConfReloadScreen'
     AnchorLayout:
         anchor_x: 'center'

@@ -3,6 +3,7 @@
 #:import DeviceInfoAndChangeControlMenu DeviceInfoAndChangeControlMenu
 
 <DeviceInfoMenu@Screen>:
+    on_pre_enter: app.current_screen = "Device Information and Change Control"
     name: 'DeviceInfoMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -40,6 +41,7 @@
 		
 		
 <DeviceInfoPollAndExtract>:
+    on_pre_enter: app.current_screen = "Device Information and Change Control - Poll and Extract"
     name: 'DeviceInfoPollAndExtractScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -82,6 +84,7 @@
 
 
 <DeviceInfoChangeControl>:
+    on_pre_enter: app.current_screen = "Device Information and Change Control - Change Control"
     name: 'DeviceInfoChangeControlScreen'
     AnchorLayout:
         anchor_x: 'center'
