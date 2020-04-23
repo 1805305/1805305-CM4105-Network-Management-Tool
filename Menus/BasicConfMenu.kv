@@ -4,6 +4,7 @@
 
 <BasicConfMenu@Screen>:
     on_pre_enter: app.current_screen = "Basic Configuration"
+    on_pre_enter: app.previous_screen.append('BasicConfMenuScreen')
     name: 'BasicConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -45,6 +46,7 @@
 
 <BasicConfHostname>:
     on_pre_enter: app.current_screen = "Basic Configuration - Hostname"
+    on_pre_enter: app.previous_screen.append('BasicConfHostnameScreen')
     name: 'BasicConfHostnameScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -106,6 +108,7 @@
 
 <BasicConfDomain>:
     on_pre_enter: app.current_screen = "Basic Configuration - Domain"
+    on_pre_enter: app.previous_screen.append('BasicConfDomainScreen')
     name: 'BasicConfDomainScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -157,6 +160,7 @@
 
 <BasicConfReload>:
     on_pre_enter: app.current_screen = "Basic Configuration - Reload"
+    on_pre_enter: app.previous_screen.append('BasicConfReloadScreen')
     name: 'BasicConfReloadScreen'
     AnchorLayout:
         anchor_x: 'center'

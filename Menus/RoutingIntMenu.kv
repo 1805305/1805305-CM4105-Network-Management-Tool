@@ -4,6 +4,7 @@
 
 <RoutingIntMenu@Screen>:
     on_pre_enter: app.current_screen = "Routing Configuration"
+    on_pre_enter: app.previous_screen.append('RoutingIntMenuScreen')
     name: 'RoutingIntMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -43,6 +44,7 @@
 
 <RoutingIntStaticRoute>:
     on_pre_enter: app.current_screen = "Routing Configuration - Static Route"
+    on_pre_enter: app.previous_screen.append('RoutingIntStaticRouteScreen')
     name: 'RoutingIntStaticRouteScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -82,6 +84,7 @@
 
 <RoutingIntDefaultRoute>:
     on_pre_enter: app.current_screen = "Routing Configuration - Default Route"
+    on_pre_enter: app.previous_screen.append('RoutingIntDefaultRouteScreen')
     name: 'RoutingIntDefaultRouteScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -122,6 +125,7 @@
 
 <RoutingIntDefaultGateway>:
     on_pre_enter: app.current_screen = "Routing Configuration - Default Gateway"
+    on_pre_enter: app.previous_screen.append('RoutingIntDefaultGatewayScreen')
     name: 'RoutingIntDefaultGatewayScreen'
     AnchorLayout:
         anchor_x: 'center'

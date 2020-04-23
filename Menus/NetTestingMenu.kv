@@ -4,6 +4,7 @@
 
 <NetTestingMenu@Screen>:
     on_pre_enter: app.current_screen = "Network Testing"
+    on_pre_enter: app.previous_screen.append('NetTestingMenuScreen')
     name: 'NetTestingMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -38,6 +39,7 @@
 
 <NetTestingPing>:
     on_pre_enter: app.current_screen = "Network Testing - Ping"
+    on_pre_enter: app.previous_screen.append('NetTestingPingScreen')
     name: 'NetTestingPingScreen'
     AnchorLayout:
         anchor_x: 'center'

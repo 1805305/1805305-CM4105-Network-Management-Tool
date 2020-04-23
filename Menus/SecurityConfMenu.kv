@@ -4,6 +4,7 @@
 
 <SecurityConfMenu@Screen>:
     on_pre_enter: app.current_screen = "Security Configuration"
+    on_pre_enter: app.previous_screen.append('SecurityConfMenuScreen')
     name: 'SecurityConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'

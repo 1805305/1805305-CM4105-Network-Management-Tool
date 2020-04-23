@@ -4,6 +4,7 @@
 
 <DeviceInfoMenu@Screen>:
     on_pre_enter: app.current_screen = "Device Information and Change Control"
+    on_pre_enter: app.previous_screen.append('DeviceInfoMenuScreen')
     name: 'DeviceInfoMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -42,6 +43,7 @@
 		
 <DeviceInfoPollAndExtract>:
     on_pre_enter: app.current_screen = "Device Information and Change Control - Poll and Extract"
+    on_pre_enter: app.previous_screen.append('DeviceInfoPollAndExtractScreen')
     name: 'DeviceInfoPollAndExtractScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -85,6 +87,7 @@
 
 <DeviceInfoChangeControl>:
     on_pre_enter: app.current_screen = "Device Information and Change Control - Change Control"
+    on_pre_enter: app.previous_screen.append('DeviceInfoChangeControlScreen')
     name: 'DeviceInfoChangeControlScreen'
     AnchorLayout:
         anchor_x: 'center'

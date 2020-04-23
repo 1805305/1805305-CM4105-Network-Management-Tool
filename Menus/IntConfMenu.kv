@@ -4,6 +4,7 @@
 
 <IntConfMenu@Screen>:
     on_pre_enter: app.current_screen = "Interface Configuration"
+    on_pre_enter: app.previous_screen.append('IntConfMenuScreen')
     name: 'IntConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -43,6 +44,7 @@
 
 <IntConfAssignIPv4>:
     on_pre_enter: app.current_screen = "Interface Configuration - Assign IPv4 Address"
+    on_pre_enter: app.previous_screen.append('IntConfAssignIPv4Screen')
     name: 'IntConfAssignIPv4Screen'
     AnchorLayout:
         anchor_x: 'center'
@@ -85,6 +87,7 @@
 
 <IntConfEthernetInt>:
     on_pre_enter: app.current_screen = "Interface Configuration - Ethernet Interface Configuration"
+    on_pre_enter: app.previous_screen.append('IntConfEthernetIntScreen')
     name: 'IntConfEthernetIntScreen'
     AnchorLayout:
         anchor_x: 'center'
