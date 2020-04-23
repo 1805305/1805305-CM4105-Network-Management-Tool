@@ -71,14 +71,14 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-            on_release: root.BasicConfHostnameExecute(*args)
+            on_release: root.BasicConfHostnameExecute()
             
 
 
 
         
 <BasicConfHostnameLayout@GridLayout>:
-    orientation: 'vertical'
+    orientation: 'vertical' 
     cols: 2
     padding: 5
     spacing: 2
@@ -97,9 +97,7 @@
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
-        id: IPv4AddressTextInput     
-        
-    
+        id: IPv4AddressTextInput
         
     
 
@@ -141,9 +139,9 @@
     Label: 
         text: 'Enter Desired Domain Name'
         size_hint_y: None
-        height: HostnameTextInput.height
+        height: DomainTextInput.height
     TextInput:
-        id: HostnameTextInput
+        id: DomainTextInput
         hint_text:'Domain Name'
         multiline: False
         size_hint_y: None

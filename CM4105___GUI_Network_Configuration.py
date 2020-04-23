@@ -56,14 +56,11 @@ class MainApplicationApp(App):
     current_screen = StringProperty('Main Menu')
     previous_screen = ListProperty(['MainMenuScreen'])
 
-    #previous_screen = ['MainMenuScreen','MainMenuScreen']
-
     def build(self):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window
         return MenuManager()
 
-    def GoPreviousScreen(self):
-        sm = self.ids._Menu_Manager_
+    def GoPreviousScreen(self, **kwargs):
         previous = self.previous_screen
         if len(previous) == 1:
             print('empty')
@@ -71,9 +68,7 @@ class MainApplicationApp(App):
         if previous:
             screen = previous.pop()
             print(screen)
-            prev = sm.current_screen()
-            print(str(prev))
-            #self.root.current = str(screen)
+            #self.root.ids._Menu_Manager_.current = str(screen)
             
 class MenuManager(ScreenManager):
     pass

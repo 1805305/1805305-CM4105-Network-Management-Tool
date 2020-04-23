@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from netmiko import ConnectHandler  
+
 class BasicConfMenuButtons(BoxLayout):
 
     def BasicConfHostnameButton(self, instance):
@@ -32,8 +34,30 @@ class BasicConfMenuButtons(BoxLayout):
 
 class BasicConfHostname(Screen):        
     
-    def BasicConfHostnameExecute(self, instance):
-        pass
+
+    def BasicConfHostnameExecute(self):
+        #text = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
+        #self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text = text
+        #print(text)
+
+        ip_address = "'" + self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text + "'"
+        hostname = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': ip_address, 
+          'username': 'admin', 
+          'password': 'cisco123', 
+          } 
+
+
+        hostname_command = ["'" + "hostname " + hostname + "'"] 
+
+        net_connect = ConnectHandler(**device) 
+        time.sleep(1)
+        net_connect.find_prompt()
+        net_connect.send_config_set(hostname_command)
+        net_connect.find_prompt()
 
 class BasicConfDomain(Screen):        
     pass
