@@ -1,13 +1,14 @@
 #:kivy 1.11.1
 
+#:import Factory kivy.factory.Factory
 
-#Create a Custom Widget for an Execute Button
+#Create a Custom Button Widget for an Execute Button
 
 <Execute@Button>:
     text: 'Execute'
     size_hint: 0.5, 0.1
 
-#Create a Custome Widget for IPv4 Address Text Input
+#Create a Custom TextInput Widget for IPv4 Address Text Input
 
 <IPv4AddressInput@TextInput>:    
     hint_text:'IPv4 Address'
@@ -15,4 +16,44 @@
     size_hint_y: None
     height: '32dp'
 
- 
+ #Create a Custom PopUp Widget for Username and Password Entry
+
+<DeviceUsernameAndPasswordPopup@Popup>:
+    auto_dismiss: False
+    size_hint: 0.5, 0.5
+    RelativeLayout:
+        RelativeLayout:
+            GridLayout:
+                orientation: 'vertical' 
+                cols: 1
+                padding: 5
+                spacing: 2
+                Label: 
+                    text: 'Enter Username for Device'
+                    size_hint_y: None
+                    height: UsernameTextInput.height
+                TextInput:
+                    id: UsernameTextInput
+                    hint_text:'Device Username'
+                    multiline: False
+                    size_hint_y: None
+                    height: '32dp'
+                Label: 
+                    text: 'Enter Password for Device'
+                    size_hint_y: None
+                    height: PasswordTextInput.height
+                TextInput:
+                    id: PasswordTextInput
+                    hint_text:'Device Password'
+                    multiline: False
+                    password: True
+                    size_hint_y: None
+                    height: '32dp'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'bottom'
+            padding: 5
+            Button:
+                text: 'Intiate Connection'
+                size_hint: 0.5, 0.2
+                on_release: root.dismiss()
