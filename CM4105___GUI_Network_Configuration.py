@@ -17,13 +17,13 @@ require('1.11.1')
 from kivy.app import App
 from kivy.lang import Builder
 
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, StringProperty
 
 #The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
@@ -53,12 +53,23 @@ Builder.load_file('Menus\SetStorageLocation.kv')
 
 class MainApplicationApp(App):
 
+    current_screen = StringProperty('Main Menu')
+    previous_screen = ListProperty(['MainMenuScreen'])
 
     def build(self):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window
         return MenuManager()
 
-
+    def GoPreviousScreen(self, **kwargs):
+        previous = self.previous_screen
+        if len(previous) == 1:
+            print('empty')
+            return
+        if previous:
+            screen = previous.pop()
+            print(screen)
+            #self.root.ids._Menu_Manager_.current = str(screen)
+            
 class MenuManager(ScreenManager):
     pass
 

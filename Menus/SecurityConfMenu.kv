@@ -3,6 +3,8 @@
 #:import SecurityConfMenu SecurityConfMenu
 
 <SecurityConfMenu@Screen>:
+    on_pre_enter: app.current_screen = "Security Configuration"
+    on_pre_enter: app.previous_screen.append('SecurityConfMenuScreen')
     name: 'SecurityConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -43,6 +45,7 @@
 
 
 <SecurityConfLocalUsernameDatabase>:
+    on_pre_enter: app.current_screen = "Security Configuration - Local Username Database"
     name: 'SecurityConfLocalUsernameDatabaseScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -82,6 +85,7 @@
 
 
 <SecurityConfPasswordEncryption>:
+    on_pre_enter: app.current_screen = "Security Configuration - Password Encryption"
     name: 'SecurityConfPasswordEncryptionScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -122,6 +126,7 @@
 
 
 <SecurityConfAuxVtyConLines>:
+    on_pre_enter: app.current_screen = "Security Configuration - Line Configuration"
     name: 'SecurityConfAuxVtyConLinesScreen'
     AnchorLayout:
         anchor_x: 'center'

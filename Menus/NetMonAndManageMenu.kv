@@ -3,6 +3,8 @@
 #:import NetMonAndManageMenu NetMonAndManageMenu
 
 <NetMonMenu@Screen>:
+    on_pre_enter: app.current_screen = "Network Monitoring and Management"
+    on_pre_enter: app.previous_screen.append('NetMonMenuScreen')
     name: 'NetMonMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -35,6 +37,8 @@
 
 
 <NetMonSpanConf>:
+    on_pre_enter: app.current_screen = "Network Monitoring and Management - SPAN Configuration"
+    on_pre_enter: app.previous_screen.append('NetMonSpanConfScreen')
     name: 'NetMonSpanConfScreen'
     AnchorLayout:
         anchor_x: 'center'

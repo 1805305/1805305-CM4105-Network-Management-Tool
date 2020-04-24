@@ -5,6 +5,8 @@
 
 
 <SetStorageLocation>:
+    on_pre_enter: app.current_screen = "Set Storage Location"
+    on_pre_enter: app.previous_screen.append('SetStorageLocationScreen')
     name: 'SetStorageLocationScreen'
     AnchorLayout:
         anchor_x: 'center'

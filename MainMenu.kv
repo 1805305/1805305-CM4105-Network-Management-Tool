@@ -9,6 +9,8 @@
 #Creates the Main Menu Screen and layout the widgets as desired
 
 <MainMenu@Screen>:
+    on_pre_enter: app.current_screen = "Main Menu"
+    on_pre_enter: app.previous_screen.append('MainMenuScreen')
     name: 'MainMenuScreen'
     AnchorLayout:
         anchor_x: 'center'

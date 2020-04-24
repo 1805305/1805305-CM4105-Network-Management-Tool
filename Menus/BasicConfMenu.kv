@@ -3,6 +3,8 @@
 #:import BasicConfMenu BasicConfMenu
 
 <BasicConfMenu@Screen>:
+    on_pre_enter: app.current_screen = "Basic Configuration"
+    on_pre_enter: app.previous_screen.append('BasicConfMenuScreen')
     name: 'BasicConfMenuScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -43,6 +45,8 @@
 
 
 <BasicConfHostname>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Hostname"
+    on_pre_enter: app.previous_screen.append('BasicConfHostnameScreen')
     name: 'BasicConfHostnameScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -67,14 +71,14 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-            on_release: root.BasicConfHostnameExecute(*args)
+            on_release: root.BasicConfHostnameExecute()
             
 
 
 
         
 <BasicConfHostnameLayout@GridLayout>:
-    orientation: 'vertical'
+    orientation: 'vertical' 
     cols: 2
     padding: 5
     spacing: 2
@@ -93,9 +97,7 @@
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
-        id: IPv4AddressTextInput     
-        
-    
+        id: IPv4AddressTextInput
         
     
 
@@ -103,6 +105,8 @@
 
 
 <BasicConfDomain>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Domain"
+    on_pre_enter: app.previous_screen.append('BasicConfDomainScreen')
     name: 'BasicConfDomainScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -135,9 +139,9 @@
     Label: 
         text: 'Enter Desired Domain Name'
         size_hint_y: None
-        height: HostnameTextInput.height
+        height: DomainTextInput.height
     TextInput:
-        id: HostnameTextInput
+        id: DomainTextInput
         hint_text:'Domain Name'
         multiline: False
         size_hint_y: None
@@ -153,6 +157,8 @@
 
 
 <BasicConfReload>:
+    on_pre_enter: app.current_screen = "Basic Configuration - Reload"
+    on_pre_enter: app.previous_screen.append('BasicConfReloadScreen')
     name: 'BasicConfReloadScreen'
     AnchorLayout:
         anchor_x: 'center'

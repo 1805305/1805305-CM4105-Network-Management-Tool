@@ -11,7 +11,7 @@
         ActionView:
             use_separator: True
             ActionPrevious:
-                title: 'Action Bar'
+                title:  app.current_screen
                 on_release: app.GoPreviousScreen()
             ActionOverflow:
             ActionButton:
@@ -25,7 +25,7 @@
                 text: 'Options'
                 disabled: True
             ActionButton:
-                text: 'Exit Application'
+                text: 'Exit'
                 on_release: app.stop()
 
 
