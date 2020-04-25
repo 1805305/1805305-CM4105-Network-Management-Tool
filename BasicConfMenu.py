@@ -40,24 +40,26 @@ class BasicConfHostname(Screen):
         #self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text = text
         #print(text)
 
-        ip_address = "'" + self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text + "'"
+        ip_address = self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text
         hostname = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
 
         device = { 
           'device_type': 'cisco_ios', 
           'ip': ip_address, 
-          'username': 'admin', 
+          'username': 'Test', 
           'password': 'cisco123', 
           } 
 
 
-        hostname_command = ["'" + "hostname " + hostname + "'"] 
-
+        hostname_command = ["hostname " + hostname]
         net_connect = ConnectHandler(**device) 
-        time.sleep(1)
-        net_connect.find_prompt()
         net_connect.send_config_set(hostname_command)
-        net_connect.find_prompt()
+
+
+ 
+        output = net_connect.find_prompt()
+        print(output)
+
 
 class BasicConfDomain(Screen):        
     pass
