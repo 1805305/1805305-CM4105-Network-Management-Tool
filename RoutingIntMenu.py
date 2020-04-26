@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from netmiko import ConnectHandler  
+
 class RoutingIntMenuButtons(BoxLayout):
 
     def RoutingIntStaticRouteButton(self, instance):
@@ -30,13 +32,90 @@ class RoutingIntMenuButtons(BoxLayout):
 
 
 class RoutingIntStaticRoute(Screen):        
-    pass
+    
+    def RoutingIntStaticRouteExecute(self):
+
+        destination_address = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteIPRouteLayout.ids.IPv4AddressTextInput.text + ' ' +  self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteIPRouteLayout.ids.SubnetMaskSpinnerLayout.ids.SubnetMaskSpinner.text
+        distance_metric = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteMetricDistanceLayout.ids.MetricDistanceTextInput.text
+
+        if self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.text == '':
+            route_egress = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text
+        else:
+            route_egress = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.text
+
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+          } 
+
+
+        config_commands = ["ip route " + destination_address + ' ' + route_egress + ' ' + distance_metric]
+
+        net_connect = ConnectHandler(**device) 
+
+        output = net_connect.send_config_set(config_commands)
+
+        print(output)
 
 class RoutingIntDefaultRoute(Screen):        
-    pass
+    
+    def RoutingIntDefaultRouteExecute(self):
+
+        distance_metric = self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text
+
+        if self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text == '':
+            route_egress = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceNumberTextInput.text
+        else:
+            route_egress = self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text
+
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+          } 
+
+
+        config_commands = ["ip route 0.0.0.0 0.0.0.0 " + route_egress + ' ' + distance_metric]
+
+        net_connect = ConnectHandler(**device) 
+
+        net_connect.send_config_set(config_commands)
+
+        print(output)
 
 class RoutingIntDefaultGateway(Screen):        
-    pass
+    
+    def RoutingIntDefaultGatewayExecute(self):
+        
+        default_gateway = self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+          } 
+
+
+        config_commands = ["ip default-gateway " + default_gateway]
+
+        net_connect = ConnectHandler(**device) 
+
+        net_connect.send_config_set(config_commands)
+
+        print(output)
 
     
         

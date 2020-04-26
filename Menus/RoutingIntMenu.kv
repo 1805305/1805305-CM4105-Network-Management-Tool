@@ -64,21 +64,77 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.RoutingIntStaticRouteExecute()
                     
 <RoutingIntStaticRouteLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 4
     padding: 5
+    spacing: 40
+    RoutingIntStaticRouteIPRouteLayout:
+        id: RoutingIntStaticRouteIPRouteLayout
+    InterfaceSelectionLayout:
+        id: RoutingIntStaticRouteForwardInterfaceLayout
+    RoutingIntStaticRouteForwardIPLayout:
+        id: RoutingIntStaticRouteForwardIPLayout
+    RoutingIntStaticRouteMetricDistanceLayout:
+        id: RoutingIntStaticRouteMetricDistanceLayout
+
+
+
+
+<RoutingIntStaticRouteIPRouteLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Enter IPv4 Address and \n Subnet Mask of the Static Route'
+        halign: 'center'
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+    SubnetMaskSpinnerLayout:
+        id: SubnetMaskSpinnerLayout
+
+<RoutingIntStaticRouteForwardIPLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address of the Forwarding Router'
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
         id: IPv4AddressTextInput
+
+<RoutingIntStaticRouteMetricDistanceLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter Metric Distance for Route'
+        size_hint_y: None
+        height: MetricDistanceTextInput.height
+    TextInput:
+        id: MetricDistanceTextInput
+        hint_text:'Metric Distance (1-255)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+    
 
 
 
@@ -104,9 +160,17 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.RoutingIntDefaultRouteExecute()
                     
 <RoutingIntDefaultRouteLayout@GridLayout>:
     orientation: 'vertical'
@@ -145,9 +209,17 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.RoutingIntDefaultGatewayExecute()
                     
 <RoutingIntDefaultGatewayLayout@GridLayout>:
     orientation: 'vertical'
@@ -155,7 +227,7 @@
     padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Enter Desired Default Gateway'
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:

@@ -78,31 +78,13 @@
                     
 <IntConfAssignIPv4Layout@GridLayout>:
     orientation: 'vertical'
-    cols: 3
-    padding: 5
-    Label: 
-        text: 'Enter Interface Type and Number'
-    RelativeLayout:
-        Spinner:
-            id: InterfaceTypeSpinner
-            size_hint: 1, None
-            height: '32dp'
-            sync_height: True
-            text: 'InterfaceType'
-            values: 'FastEthernet', 'GigabitEthernet'
-    TextInput:
-        id: InterfaceNumberTextInput
-        hint_text:'Interface Number'
-        multiline: False
-        size_hint_y: None
-        height: '32dp'  
-    Label: 
-        text: 'Enter IPv4 Address and \n Subnet Mask To Be Assigned'
-        halign: 'center'
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
-    SubnetMaskSpinnerLayout:
-        id: SubnetMaskSpinnerLayout
+    rows: 2
+    #padding: 5
+    spacing: 2
+    InterfaceSelectionLayout:
+        id: InterfaceSelectionLayout
+    IPv4AndSubnetMaskLayout:
+        id: IPv4AndSubnetMaskLayout
     
 
 

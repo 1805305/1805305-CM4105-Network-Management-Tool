@@ -36,12 +36,11 @@ class IntConfAssignIPv4(Screen):
 
 
         
-        interface = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceNumberTextInput.text
-        ip_address = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.IPv4AddressTextInput.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.SubnetMaskSpinnerLayout.ids.SubnetMaskSpinner.text
+        interface = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceSelectionLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceSelectionLayout.ids.InterfaceNumberTextInput.text
+        ip_address = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.IPv4AndSubnetMaskLayout.ids.IPv4AddressTextInput.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.IPv4AndSubnetMaskLayout.ids.SubnetMaskSpinnerLayout.ids.SubnetMaskSpinner.text
 
 
         device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
-
 
         device = { 
           'device_type': 'cisco_ios', 

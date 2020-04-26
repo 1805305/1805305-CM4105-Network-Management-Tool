@@ -53,11 +53,11 @@ class BasicConfHostname(Screen):
           } 
 
 
-        hostname_command = ["hostname " + hostname]
+        config_commands = ["hostname " + hostname]
 
         net_connect = ConnectHandler(**device) 
 
-        net_connect.send_config_set(hostname_command)
+        net_connect.send_config_set(config_commands)
 
         output = net_connect.find_prompt()
 
@@ -68,7 +68,6 @@ class BasicConfDomain(Screen):
     
     def BasicConfDomainExecute(self):
 
-        
         domain = self.ids._Basic_Conf_Domain_Layout_.ids.DomainTextInput.text
 
         device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text

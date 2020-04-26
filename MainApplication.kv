@@ -2,11 +2,17 @@
 
 #:import Factory kivy.factory.Factory
 
+
+
+
 #Create a Custom Button Widget for an Execute Button
 
 <Execute@Button>:
     text: 'Execute'
     size_hint: 0.5, 0.1
+
+
+
 
 #Create a Custom TextInput Widget for IPv4 Address Text Input
 
@@ -17,9 +23,14 @@
     height: '32dp'
 
 
+
+
+#Create a Custom GridLayout for combining IPv4AddressInput Widget and a Label
+
 <IPv4TargetDeviceLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 1
+    spacing: 2
     Label: 
         text: 'Enter IPv4 Address of  Target Device'
         size_hint_y: None
@@ -27,11 +38,12 @@
     IPv4AddressInput:
         id: IPv4AddressTextInput
 
-#Create a custome Spinner Widget to allow for the Subnet/ to be selected
+
+
+
+#Create a custome Spinner Widget to allow for the subnet to be selected
 
 <SubnetMaskSpinnerLayout@RelativeLayout>: 
-  
-    # creating the spinner 
     Spinner:
         id: SubnetMaskSpinner
         size_hint: 1, None
@@ -39,6 +51,59 @@
         sync_height: True
         text: 'Subnet Mask'
         values: '255.255.255.0', '255.255.255.128', '255.255.255.192', '255.255.255.224', '255.255.255.240', '255.255.255.248', '255.255.255.252'
+
+
+
+#Create a Custom GridLayout for combining IPv4AddressInput, SubnetMaskSpinner Widgets and a Label
+
+<IPv4AndSubnetMaskLayout@GridLayout>:
+    orientation: 'vertical'
+    cols: 3
+    #padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter IPv4 Address and \n Subnet Mask To Be Assigned'
+        halign: 'center'
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+    SubnetMaskSpinnerLayout:
+        id: SubnetMaskSpinnerLayout
+
+
+
+#Create a custome Spinner Widget to allow for the interface type to be selected
+
+<InterfaceTypeSpinnerLayout@RelativeLayout>: 
+    Spinner:
+        id: InterfaceTypeSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'InterfaceType'
+        values: 'FastEthernet', 'GigabitEthernet'
+
+
+
+
+#Create a Custom GridLayout for combining InterfaceTypeSpinner Widget, a Textinput for the interface number and a Label
+
+<InterfaceSelectionLayout@GridLayout>:
+    orientation: 'vertical'
+    cols: 3
+    spacing: 2
+    Label: 
+        text: 'Enter Interface Type and Number'
+    InterfaceTypeSpinnerLayout:
+        id: InterfaceTypeSpinnerLayout
+    TextInput:
+        id: InterfaceNumberTextInput
+        hint_text:'Interface Number'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'  
+
+
+
 
  #Create a Custom PopUp Widget for Username and Password Entry
 
