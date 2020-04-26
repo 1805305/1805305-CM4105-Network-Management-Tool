@@ -16,16 +16,29 @@
     size_hint_y: None
     height: '32dp'
 
+
+<IPv4TargetDeviceLayout@GridLayout>:
+    orientation: 'vertical'
+    cols: 2
+    Label: 
+        text: 'Enter IPv4 Address of  Target Device'
+        size_hint_y: None
+        height: IPv4AddressTextInput.height
+    IPv4AddressInput:
+        id: IPv4AddressTextInput
+
 #Create a custome Spinner Widget to allow for the Subnet/ to be selected
 
-<SubnetMaskSpinner@RelativeLayout>: 
+<SubnetMaskSpinnerLayout@RelativeLayout>: 
   
     # creating the spinner 
     Spinner:
+        id: SubnetMaskSpinner
         size_hint: 1, None
         height: '32dp'
+        sync_height: True
         text: 'Subnet Mask'
-        values: '255.255.255.0 /24', '255.255.255.128 /25', '255.255.255.192 /26', '255.255.255.224 /27', '255.255.255.240 /28', '255.255.255.248 /29', '255.255.255.252 /30'
+        values: '255.255.255.0', '255.255.255.128', '255.255.255.192', '255.255.255.224', '255.255.255.240', '255.255.255.248', '255.255.255.252'
 
  #Create a Custom PopUp Widget for Username and Password Entry
 

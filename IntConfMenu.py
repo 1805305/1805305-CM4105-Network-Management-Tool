@@ -17,6 +17,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from netmiko import ConnectHandler  
+
+
 class IntConfMenuButtons(BoxLayout):
 
     def IntConfAssignIPv4Button(self, instance):
@@ -27,8 +30,35 @@ class IntConfMenuButtons(BoxLayout):
 
 
 
-class IntConfAssignIPv4(Screen):        
-    pass
+class IntConfAssignIPv4(Screen): 
+    
+    def IntConfAssignIPv4Execute(self):
+
+
+        
+        interface = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceNumberTextInput.text
+        ip_address = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.IPv4AddressTextInput.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.SubnetMaskSpinnerLayout.ids.SubnetMaskSpinner.text
+
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+         } 
+
+
+        config_commands = ["interface " + interface, 'ip address ' + ip_address]
+
+        net_connect = ConnectHandler(**device) 
+
+        output = net_connect.send_config_set(config_commands)
+
+        print(output)
+
 
 class IntConfEthernetInt(Screen):        
     pass

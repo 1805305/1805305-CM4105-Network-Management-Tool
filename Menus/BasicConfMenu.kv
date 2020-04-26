@@ -68,6 +68,13 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
@@ -91,13 +98,8 @@
         hint_text:'Device Hostname'
         multiline: False
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    Label: 
-        text: 'Enter IPv4 Address of Device'
-        size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: '32dp'
+    
         
     
 
@@ -126,6 +128,13 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
@@ -146,13 +155,7 @@
         hint_text:'Domain Name'
         multiline: False
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    Label: 
-        text: 'Enter IPv4 Address of Device'
-        size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput  
+        height: '32dp'
 
 
 
@@ -191,7 +194,7 @@
     padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of Device'
+        text: 'Enter IPv4 Address of  Target Device'
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:

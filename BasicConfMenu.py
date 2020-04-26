@@ -40,12 +40,14 @@ class BasicConfHostname(Screen):
         #self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text = text
         #print(text)
 
-        ip_address = self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text
+        
         hostname = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
 
         device = { 
           'device_type': 'cisco_ios', 
-          'ip': ip_address, 
+          'ip': device_ip_address, 
           'username': 'Test', 
           'password': 'cisco123', 
           } 
@@ -66,12 +68,14 @@ class BasicConfDomain(Screen):
     
     def BasicConfDomainExecute(self):
 
-        ip_address = self.ids._Basic_Conf_Domain_Layout_.ids.IPv4AddressTextInput.text
+        
         domain = self.ids._Basic_Conf_Domain_Layout_.ids.DomainTextInput.text
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
 
         device = { 
           'device_type': 'cisco_ios', 
-          'ip': ip_address, 
+          'ip': device_ip_address, 
           'username': 'Test', 
           'password': 'cisco123', 
           } 
@@ -89,11 +93,11 @@ class BasicConfReload(Screen):
     
     def BasicConfReloadExecute(self):
 
-        ip_address = self.ids._Basic_Conf_Reload_Layout_.ids.IPv4AddressTextInput.text
+        device_ip_address = self.ids._Basic_Conf_Reload_Layout_.ids.IPv4AddressTextInput.text
 
         device = { 
           'device_type': 'cisco_ios', 
-          'ip': ip_address, 
+          'ip': device_ip_address, 
           'username': 'Test', 
           'password': 'cisco123', 
           } 

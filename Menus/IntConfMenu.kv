@@ -64,28 +64,46 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
+            size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.IntConfAssignIPv4Execute()
                     
 <IntConfAssignIPv4Layout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    cols: 3
     padding: 5
     Label: 
-        text: 'Enter IPv4 Address of Device'
-
-
+        text: 'Enter Interface Type and Number'
+    RelativeLayout:
+        Spinner:
+            id: InterfaceTypeSpinner
+            size_hint: 1, None
+            height: '32dp'
+            sync_height: True
+            text: 'InterfaceType'
+            values: 'FastEthernet', 'GigabitEthernet'
+    TextInput:
+        id: InterfaceNumberTextInput
+        hint_text:'Interface Number'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'  
     Label: 
-        text: 'Select Subnet Mask for the Network'
+        text: 'Enter IPv4 Address and \n Subnet Mask To Be Assigned'
+        halign: 'center'
     IPv4AddressInput:
         id: IPv4AddressTextInput
-    SubnetMaskSpinner:
-        id: SubnetMaskSpinner
-
-
-
-
+    SubnetMaskSpinnerLayout:
+        id: SubnetMaskSpinnerLayout
+    
 
 
 
@@ -125,7 +143,7 @@
     padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of Device'
+        text: 'Enter IPv4 Address of  Target Device'
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
