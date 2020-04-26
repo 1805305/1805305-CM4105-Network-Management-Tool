@@ -16,6 +16,17 @@
     size_hint_y: None
     height: '32dp'
 
+#Create a custome Spinner Widget to allow for the Subnet/ to be selected
+
+<SubnetMaskSpinner@RelativeLayout>: 
+  
+    # creating the spinner 
+    Spinner:
+        size_hint: 1, None
+        height: '32dp'
+        text: 'Subnet Mask'
+        values: '255.255.255.0 /24', '255.255.255.128 /25', '255.255.255.192 /26', '255.255.255.224 /27', '255.255.255.240 /28', '255.255.255.248 /29', '255.255.255.252 /30'
+
  #Create a Custom PopUp Widget for Username and Password Entry
 
 <DeviceUsernameAndPasswordPopup@Popup>:
