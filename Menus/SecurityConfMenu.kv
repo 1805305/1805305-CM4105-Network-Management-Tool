@@ -122,18 +122,32 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.SecurityConfPasswordEncryptionExecute()
                     
 <SecurityConfPasswordEncryptionLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
-    padding: 5
+    rows: 1
+    #padding: 5
     spacing: 2
-    Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+    Label:
+        text: 'Enable/Disable Password \n Encryption on Target Device'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        halign: 'center'
+        height: EnableToggle.height
+    ToggleButton:
+        id: EnableToggle
+        size_hint_y: None
+        height: '48dp'
+        state: 'down'
+        text: 'Enable'
+        group: 'ServicePasswordEncryption'
+    ToggleButton:
+        id: DisableToggle
+        size_hint_y: None
+        height: '48dp'
+        text: 'Disable'
+        group: 'ServicePasswordEncryption'
+    
 
 
 

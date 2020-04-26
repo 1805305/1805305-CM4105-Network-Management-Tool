@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from netmiko import ConnectHandler 
+
 class SecurityConfMenuButtons(BoxLayout):
 
     def SecurityConfLocalUsernameDatabaseButton(self, instance):
@@ -31,9 +33,31 @@ class SecurityConfMenuButtons(BoxLayout):
 
 class SecurityConfLocalUsernameDatabase(Screen):        
     pass
+    
 
 class SecurityConfPasswordEncryption(Screen):        
-    pass
+    
+    def SecurityConfPasswordEncryptionExecute(self):
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+          } 
+
+        if self.ids._Security_Conf_Password_Encryption_Layout_.ids.EnableToggle.state == 'down':
+            config_commands = ["service password-encryption"]
+        else:
+            config_commands = ["no service password-encryption"]
+
+        net_connect = ConnectHandler(**device) 
+
+        output = net_connect.send_config_set(config_commands)
+
+        print(output)
 
 class SecurityConfAuxVtyConLines(Screen):        
     pass
