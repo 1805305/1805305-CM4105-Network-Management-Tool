@@ -67,12 +67,12 @@ class RoutingIntDefaultRoute(Screen):
     
     def RoutingIntDefaultRouteExecute(self):
 
-        distance_metric = self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text
+        distance_metric = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteMetricDistanceLayout.ids.MetricDistanceTextInput.text
 
-        if self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text == '':
-            route_egress = self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Int_Conf_Assign_IPv4_Layout_.ids.InterfaceNumberTextInput.text
+        if self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.text == '':
+            route_egress = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.text + ' ' +  self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text
         else:
-            route_egress = self.ids._Routing_Int_Default_Gateway_Layout_.ids.IPv4AddressTextInput.text
+            route_egress = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.text
 
 
         device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
@@ -89,7 +89,7 @@ class RoutingIntDefaultRoute(Screen):
 
         net_connect = ConnectHandler(**device) 
 
-        net_connect.send_config_set(config_commands)
+        output = net_connect.send_config_set(config_commands)
 
         print(output)
 
