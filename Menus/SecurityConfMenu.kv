@@ -75,18 +75,93 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.SecurityConfLocalUsernameDatabaseExecute()
+
                     
 <SecurityConfLocalUsernameDatabaseLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
-    padding: 5
+    rows: 4
+    spacing: 40
+    SecurityConfLocalUsernameDatabaseUserAndPassLayout:
+        id: SecurityConfLocalUsernameDatabaseUserAndPassLayout
+    SecurityConfLocalUsernameDatabaseSecretLayout:
+        id: SecurityConfLocalUsernameDatabaseSecretLayout
+    SecurityConfLocalUsernameDatabasePrivilegeLayout:
+        id: SecurityConfLocalUsernameDatabasePrivilegeLayout
+
+
+<SecurityConfLocalUsernameDatabaseUserAndPassLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Enter Desired Username \n and Password'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: UsernameTextInput.height
+        halign: 'center'
+    TextInput:
+        id: UsernameTextInput
+        hint_text:'Desired Username'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+    TextInput:
+        id: PasswordTextInput
+        hint_text:'Desired Password'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+<SecurityConfLocalUsernameDatabaseSecretLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label:
+            text:''
+        Label:
+            text: 'Yes'
+        Label:
+            text:''
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label: 
+            text: 'Set password as secret'
+            size_hint_y: None
+            height: SecretPasswordTrue.height
+        CheckBox:
+            id: SecretPasswordTrue
+            size_hint_y: None
+            height: '32dp'
+            text: 'Yes'
+        Label:
+            text:''
+
+<SecurityConfLocalUsernameDatabasePrivilegeLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    Label: 
+        text: 'Set Privilege Level'
+        size_hint_y: None
+        height: PrivilegeLevelSpinner.height
+    Spinner:
+        id: PrivilegeLevelSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'No Privilege Required'
+        values: '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', 'No Privilege Required'
+    Label:
+        text:''
+
+
+
+
 
 
 
