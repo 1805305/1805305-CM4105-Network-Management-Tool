@@ -63,6 +63,28 @@ class RoutingIntStaticRoute(Screen):
 
         print(output)
 
+
+
+    def StaticRouteSelectInterfaceEgress(self):
+
+        route_egress = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.disabled = True
+
+        self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.disabled = False
+        self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.disabled = False
+
+        route_egress = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.text = ''
+  
+
+    def StaticRouteSelectIPEgress(self):
+
+        route_egress = self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.disabled = False
+
+        self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.disabled = True
+        self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.disabled = True
+
+        self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text = ''
+
+
 class RoutingIntDefaultRoute(Screen):        
     
     def RoutingIntDefaultRouteExecute(self):
@@ -92,6 +114,29 @@ class RoutingIntDefaultRoute(Screen):
         output = net_connect.send_config_set(config_commands)
 
         print(output)
+
+
+    def DefaultRouteSelectInterfaceEgress(self):
+
+        
+
+        
+
+        route_egress = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.disabled = True
+        
+        self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.disabled = False
+        self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.disabled = False
+
+        route_egress = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.text = ''
+
+    def DefaultRouteSelectIPEgress(self):
+
+        route_egress = self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.disabled = False
+
+        self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceTypeSpinnerLayout.ids.InterfaceTypeSpinner.disabled = True
+        self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.disabled = True
+
+        self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text = ''
 
 class RoutingIntDefaultGateway(Screen):        
     

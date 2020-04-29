@@ -54,12 +54,12 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         RoutingIntStaticRouteLayout:
             id: _Routing_Int_Static_Route_Layout_
-            main_menu_root: root
+            pos_hint:{'center_x':0.5, 'y':0.5}
             size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
@@ -78,18 +78,19 @@
                     
 <RoutingIntStaticRouteLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 4
+    rows: 5
     padding: 5
     spacing: 40
     RoutingIntStaticRouteIPRouteLayout:
         id: RoutingIntStaticRouteIPRouteLayout
+    RoutingIntStaticRouteInterfaceOrIPSelectCheckboxLayout:
+        id: RoutingIntStaticRouteInterfaceOrIPSelectCheckboxLayout
     InterfaceSelectionLayout:
         id: RoutingIntStaticRouteForwardInterfaceLayout
     RoutingIntStaticRouteForwardIPLayout:
         id: RoutingIntStaticRouteForwardIPLayout
     RoutingIntStaticRouteMetricDistanceLayout:
         id: RoutingIntStaticRouteMetricDistanceLayout
-
 
 
 
@@ -105,6 +106,45 @@
         id: IPv4AddressTextInput
     SubnetMaskSpinnerLayout:
         id: SubnetMaskSpinnerLayout
+
+ 
+<RoutingIntStaticRouteInterfaceOrIPSelectCheckboxLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label:
+            text:''
+        Label:
+            text: 'Interface'
+        Label:
+            text:'Forward IP'
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label: 
+            text: 'Egress method to employ'
+            size_hint_y: None
+            height: InterfaceTrue.height
+        CheckBox:
+            id: InterfaceTrue
+            size_hint_y: None
+            height: '32dp'
+            text: 'Interface'
+            group: 'InterfaceOrIP'
+            on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+
+        CheckBox:
+            id: ForwardIPTrue
+            size_hint_y: None
+            height: '32dp'
+            text: 'Forward IP'
+            group: 'InterfaceOrIP'
+            on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+            
+
 
 <RoutingIntStaticRouteForwardIPLayout@GridLayout>:
     orientation: 'vertical'
@@ -150,12 +190,13 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         RoutingIntDefaultRouteLayout:
             id: _Routing_Int_Default_Route_Layout_
             main_menu_root: root
+            pos_hint:{'center_x':0.5, 'y':0.5}
             size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
@@ -174,9 +215,11 @@
                     
 <RoutingIntDefaultRouteLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 3
+    rows: 4
     padding: 5
     spacing: 40
+    RoutingIntDefaultRouteInterfaceOrIPSelectCheckboxLayout:
+        id: RoutingIntDefaultRouteInterfaceOrIPSelectCheckboxLayout
     InterfaceSelectionLayout:
         id: RoutingIntDefaultRouteForwardInterfaceLayout
     RoutingIntDefaultRouteForwardIPLayout:
@@ -184,6 +227,43 @@
     RoutingIntDefaultRouteMetricDistanceLayout:
         id: RoutingIntDefaultRouteMetricDistanceLayout
 
+
+
+<RoutingIntDefaultRouteInterfaceOrIPSelectCheckboxLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label:
+            text:''
+        Label:
+            text: 'Interface'
+        Label:
+            text:'Forward IP'
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label: 
+            text: 'Egress method to employ'
+            size_hint_y: None
+            height: InterfaceTrue.height
+        CheckBox:
+            id: InterfaceTrue
+            size_hint_y: None
+            height: '32dp'
+            text: 'Interface'
+            group: 'InterfaceOrIP'
+            on_press: root.parent.parent.parent.DefaultRouteSelectInterfaceEgress()
+
+        CheckBox:
+            id: ForwardIPTrue
+            size_hint_y: None
+            height: '32dp'
+            text: 'Forward IP'
+            group: 'InterfaceOrIP'
+            on_press: root.parent.parent.parent.DefaultRouteSelectIPEgress()
 
 
 <RoutingIntDefaultRouteForwardIPLayout@GridLayout>:
