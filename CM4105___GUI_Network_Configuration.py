@@ -25,6 +25,9 @@ from kivy.uix.label import Label
 
 from kivy.properties import ListProperty, StringProperty
 
+#from os.path import dirname
+
+
 #The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
 #Loads the Kivy file to control the different screens
@@ -53,11 +56,28 @@ Builder.load_file('Menus\SetStorageLocation.kv')
 
 class MainApplicationApp(App):
 
+
+
     current_screen = StringProperty('Main Menu')
     previous_screen = ListProperty(['MainMenuScreen'])
 
+
+    #current_directory = StringProperty('')
+    selected_storage_directory = StringProperty('') # Instead maybe have the open file and search file for location as a module that can be quickly ran from any function, this would stop the need for a global property
+
+    
+
     def build(self):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window
+
+        #curdir = dirname(__file__)
+        #self.current_directory = curdir
+
+        with open('StorageLocation.txt') as f:
+            storage_location_file = f.readlines()
+            self.selected_storage_directory = storage_location_file[2]
+            f.close()
+
         return MenuManager()
 
     def GoPreviousScreen(self, **kwargs):

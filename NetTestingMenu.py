@@ -31,7 +31,7 @@ class NetTestingMenuButtons(BoxLayout):
 class NetTestingPing(Screen):        
     
     device_ip_address = ListProperty([''])
-    result_of_ping = StringProperty('Sucess')
+    result_of_ping = StringProperty('')
 
     def NetTestingPingExecute(self):
 

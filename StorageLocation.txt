@@ -1,0 +1,3 @@
+Enter your desired directory for storing all outputs on line 3
+
+C:\Users\user\OneDrive - Robert Gordon University\Year 2\Semester 2\CM4105 - Honor Project\Script\1805305-CM4105-Network-Management-Tool

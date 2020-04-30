@@ -16,6 +16,12 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
+    FloatLayout:
+        #padding: 15
+        SetStorageLocationDirectoryInfo:
+            id: _Set_Storage_Location_Directory_Info_
+            pos_hint:{'center_x':0.5, 'y':0.85}
+            size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'
@@ -23,16 +29,41 @@
             id: _Set_Storage_Location_File_Chooser_
             main_menu_root: root
             padding: 25
-            size_hint: 0.9, None
-            height: root.height - _Menu_Bar.height - _Execute_Button_.height
+            size_hint: 0.9, 0.7
+            height: root.height - _Menu_Bar.height - _Set_Storage_Location_Directory_Info_.height - _Execute_Button_.height
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Reset_Button_
+            text: 'Reset Storage \n Location'
+            size_hint: 0.13, 0.06
+            on_release: root.ResetStorageLocationChangeExecute()
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
-            
-  
+            on_release: root.SetStorageLocationChangeExecute()
+
+<SetStorageLocationDirectoryInfo@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    height: '32dp'
+    Label:   
+        id: SelectedStorage
+        markup: True
+        text: "Current Storage Directory - [b] " + app.selected_storage_directory + " [/b]"
+        text_size: self.width, None
+        height: self.texture_size[1]
+    #Label:   
+        #id: PotentialStorage
+        #markup: True
+        #text: "Potential Storage Directory - No Selection Made" + self.parent.parent.SelectedStorage.text
+
 
 <SetStorageLocationFileChooser@BoxLayout>
     orientation: 'vertical'
@@ -44,22 +75,21 @@
             text: 'Icon View'
             state: 'down'
             group: 'filechooser'
-            on_release: filechooser.view_mode = 'icon'
+            on_release: FileChooser.view_mode = 'icon'
 
         ToggleButton:
             text: 'List View'
             group: 'filechooser'
-            on_release: filechooser.view_mode = 'list'
-
+            on_release: FileChooser.view_mode = 'list'
     FileChooser:
-        id: filechooser
-        
+        id: FileChooser
+
+        dirselect: True
+
         FileChooserIconLayout
         FileChooserListLayout
         
-    
         
-    
 
 
 

@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="StorageLocation.txt" />
     <Compile Include="SetStorageLocation.py" />
     <Compile Include="NetTestingMenu.py" />
     <Compile Include="NetScanningAndTrafficMonMenu.py" />
