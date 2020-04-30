@@ -36,38 +36,41 @@ class NetTestingPing(Screen):
     def NetTestingPingExecute(self):
 
         #Need to add a method of ensuring only ip address or  maybe even valid domain name is entered. Probably best done with an IF statement that checks for a valid IP and if not produces a pop up saying 'Please enter a valid IP' and breaks out the function
-        
+        try:
 
         
-        device_ip_address = self.device_ip_address
-        result_of_ping = self.result_of_ping
+            device_ip_address = self.device_ip_address
+            result_of_ping = self.result_of_ping
 
-        device_ip_address[0] = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+            device_ip_address[0] = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
         
         
-        retry_check = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+            retry_check = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
 
-        if retry_check == 'No Retries':
-            retry_amount = 0
-        else:
-            retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
-
-        
-        responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
-
+            if retry_check == 'No Retries':
+                retry_amount = 0
+            else:
+                retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
 
         
+            responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
 
-        if responses:
-            print("    reponses: %s" % list(responses.keys()))
-            result_of_ping = 'Success'
-        if no_responses:
-            print("    no response received in time, even after retries: %s" %
-                  no_responses)
-            result_of_ping = 'Failed'
+            if responses:
+                print("    reponses: %s" % list(responses.keys()))
+                result_of_ping = 'Success'
+            if no_responses:
+                print("    no response received in time, even after retries: %s" %
+                        no_responses)
+                result_of_ping = 'Failed'
 
 
-        if device_ip_address[0] == '':
-            self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]Local Host[/i]' - [b] " + result_of_ping + " [/b]"
-        else:       
-            self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
+            if device_ip_address[0] == '':
+                self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]Local Host[/i]' - [b] " + result_of_ping + " [/b]"
+            else:       
+                self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
+
+
+
+        except Exception: 
+            
+            self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = '[b]Please enter a valid IP address and try again[/b]'
