@@ -69,18 +69,42 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.NetTestingPingExecute()
                     
 <NetTestingPingLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 2
     padding: 5
     spacing: 2
-    Label: 
-        text: 'Enter IPv4 Address of  Target Device'
-        size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        padding: 5
+        spacing: 2
+        Label:   
+            id: ResultsLabel
+            markup: True
+            text: "No Ping Test Executed"
+            
+
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        padding: 5
+        spacing: 2
+        Label: 
+            text: 'Set Retry Amount'
+            size_hint_y: None
+            height: RetryAmountSpinner.height
+        Spinner:
+            id: RetryAmountSpinner
+            size_hint: 1, None
+            height: '32dp'
+            sync_height: True
+            text: 'No Retries'
+            values: '1', '2', '3', '4', '5', 'No Retries'
+        Label:
+            text:''
 
 
         
