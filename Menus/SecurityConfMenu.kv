@@ -239,13 +239,21 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'left'
+        #anchor_y: 'center'
+        SecurityConfAuxVtyConLinesFunctionSelect:
+            id: _Security_Conf_Aux_Vty_Con_Lines_Function_Select_
+            pos_hint:{'x':0.1, 'y':0.5}
+            size_hint: 0.2, 0.5
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         SecurityConfAuxVtyConLinesLayout:
             id: _Security_Conf_Aux_Vty_Con_Lines_Layout_
+            pos_hint:{'center_x':0.5, 'y':0.5}
             main_menu_root: root
-            size_hint: 0.9, None
+            size_hint: 0.7, None
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -259,22 +267,228 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-                    
+        
+        
 <SecurityConfAuxVtyConLinesLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 5
+    padding: 5
+    spacing: 2
+    SecurityConfAuxVtyConLinesSelectLineLayout:
+        id: SecurityConfAuxVtyConLinesSelectLineLayout
+    SecurityConfAuxVtyConLinesLineRangeLayout:
+        id: SecurityConfAuxVtyConLinesLineRangeLayout
+    SecurityConfAuxVtyConLinesTransportOptionsLayout:
+        id: SecurityConfAuxVtyConLinesTransportOptionsLayout
+    SecurityConfAuxVtyConLinesLoginOptionsLayout:
+        id: SecurityConfAuxVtyConLinesLoginOptionsLayout
+    SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout:
+        id: SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout
+
+
+
+
+<SecurityConfAuxVtyConLinesSelectLineLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label:
+            text:''
+        Label:
+            text: 'Con'
+        Label:
+            text:'Aux'
+        Label:
+            text:'Vty'
+    GridLayout:
+        orientation: 'vertical'
+        rows: 1
+        Label: 
+            text: 'Select Line to Configure'
+            size_hint_y: None
+            height: ConTrue.height
+            text_size: self.width, None
+        CheckBox:
+            id: ConTrue
+            size_hint_y: None
+            height: '32dp'
+            group: 'LineSelect'
+            #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+        CheckBox:
+            id: AuxTrue
+            size_hint_y: None
+            height: '32dp'
+            group: 'LineSelect'
+            #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+        CheckBox:
+            id: VtyTrue
+            size_hint_y: None
+            height: '32dp'
+            group: 'LineSelect'
+            #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+
+
+<SecurityConfAuxVtyConLinesLineRangeLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    Label: 
+        text: 'Select Line Range'
+        size_hint_y: None
+        height: LineRangeStartTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: LineRangeStartTextInput
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: '---'
+        size_hint_y: None
+        height: LineRangeEndTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: LineRangeEndTextInput
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+<SecurityConfAuxVtyConLinesTransportOptionsLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    padding: 5
+    spacing: 2
+    Spinner:
+        id: TransportInputOutputSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Input'
+        values: 'Output', 'Input'
+    Spinner:
+        id: TransportMethodNo1Spinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Method 1'
+        values: 'SSH', 'Telnet', 'rlogin', 'all', 'none'
+    Spinner:
+        id: TransportMethodNo2Spinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Method 2'
+        values: 'SSH', 'Telnet', 'rlogin', 'N/A'
+    
+
+
+<SecurityConfAuxVtyConLinesLoginOptionsLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
     padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Login Local'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: LoginLocalTrue.height
+        text_size: self.width, None
+    CheckBox:
+        id: LoginLocalTrue
+        size_hint_y: None
+        height: '32dp'
+        group: 'LoginTypeSelect'
+        #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+    Label: 
+        text: 'Password'
+        size_hint_y: None
+        height: PasswordTrue.height
+        text_size: self.width, None
+    CheckBox:
+        id: PasswordTrue
+        size_hint_y: None
+        height: '32dp'
+        group: 'LoginTypeSelect'
+        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+    TextInput:
+        id: LineLoginPasswordTextInput
+        hint_text:'Enter Desired Password'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+
+
+<SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    Label: 
+        text: 'Minutes'
+        size_hint_y: None
+        height: LineExecTimeoutMinutesTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: LineExecTimeoutMinutesTextInput
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: 'Seconds'
+        size_hint_y: None
+        height: LineExecTimeoutSecondsTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: LineExecTimeoutSecondsTextInput
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+    
+
+
+<SecurityConfAuxVtyConLinesFunctionSelect@GridLayout>:
+	orientation: 'vertical'
+    cols: 2	
+    padding: 5
+    spacing: 2
+    Label: 
+        text: 'Transport Method'
+        size_hint_y: None
+        height: TransportMethodCheckbox.height
+    CheckBox:
+        id: TransportMethodCheckbox
+        size_hint_y: None
+        height: '32dp'
+        #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+    Label: 
+        text: 'Login Type'
+        size_hint_y: None
+        height: LoginTypeCheckbox.height
+    CheckBox:
+        id: LoginTypeCheckbox
+        size_hint_y: None
+        height: '32dp'
+        text: 'Forward IP'
+        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+    Label: 
+        text: 'Exec-Timeout'
+        size_hint_y: None
+        height: ExecTimeoutCheckbox.height
+    CheckBox:
+        id: ExecTimeoutCheckbox
+        size_hint_y: None
+        height: '32dp'
+        text: 'Forward IP'
+        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
 		
 		
 		
-		
+
+
 		
 		
 		
