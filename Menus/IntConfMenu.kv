@@ -101,12 +101,27 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'left'
+        #anchor_y: 'center'
+        IntConfEthernetIntFunctionSelect:
+            id: _Int_Conf_Ethernet_Int_Function_Select_
+            pos_hint:{'center_x':0.15, 'center_y':0.34}
+            size_hint: 0.2, 0.5
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         IntConfEthernetIntLayout:
             id: _Int_Conf_Ethernet_Int_Layout_
+            pos_hint:{'center_x':0.6, 'y':0.5}
             main_menu_root: root
+            size_hint: 0.7, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        padding: 15
+        IPv4TargetDeviceLayout
+            id: _IPv4_Target_Device_Layout_
             size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
@@ -114,22 +129,129 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-            
-
+            on_release: root.IntConfEthernetIntExecute()
+        
 
 
         
 <IntConfEthernetIntLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 6
+    padding: 5
+    spacing: 40
+    InterfaceSelectionLayout:
+        id:InterfaceSelectionLayout
+    IntConfEthernetIntDescriptionLayout:
+        id: IntConfEthernetIntDescriptionLayout
+        opacity: 0
+        disabled: True
+    IntConfEthernetIntDuplexLayout:
+        id: IntConfEthernetIntDuplexLayout
+        opacity: 0
+        disabled: True
+    IntConfEthernetIntBandwidthLayout:
+        id: IntConfEthernetIntBandwidthLayout
+        opacity: 0
+        disabled: True
+
+
+
+
+
+
+<IntConfEthernetIntDescriptionLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    padding: 5
+    spacing: 2  
+    Label: 
+        text: 'Enter Interface Description'
+        size_hint_y: None
+        height: EthernetIntDescriptionTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: EthernetIntDescriptionTextInput
+        hint_text:'Description'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+
+<IntConfEthernetIntDuplexLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
     padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Selected Desired Duplex Type'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: DuplexTypeSpinner.height
+        text_size: self.width, None
+    Spinner:
+        id: DuplexTypeSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Duplex Type'
+        values: 'Full', 'Half', 'Auto'
+
+
+
+
+<IntConfEthernetIntBandwidthLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    padding: 5
+    Label: 
+        text: 'Enter Desired Bandwidth'
+        size_hint_y: None
+        height: BandwidthTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: BandwidthTextInput
+        hint_text:'0-10000000 (kb)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+
+
+
+<IntConfEthernetIntFunctionSelect@GridLayout>:
+	orientation: 'vertical'
+    cols: 2	
+    padding: 5
+    spacing: 5
+    Label: 
+        text: 'Description'
+        size_hint_y: None
+        height: DescriptionCheckbox.height
+    CheckBox:
+        id: DescriptionCheckbox
+        size_hint_y: None
+        height: '32dp'
+        on_active: root.parent.parent.IntConfEthernetIntDescriptionSelect()
+    Label: 
+        text: 'Duplex Mode'
+        size_hint_y: None
+        height: DuplexCheckbox.height
+    CheckBox:
+        id: DuplexCheckbox
+        size_hint_y: None
+        height: '32dp'
+        on_active: root.parent.parent.IntConfEthernetIntDuplexSelect()
+    Label: 
+        text: 'Bandwidth'
+        size_hint_y: None
+        height: BandwidthCheckbox.height
+    CheckBox:
+        id: BandwidthCheckbox
+        size_hint_y: None
+        height: '32dp'
+        on_active: root.parent.parent.IntConfEthernetIntBandwidthSelect()
 		
 		
 		
