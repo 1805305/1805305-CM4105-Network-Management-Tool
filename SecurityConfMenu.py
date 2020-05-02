@@ -205,6 +205,8 @@ class SecurityConfAuxVtyConLines(Screen):
 
        
    
+
+    #Function linked to the Console checkbox to modify the various widgets so that only commands that can be performed on the Console line can be set - Remove and reset the Line Range text inputs as Console only allows for line 0 and modifiying which transport methods are available
     def SecurityConfAuxVtyConLinesConSelect(self):
 
         if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True:
@@ -222,6 +224,8 @@ class SecurityConfAuxVtyConLines(Screen):
             self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.values = 'SSH', 'Telnet', 'rlogin', 'all', 'none'
 
 
+
+    #Function linked to the Aux checkbox to modify the various widgets so that only commands that can be performed on the Console line can be set - Remove and reset the Line Range text inputs as Aux only allows for line 0
     def SecurityConfAuxVtyConLinesVtySelect(self):
 
         if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.VtyTrue.active == True:
@@ -240,7 +244,7 @@ class SecurityConfAuxVtyConLines(Screen):
 
 
 
-
+    #Function linked to the Transport checkbox to modify the Transport Method widgets so that they are visible when checked and disabled and hidden from view when unchecked, the spinners will have their values reset
     def SecurityConfAuxVtyConLinesTransportSelect(self):
 
         if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.TransportMethodCheckbox.active == True:
@@ -258,7 +262,7 @@ class SecurityConfAuxVtyConLines(Screen):
             self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text = 'Method 2'
 
 
-
+    #Function linked to the Transport checkbox to modify the Login Type widgets so that they are visible when checked and disabled and hidden from view when unchecked, the text input will have it's value reset
     def SecurityConfAuxVtyConLinesLoginTypeSelect(self):
 
         if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.LoginTypeCheckbox.active == True:
@@ -278,6 +282,8 @@ class SecurityConfAuxVtyConLines(Screen):
             
 
 
+
+    #Function linked to the Transport checkbox to modify the Exec-Timeout widgets so that they are visible when checked and disabled and hidden from view when unchecked, the text inputs will have their value reset
     def SecurityConfAuxVtyConLinesExecTimeoutSelect(self):
         
 

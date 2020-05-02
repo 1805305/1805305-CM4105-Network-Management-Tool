@@ -48,12 +48,13 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         NetMonSpanConfLayout:
             id: _Net_Mon_Span_Conf_Layout_
             main_menu_root: root
+            pos_hint:{'center_x':0.5, 'y':0.5}
             size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
@@ -68,18 +69,84 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.NetMonSpanConfExecute()
                     
 <NetMonSpanConfLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 3
     padding: 5
+    spacing: 40
+    NetMonSpanConfSessionNoLayout:
+        id: NetMonSpanConfSessionNoLayout
+    NetMonSpanConfSourcePortLayout:
+        id: NetMonSpanConfSourcePortLayout
+    NetMonSpanConfDestinationPortLayout:
+        id: NetMonSpanConfDestinationPortLayout
+
+
+<NetMonSpanConfSessionNoLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Enter SPAN Session ID'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: SPANSessionIDTextInput.height
+    TextInput:
+        id: SPANSessionIDTextInput
+        hint_text:'Session ID (1-66)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp' 
+    Label:
+
+<NetMonSpanConfSourcePortLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter SPAN Source Port'
+        size_hint_y: None
+        height: InterfaceNumberTextInput.height
+    Spinner:
+        id: InterfaceTypeSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Interface Type'
+        values: 'FastEthernet', 'GigabitEthernet', 'VLAN'
+    TextInput:
+        id: InterfaceNumberTextInput
+        hint_text:'Interface Number'
+        multiline: False
+        size_hint_y: None
+        height: '32dp' 
+    
+
+<NetMonSpanConfDestinationPortLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    #padding: 5
+    spacing: 2
+    Label: 
+        text: 'Enter SPAN Destination Port'
+        size_hint_y: None
+        height: InterfaceNumberTextInput.height
+    Spinner:
+        id: InterfaceTypeSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Interface Type'
+        values: 'FastEthernet', 'GigabitEthernet', 'VLAN'
+    TextInput:
+        id: InterfaceNumberTextInput
+        hint_text:'Interface Number'
+        multiline: False
+        size_hint_y: None
+        height: '32dp' 
 
 
 
