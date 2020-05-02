@@ -89,6 +89,8 @@
         id: RoutingIntStaticRouteForwardInterfaceLayout
     RoutingIntStaticRouteForwardIPLayout:
         id: RoutingIntStaticRouteForwardIPLayout
+        opacity: 0
+        disabled: True
     RoutingIntStaticRouteMetricDistanceLayout:
         id: RoutingIntStaticRouteMetricDistanceLayout
 
@@ -133,16 +135,17 @@
             size_hint_y: None
             height: '32dp'
             text: 'Interface'
-            group: 'InterfaceOrIP'
-            on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+            group: 'StaticInterfaceOrIP'
+            active: True
+            on_active: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
 
         CheckBox:
             id: ForwardIPTrue
             size_hint_y: None
             height: '32dp'
             text: 'Forward IP'
-            group: 'InterfaceOrIP'
-            on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+            group: 'StaticInterfaceOrIP'
+            on_active: root.parent.parent.parent.StaticRouteSelectIPEgress()
             
 
 
@@ -224,6 +227,8 @@
         id: RoutingIntDefaultRouteForwardInterfaceLayout
     RoutingIntDefaultRouteForwardIPLayout:
         id: RoutingIntDefaultRouteForwardIPLayout
+        opacity: 0
+        disabled: True
     RoutingIntDefaultRouteMetricDistanceLayout:
         id: RoutingIntDefaultRouteMetricDistanceLayout
 
@@ -254,16 +259,17 @@
             size_hint_y: None
             height: '32dp'
             text: 'Interface'
-            group: 'InterfaceOrIP'
-            on_press: root.parent.parent.parent.DefaultRouteSelectInterfaceEgress()
+            group: 'DefaultInterfaceOrIP'
+            active: True
+            on_active: root.parent.parent.parent.DefaultRouteSelectInterfaceEgress()
 
         CheckBox:
             id: ForwardIPTrue
             size_hint_y: None
             height: '32dp'
             text: 'Forward IP'
-            group: 'InterfaceOrIP'
-            on_press: root.parent.parent.parent.DefaultRouteSelectIPEgress()
+            group: 'DefaultInterfaceOrIP'
+            on_active: root.parent.parent.parent.DefaultRouteSelectIPEgress()
 
 
 <RoutingIntDefaultRouteForwardIPLayout@GridLayout>:
@@ -276,7 +282,7 @@
         size_hint_y: None
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
-        id: IPv4AddressTextInput
+        id: IPv4AddressTextInput 
 
 <RoutingIntDefaultRouteMetricDistanceLayout@GridLayout>:
     orientation: 'vertical'

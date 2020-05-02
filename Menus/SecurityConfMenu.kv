@@ -244,14 +244,14 @@
         #anchor_y: 'center'
         SecurityConfAuxVtyConLinesFunctionSelect:
             id: _Security_Conf_Aux_Vty_Con_Lines_Function_Select_
-            pos_hint:{'x':0.1, 'y':0.5}
+            pos_hint:{'center_x':0.15, 'y':0.02}
             size_hint: 0.2, 0.5
     FloatLayout:
         #anchor_x: 'center'
         #anchor_y: 'center'
         SecurityConfAuxVtyConLinesLayout:
             id: _Security_Conf_Aux_Vty_Con_Lines_Layout_
-            pos_hint:{'center_x':0.5, 'y':0.5}
+            pos_hint:{'center_x':0.6, 'y':0.5}
             main_menu_root: root
             size_hint: 0.7, None
     AnchorLayout:
@@ -267,23 +267,32 @@
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.SecurityConfAuxVtyConLinesExecute()
         
         
 <SecurityConfAuxVtyConLinesLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 5
+    rows: 6
     padding: 5
-    spacing: 2
+    spacing: 40
     SecurityConfAuxVtyConLinesSelectLineLayout:
         id: SecurityConfAuxVtyConLinesSelectLineLayout
     SecurityConfAuxVtyConLinesLineRangeLayout:
         id: SecurityConfAuxVtyConLinesLineRangeLayout
+        opacity: 0
+        disabled: True
     SecurityConfAuxVtyConLinesTransportOptionsLayout:
         id: SecurityConfAuxVtyConLinesTransportOptionsLayout
+        opacity: 0
+        disabled: True
     SecurityConfAuxVtyConLinesLoginOptionsLayout:
         id: SecurityConfAuxVtyConLinesLoginOptionsLayout
+        opacity: 0
+        disabled: True
     SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout:
         id: SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout
+        opacity: 0
+        disabled: True
 
 
 
@@ -316,19 +325,19 @@
             size_hint_y: None
             height: '32dp'
             group: 'LineSelect'
-            #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+            active: True
+            on_active: root.parent.parent.parent.SecurityConfAuxVtyConLinesConSelect()
         CheckBox:
             id: AuxTrue
             size_hint_y: None
             height: '32dp'
-            group: 'LineSelect'
-            #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+            group: 'LineSelect'  
         CheckBox:
             id: VtyTrue
             size_hint_y: None
             height: '32dp'
-            group: 'LineSelect'
-            #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+            group: 'LineSelect' 
+            on_active: root.parent.parent.parent.SecurityConfAuxVtyConLinesVtySelect()
 
 
 <SecurityConfAuxVtyConLinesLineRangeLayout@GridLayout>:
@@ -342,6 +351,7 @@
         text_size: self.width, None
     TextInput:
         id: LineRangeStartTextInput
+        hint_text:'First Line (0-15)'
         multiline: False
         size_hint_y: None
         height: '32dp'
@@ -349,9 +359,10 @@
         text: '---'
         size_hint_y: None
         height: LineRangeEndTextInput.height
-        text_size: self.width, None
+        width: 30
     TextInput:
         id: LineRangeEndTextInput
+        hint_text:'Last Line (0-15)'
         multiline: False
         size_hint_y: None
         height: '32dp'
@@ -367,15 +378,15 @@
         size_hint: 1, None
         height: '32dp'
         sync_height: True
-        text: 'Input'
-        values: 'Output', 'Input'
+        text: 'Output'
+        #values: 'Output', 'Input'
     Spinner:
         id: TransportMethodNo1Spinner
         size_hint: 1, None
         height: '32dp'
         sync_height: True
         text: 'Method 1'
-        values: 'SSH', 'Telnet', 'rlogin', 'all', 'none'
+        values: 'SSH', 'Telnet', 'all', 'none'
     Spinner:
         id: TransportMethodNo2Spinner
         size_hint: 1, None
@@ -401,9 +412,11 @@
         size_hint_y: None
         height: '32dp'
         group: 'LoginTypeSelect'
-        #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+        active: True
+        on_active: root.ids.LineLoginPasswordTextInput.disabled = True
+        on_active: root.ids.LineLoginPasswordTextInput.text = ''
     Label: 
-        text: 'Password'
+        text: 'Line Password'
         size_hint_y: None
         height: PasswordTrue.height
         text_size: self.width, None
@@ -412,10 +425,10 @@
         size_hint_y: None
         height: '32dp'
         group: 'LoginTypeSelect'
-        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+        on_active: root.ids.LineLoginPasswordTextInput.disabled = False
     TextInput:
         id: LineLoginPasswordTextInput
-        hint_text:'Enter Desired Password'
+        hint_text:'Password'
         multiline: False
         size_hint_y: None
         height: '32dp'
@@ -427,13 +440,20 @@
     orientation: 'vertical'
     rows: 1
     spacing: 2
+    TextInput:
+        id: LineExecTimeoutMinutesTextInput
+        hint_text:'0 - 35791'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
     Label: 
         text: 'Minutes'
         size_hint_y: None
         height: LineExecTimeoutMinutesTextInput.height
         text_size: self.width, None
     TextInput:
-        id: LineExecTimeoutMinutesTextInput
+        id: LineExecTimeoutSecondsTextInput
+        hint_text:'0 - 2147483'
         multiline: False
         size_hint_y: None
         height: '32dp'
@@ -442,19 +462,16 @@
         size_hint_y: None
         height: LineExecTimeoutSecondsTextInput.height
         text_size: self.width, None
-    TextInput:
-        id: LineExecTimeoutSecondsTextInput
-        multiline: False
-        size_hint_y: None
-        height: '32dp'
-    
+
+
+
 
 
 <SecurityConfAuxVtyConLinesFunctionSelect@GridLayout>:
 	orientation: 'vertical'
     cols: 2	
     padding: 5
-    spacing: 2
+    spacing: 5
     Label: 
         text: 'Transport Method'
         size_hint_y: None
@@ -463,7 +480,7 @@
         id: TransportMethodCheckbox
         size_hint_y: None
         height: '32dp'
-        #on_press: root.parent.parent.parent.StaticRouteSelectInterfaceEgress()
+        on_active: root.parent.parent.SecurityConfAuxVtyConLinesTransportSelect()
     Label: 
         text: 'Login Type'
         size_hint_y: None
@@ -472,8 +489,7 @@
         id: LoginTypeCheckbox
         size_hint_y: None
         height: '32dp'
-        text: 'Forward IP'
-        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+        on_active: root.parent.parent.SecurityConfAuxVtyConLinesLoginTypeSelect()
     Label: 
         text: 'Exec-Timeout'
         size_hint_y: None
@@ -482,8 +498,7 @@
         id: ExecTimeoutCheckbox
         size_hint_y: None
         height: '32dp'
-        text: 'Forward IP'
-        #on_press: root.parent.parent.parent.StaticRouteSelectIPEgress()
+        on_active: root.parent.parent.SecurityConfAuxVtyConLinesExecTimeoutSelect()
 		
 		
 		

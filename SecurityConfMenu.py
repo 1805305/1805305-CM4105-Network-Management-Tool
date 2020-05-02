@@ -94,8 +94,203 @@ class SecurityConfPasswordEncryption(Screen):
         print(output)
 
 class SecurityConfAuxVtyConLines(Screen):        
-    pass
-
     
+
+    def SecurityConfAuxVtyConLinesExecute(self):
         
+        #Define the three potential commands as empty variables
+
+        transport_command = ''
+        login_command = ''
+        exec_timeout_command = ''
+
+        #Else if to find out which line the user wishes to configure
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True:
+            line_to_configure = 'Console'
+        elif self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
+            line_to_configure = 'Aux'
+        else:
+            line_to_configure = 'Vty'
+
+
+
+        #Else if to find out the line_range the user wishes to configure, if console is the line to configure set line to 0
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
+            line_range = '0'
+        else:
+            line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text + ' ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text #Define the line_range variable from reading user input from the two text inputs
+
+        line_command = "line " + line_to_configure + ' ' + line_range #Create a variable to store the command to enter the line to improve ease of reading further down
+
+
+        #If statement to check if user has selected Transport Method checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.TransportMethodCheckbox.active == True:
+
+
+            #Creates the variable for input/output dependent on user choice
+            transport_type = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text # Defines wheter the user wants to configure input or output transport method
+
+
+            #If statement for handling if a user does not change method 1 - It will default to ssh
+
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text == 'Method 1':
+                transport_method1 = 'SSH'
+            else:
+                transport_method1 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text
+
+
+
+            #If statement for handling if a user does not change method 2 or if N/A was selected. Or if a user entered a value in method 1 - It will default to blank
+
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'Method 2' or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'N/A':
+                transport_method2 = ''
+            else:
+                transport_method2 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text
+                
+
+            #Combines the three variables to create the final command 
+
+            transport_command = 'transport ' + transport_type + ' ' + transport_method1 + ' ' + transport_method2 # Creates the final Transport Command
+            
+        else:
+            pass
+
+
+
+        #If statement to check if user has selected Login Type checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.LoginTypeCheckbox.active == True:
+            
+            #If statement to check if user has selected to login using the local user database or a custom password and set the login_type_command variable accordingly
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LoginLocalTrue.active == True:
+                login_command = 'login local'
+            else:
+                login_command = 'password ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LineLoginPasswordTextInput.text
+
+        else:
+            pass
+
+        #If statement to check if user has selected Exec Timeout checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.ExecTimeoutCheckbox.active == True:
+            
+            exec_timeout_command = 'exec-timeout ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutMinutesTextInput.text + ' ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutSecondsTextInput.text
+
+        else:
+            pass
+
+
+
+        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+
+        device = { 
+          'device_type': 'cisco_ios', 
+          'ip': device_ip_address, 
+          'username': 'Test', 
+          'password': 'cisco123', 
+          } 
+
+        
+        config_commands = [line_command, transport_command, login_command, exec_timeout_command]
+        
+
+        net_connect = ConnectHandler(**device) 
+
+        output = net_connect.send_config_set(config_commands)
+
+        print(output)
+
+       
    
+    def SecurityConfAuxVtyConLinesConSelect(self):
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text = 'Output'
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.values = ''
+            
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.values = 'SSH', 'Telnet', 'all', 'none'
+
+        else:
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text = 'Input'
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.values = 'Output', 'Input'
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.values = 'SSH', 'Telnet', 'rlogin', 'all', 'none'
+
+
+    def SecurityConfAuxVtyConLinesVtySelect(self):
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.VtyTrue.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.opacity = 1
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.disabled = False
+            
+
+        else:
+            
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.opacity = 0
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.disabled = True
+   
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text = '' 
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text = ''
+
+
+
+
+    def SecurityConfAuxVtyConLinesTransportSelect(self):
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.TransportMethodCheckbox.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.opacity = 1
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.disabled = False
+
+        else:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.opacity = 0
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.disabled = True
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text = 'Output'
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text = 'Method 1'
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text = 'Method 2'
+
+
+
+    def SecurityConfAuxVtyConLinesLoginTypeSelect(self):
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.LoginTypeCheckbox.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.opacity = 1
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.disabled = False
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LineLoginPasswordTextInput.disabled = True #Specifically disable password text input until user selects that they want to use password entry
+
+        else:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.opacity = 0
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.disabled = True
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LoginLocalTrue.active = True
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LineLoginPasswordTextInput.text = ''
+            
+
+
+    def SecurityConfAuxVtyConLinesExecTimeoutSelect(self):
+        
+
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.ExecTimeoutCheckbox.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.opacity = 1
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.disabled = False
+
+
+        else:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.opacity = 0
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.disabled = True
+            
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutMinutesTextInput.text = ''
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutSecondsTextInput.text = ''
