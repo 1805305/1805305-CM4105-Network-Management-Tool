@@ -53,13 +53,21 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'left'
+        #anchor_y: 'center'
+        DeviceInfoPollAndExtractInfoSelect:
+            id: _Device_Info_Poll_And_Extract_Info_Select_
+            pos_hint:{'center_x':0.15, 'y':0.25}
+            size_hint: 0.2, 0.5
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         DeviceInfoPollAndExtractLayout:
             id: _Device_Info_Poll_And_Extract_Layout_
+            pos_hint:{'center_x':0.6, 'y':0.7}
             main_menu_root: root
-            size_hint: 0.9, None
+            size_hint: 0.7, None
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -73,22 +81,127 @@
         padding: 5
         Execute:
             id: _Execute_Button_
-            
+            on_release: root.DeviceInfoPollAndExtractExecute() 
 
 
 
         
 <DeviceInfoPollAndExtractLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 3
     padding: 5
-    spacing: 2
+    spacing: 40
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        id: PolledDeviceInfoLabel
+        markup: True
+        text: 'Device Information'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: '32dp'
+    TextInput:
+        id: PolledDeviceInfoOutput
+        readonly: True
+        size_hint_y: None
+        height: '165dp'
+        line_spacing: 13
+        text: 'Hostname: \nDevice Type: \nIOS Version: \nDomain: \nUptime: '
+    DeviceInfoPollAndExtractStoreLocalLayout:
+        id: DeviceInfoPollAndExtractStoreLocalLayout
+
+
+
+<DeviceInfoPollAndExtractStoreLocalLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    padding: 5
+    spacing: 5
+    Label: 
+        text: 'Store Results Locally'
+        size_hint_y: None
+        height: StoreLocalCheckbox.height
+    CheckBox:
+        id: StoreLocalCheckbox
+        size_hint_y: None
+        height: '32dp'
+        on_active: root.parent.parent.parent.DeviceInfoPollAndExtractStoreLocalSelect()
+    Label:
+        id: FileNameLabel
+        text: 'Desired File Name'
+        size_hint_y: None
+        height: FileNameTextInput.height
+        opacity: 0
+        disabled: True
+    TextInput:
+        id: FileNameTextInput
+        hint_text:'File Name'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+        opacity: 0
+        disabled: True
+    
+
+
+
+
+<DeviceInfoPollAndExtractInfoSelect@GridLayout>:
+	orientation: 'vertical'
+    cols: 2	
+    padding: 5
+    spacing: 1
+    Label: 
+        text: 'Hostname'
+        size_hint_y: None
+        height: HostnameInfoCheckbox.height
+    CheckBox:
+        id: HostnameInfoCheckbox
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: 'Device Type'
+        size_hint_y: None
+        height: DeviceTypeInfoCheckbox.height
+    CheckBox:
+        id: DeviceTypeInfoCheckbox
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: 'IOS Version'
+        size_hint_y: None
+        height: IOSVersionInfoCheckbox.height
+    CheckBox:
+        id: IOSVersionInfoCheckbox
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: 'Domain'
+        size_hint_y: None
+        height: DomainInfoCheckbox.height
+    CheckBox:
+        id: DomainInfoCheckbox
+        size_hint_y: None
+        height: '32dp'
+    Label: 
+        text: 'Uptime'
+        size_hint_y: None
+        height: UptimeInfoCheckbox.height
+    CheckBox:
+        id: UptimeInfoCheckbox
+        size_hint_y: None
+        height: '32dp'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

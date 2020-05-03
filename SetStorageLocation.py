@@ -32,13 +32,12 @@ class SetStorageLocation(Screen):
             new_storage_location_file = f.readlines()
            
         new_storage_location_file[2] = self.ids._Set_Storage_Location_File_Chooser_.ids.FileChooser.path
+        App.get_running_app().selected_storage_directory =  new_storage_location_file[2]
 
+        f.close()
 
         with open('StorageLocation.txt', 'w') as f:
             f.writelines( new_storage_location_file )
-      
-        App.get_running_app().selected_storage_directory =  new_storage_location_file[2]
-
 
         f.close()
 

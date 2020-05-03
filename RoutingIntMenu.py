@@ -163,7 +163,7 @@ class RoutingIntDefaultGateway(Screen):
 
         net_connect = ConnectHandler(**device) 
 
-        net_connect.send_config_set(config_commands)
+        output = net_connect.send_config_set(config_commands)
 
         print(output)
 
