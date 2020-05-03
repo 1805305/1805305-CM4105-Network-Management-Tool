@@ -25,7 +25,6 @@ from kivy.app import App
 
 import os
 import sys
-import time
 
 #Call will be imported from subprocess to allow a cli command to be executed using python
 from subprocess import call
@@ -105,33 +104,29 @@ class NetScanWireshark(Screen):
         #If else statment to check if the buffer ring check box is selected, if not it creates the tshark command without it. 
         if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferCheckbox.ids.RingBufferCheckbox.active == True:
 
-            #Set of if elif statements to see which settings to use for the buffer ring - Duration, Packet Amount or FileSize
+            #If Else statements to see which settings to use for the buffer ring - Duration or FileSize
             if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferDurationCheckbox.active == True:
 
                 ring_buffer_duration = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferDurationTextInput.text
 
-                tshark_commands = ["tshark", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-b", "duration:" + ring_buffer_duration, "-b", "files:" + buffer_ring_file_count,"-F", "libpcap"]
+                tshark_commands = ["C:\\Program Files\\Wireshark\\tshark.exe", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-b", "duration:" + ring_buffer_duration, "-b", "files:" + buffer_ring_file_count,"-F", "libpcap"]
 
-            elif self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountCheckbox.active == True:
 
-                ring_buffer_packet_amount = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.text
-
-                tshark_commands = ["tshark", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-b", "packets:" + ring_buffer_packet_amount, "-b", "files:" + buffer_ring_file_count,"-F", "libpcap"]
-
-            else: #Else will deal with the File Size setting as it is the last of three and so does not need to be specified
+            else: #Else will deal with the File Size setting as it is the last of two and so does not need to be specified
 
                 ring_buffer_file_size = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferFileSizeTextInput.text
 
-                tshark_commands = ["tshark", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-b", "filesize:" + ring_buffer_file_size, "-b", "files:" + buffer_ring_file_count,"-F", "libpcap"]
+                tshark_commands = ["C:\\Program Files\\Wireshark\\tshark.exe", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-b", "filesize:" + ring_buffer_file_size, "-b", "files:" + buffer_ring_file_count,"-F", "libpcap"]
 
         else: 
 
-            tshark_commands = ["tshark", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration, "-F", "libpcap"]
+            tshark_commands = ["C:\\Program Files\\Wireshark\\tshark.exe", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration]
+           
 
        
 
 
-        #call(tshark_commands) #Runs the commands within the tshark_commands variable using the call function from the subprocess module, it preforms the operation described above.
+        call(tshark_commands) #Runs the commands within the tshark_commands variable using the call function from the subprocess module, it preforms the operation described above.
         #pcap = directory + '/' + filenamePrefix + pcapSuffix
 
 
@@ -155,10 +150,9 @@ class NetScanWireshark(Screen):
             self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferCheckbox.ids.WiresharkRingBufferFileAmountSpinner.opacity = 1
             self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferCheckbox.ids.WiresharkRingBufferFileAmountSpinner.disabled = False
 
-            #The following ensures that the Packet Amount and File Size inputs are not displayed with the rest of the widgets, as they only display when required
+            #The following ensures that the File Size inputs are not displayed with the rest of the widgets, as they only display when required
 
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.opacity = 0
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.disabled = True
+            
             self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferFileSizeTextInput.opacity = 0
             self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferFileSizeTextInput.disabled = True
 
@@ -196,23 +190,10 @@ class NetScanWireshark(Screen):
             self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferDurationTextInput.text = ''
 
 
-    #Function linked to the Packet Amount checkbox to modify the Duration Text Input so that is only visible when checked and disabled and hidden from view when unchecked
-    def NetScanWiresharkRingBufferPacketAmountSelect(self):
-
-        if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountCheckbox.active == True:
-
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.opacity = 1
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.disabled = False
-
-        else:
-
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.opacity = 0
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.disabled = True
-
-            self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferLayout.ids.WiresharkRingBufferPacketAmountTextInput.text = ''
+    
 
 
-    #Function linked to the File Size checkbox to modify the Duration Text Input so that is only visible when checked and disabled and hidden from view when unchecked
+    #Function linked to the File Size checkbox to modify the File Size Text Input so that is only visible when checked and disabled and hidden from view when unchecked
     def NetScanWiresharkRingBufferFileSizeSelect(self):
         
 

@@ -178,16 +178,13 @@
 
 <NetScanWiresharkRingBufferLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 3
+    cols: 2
     spacing: 5
     Label: 
         text: 'Duration'
         size_hint_y: None
         height: WiresharkRingBufferDurationCheckbox.height
-    Label: 
-        text: 'Packet Amount'
-        size_hint_y: None
-        height: WiresharkRingBufferPacketAmountCheckbox.height
+    
     Label: 
         text: 'File Size'
         size_hint_y: None
@@ -200,12 +197,7 @@
         group: 'RingBufferTypeSelect'
         active: True
         on_active: root.parent.parent.parent.NetScanWiresharkRingBufferDurationSelect()
-    CheckBox:
-        id: WiresharkRingBufferPacketAmountCheckbox
-        size_hint_y: None
-        height: '32dp'
-        group: 'RingBufferTypeSelect'
-        on_active: root.parent.parent.parent.NetScanWiresharkRingBufferPacketAmountSelect()
+    
     CheckBox:
         id: WiresharkRingBufferFileSizeCheckbox
         size_hint_y: None
@@ -219,12 +211,7 @@
         multiline: False
         size_hint_y: None
         height: '32dp'  
-    TextInput:
-        id: WiresharkRingBufferPacketAmountTextInput
-        hint_text:'Packet Amount'
-        multiline: False
-        size_hint_y: None
-        height: '32dp'        
+       
     TextInput:
         id: WiresharkRingBufferFileSizeTextInput
         hint_text:'File Size (kB)'
