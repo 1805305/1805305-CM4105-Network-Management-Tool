@@ -39,6 +39,7 @@
 <NetScanWireshark>:
     on_pre_enter: app.current_screen = "Network Scanning and Traffic Monitoring - Wireshark"
     on_pre_enter: app.previous_screen.append('NetScanWiresharkScreen')
+    on_pre_enter: self.NetScanWiresharkPopulateNetworkInterfaces()
     name: 'NetScanWiresharkScreen'
     AnchorLayout:
         anchor_x: 'center'
@@ -48,6 +49,13 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
+    FloatLayout:  
+        NetScanWiresharkStatusOfMonitorLayout:
+            id: NetScanWiresharkStatusOfMonitorLayout
+            size_hint: 0.9, None
+            pos_hint:{'center_x':0.55, 'y':0.7}
+            main_menu_root: root
+            size_hint: 0.8, None
     FloatLayout:
         #anchor_x: 'center'
         #anchor_y: 'center'
@@ -55,7 +63,7 @@
             id: _Net_Scan_Wireshark_Layout_
             main_menu_root: root
             size_hint: 0.9, None
-            pos_hint:{'center_x':0.55, 'y':0.55}
+            pos_hint:{'center_x':0.55, 'y':0.50}
             main_menu_root: root
             size_hint: 0.8, None
     AnchorLayout:
@@ -69,7 +77,7 @@
                     
 <NetScanWiresharkLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 5
+    rows: 6
     padding: 5
     spacing: 40
     NetScanWiresharkFilenameLayout:
@@ -84,6 +92,9 @@
         id: NetScanWiresharkRingBufferLayout
         opacity: 0
         disabled: True
+
+
+
 
 <NetScanWiresharkFilenameLayout@GridLayout>:
     orientation: 'vertical'
@@ -118,7 +129,7 @@
         height: '32dp'
         sync_height: True
         text: 'Network Interface'
-        values: 'Wifi', 'Input'
+        values: ''
 
 
 <NetScanWiresharkCaptureDurationLayout@GridLayout>:
@@ -226,7 +237,22 @@
  
 		
 		
-		
+<NetScanWiresharkStatusOfMonitorLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 2
+    spacing: 2
+    Label:
+        id: StatusOfMonitorInterfaceLabel
+        markup: True
+        text: "No Traffic Capture Intitated"
+        text_size: self.width, None
+        #height: self.texture_size[1]
+    Label:
+        id: StatusOfMonitorStorageLabel
+        markup: True
+        text: ""
+        text_size: self.width, None
+        #height: self.texture_size[1]
 		
 		
 		

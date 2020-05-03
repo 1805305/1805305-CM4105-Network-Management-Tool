@@ -29,6 +29,11 @@ import sys
 #Call will be imported from subprocess to allow a cli command to be executed using python
 from subprocess import call
 
+#Import netifaces and winref to discover the interfaces on the computer to allow dynamic population of the network interface spinner
+
+import netifaces
+import winreg
+
 class NetScanMenuButtons(BoxLayout):
 
     def NetScanWiresharkButton(self, instance):
@@ -39,12 +44,41 @@ class NetScanMenuButtons(BoxLayout):
 class NetScanWireshark(Screen):        
    
 
-    #selected_storage_directory = App.get_running_app().selected_storage_directory 
+   
+    #Function provided by Gord Thompson and posted on StackOverflow to convert the GUID provided by netifaces.interfaces() to the actual interface names. The link to the orignal post can be found at https://stackoverflow.com/questions/29913516/how-to-get-meaningful-network-interface-names-instead-of-guids-with-netifaces-un
+    def get_connection_name_from_guid(self, iface_guids):
+        iface_names = ['(unknown)' for i in range(len(iface_guids))]
+        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
+        reg_key = winreg.OpenKey(reg, r'SYSTEM\CurrentControlSet\Control\Network\{4d36e972-e325-11ce-bfc1-08002be10318}')
+        for i in range(len(iface_guids)):
+            try:
+                reg_subkey = winreg.OpenKey(reg_key, iface_guids[i] + r'\Connection')
+                iface_names[i] = winreg.QueryValueEx(reg_subkey, 'Name')[0]
+            except FileNotFoundError:
+                pass
+        return iface_names
+
+
 
     
-    
-	#global variables
-    
+    def NetScanWiresharkPopulateNetworkInterfaces(self):
+
+        x = netifaces.interfaces() #Sets 'x' as the output from netifaces.interfaces()
+
+        network_interfaces = self.get_connection_name_from_guid(x) #Sets network_interfaces as the output from get_connection_name_from_guid, this function is needed on windows OS to convert the GUID that is returned with with netifaces.interfaces() to a
+
+        #If statement to check if an interface has been categorised as unknown and if so remove it
+        if '(unknown)' in network_interfaces:
+
+            network_interfaces.remove('(unknown)')
+
+        else: 
+            pass
+
+        self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.values = network_interfaces #Set the values for WiresharkCaptureInterfaceSpinner to the list returned by get_connection_name_from_guid(). This will allow for the spinner to dynamically change dependent on what network interfaces the user has 
+
+        
+        
 
 	#Function to set up storage location of network traffic capture files and run a while loop till the users wishes to return to the menu
 
@@ -61,9 +95,6 @@ class NetScanWireshark(Screen):
 
         output_name = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkFilenameLayout.ids.WiresharkFilenameTextInput.text
 
-        capture_interface = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.text 
-
-        total_duration = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureDurationLayout.ids.WiresharkDurationTextInput.text
 
 
         shark_parent_directory = selected_storage_directory + '\\Outputs\\NetTrafficTSharkOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
@@ -85,6 +116,29 @@ class NetScanWireshark(Screen):
 
         SaveFile = shark_individual_directory + "/" + filenamePrefix + pcapSuffix #Create variable for location for data capture 
 
+
+
+
+
+        #If statement to get user input on interface to capture traffic on, if unselected it will default to the first value
+        if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.text == 'Network Interface':
+
+            capture_interface = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.values[0]
+
+        else: 
+
+            capture_interface = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.text
+
+
+
+        #If statement to get user input on duration to capture traffic on, if unselected it will default to the 10 secs
+        if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureDurationLayout.ids.WiresharkDurationTextInput.text == '':
+
+           total_duration = '10'
+
+        else:  
+            
+            total_duration = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureDurationLayout.ids.WiresharkDurationTextInput.text
 
 
 
@@ -123,15 +177,17 @@ class NetScanWireshark(Screen):
             tshark_commands = ["C:\\Program Files\\Wireshark\\tshark.exe", "-i", capture_interface, "-w", SaveFile, "-a", "duration:" + total_duration]
            
 
+        self.ids.NetScanWiresharkStatusOfMonitorLayout.ids.StatusOfMonitorInterfaceLabel.text = "Network Capture Intiated on interface -[b] " + capture_interface + " [/b]" #Set the info label at the top of the screen to inform user of most recent capture
        
+        self.ids.NetScanWiresharkStatusOfMonitorLayout.ids.StatusOfMonitorStorageLabel.text = "Captured file/s can be found at -[b] " + shark_individual_directory + " [/b]" #Set the info label at the top of the screen to inform user of most recent capture
 
 
         call(tshark_commands) #Runs the commands within the tshark_commands variable using the call function from the subprocess module, it preforms the operation described above.
         #pcap = directory + '/' + filenamePrefix + pcapSuffix
 
 
+               
         
-
 
 
 
