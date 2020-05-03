@@ -48,42 +48,195 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         NetScanWiresharkLayout:
             id: _Net_Scan_Wireshark_Layout_
             main_menu_root: root
             size_hint: 0.9, None
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'bottom'
-        padding: 15
-        IPv4TargetDeviceLayout
-            id: _IPv4_Target_Device_Layout_
-            size_hint: 0.9, None
+            pos_hint:{'center_x':0.55, 'y':0.55}
+            main_menu_root: root
+            size_hint: 0.8, None
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 5
         Execute:
             id: _Execute_Button_
+            on_release: root.NetworkTrafficCapture()
+            
                     
 <NetScanWiresharkLayout@GridLayout>:
     orientation: 'vertical'
-    cols: 2
+    rows: 5
     padding: 5
+    spacing: 40
+    NetScanWiresharkFilenameLayout:
+        id: NetScanWiresharkFilenameLayout
+    NetScanWiresharkCaputreIntLayout:
+        id: NetScanWiresharkCaptureIntLayout
+    NetScanWiresharkCaptureDurationLayout:
+        id: NetScanWiresharkCaptureDurationLayout
+    NetScanWiresharkRingBufferCheckbox:
+        id: NetScanWiresharkRingBufferCheckbox
+    NetScanWiresharkRingBufferLayout:
+        id: NetScanWiresharkRingBufferLayout
+        opacity: 0
+        disabled: True
+
+<NetScanWiresharkFilenameLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+
     spacing: 2
     Label: 
-        text: 'Enter IPv4 Address of  Target Device'
+        text: 'Enter Desired Output Name/Filename'
         size_hint_y: None
-        height: IPv4AddressTextInput.height
-    IPv4AddressInput:
-        id: IPv4AddressTextInput
+        height: WiresharkFilenameTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: WiresharkFilenameTextInput
+        hint_text:'Output/Filename'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
 
 
-        
-		
+<NetScanWiresharkCaputreIntLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    Label: 
+        text: 'Select Network Interface to Capture From'
+        size_hint_y: None
+        height: WiresharkCaptureInterfaceSpinner.height
+        text_size: self.width, None
+    Spinner:
+        id: WiresharkCaptureInterfaceSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'Network Interface'
+        values: 'Wifi', 'Input'
+
+
+<NetScanWiresharkCaptureDurationLayout@GridLayout>:
+    orientation: 'vertical'
+    rows: 1
+    spacing: 2
+    Label: 
+        text: 'Enter Duration for Packet Capturing'
+        size_hint_y: None
+        height: WiresharkDurationTextInput.height
+        text_size: self.width, None
+    TextInput:
+        id: WiresharkDurationTextInput
+        hint_text:'Duration (seconds)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+
+
+
+<NetScanWiresharkRingBufferCheckbox@GridLayout>:
+    orientation: 'vertical'
+    cols: 4
+    spacing: 2
+
+    Label: 
+        id: RingBufferCheckboxLabel
+        text: 'Ring Buffer Mode'
+        size_hint_y: None
+        text_size: self.width, None
+        height: RingBufferCheckbox.height
+    CheckBox:
+        id: RingBufferCheckbox
+        size_hint_y: None
+        height: '32dp'
+        on_active: root.parent.parent.parent.NetScanWiresharkRingBufferSelect()
+    Label:
+        id: WiresharkRingBufferFileAmountLabel
+        text: 'Amount of Files In Ring Buffer'
+        size_hint_y: None
+        height: WiresharkRingBufferFileAmountSpinner.height
+        text_size: self.width, None
+        opacity: 0
+        disabled: True
+    Spinner:
+        id: WiresharkRingBufferFileAmountSpinner
+        size_hint: 1, None
+        height: '32dp'
+        sync_height: True
+        text: 'File Amount'
+        values: '1', '2', '3', '4', '5'
+        opacity: 0
+        disabled: True
+
+
+
+<NetScanWiresharkRingBufferLayout@GridLayout>:
+    orientation: 'vertical'
+    cols: 3
+    spacing: 5
+    Label: 
+        text: 'Duration'
+        size_hint_y: None
+        height: WiresharkRingBufferDurationCheckbox.height
+    Label: 
+        text: 'Packet Amount'
+        size_hint_y: None
+        height: WiresharkRingBufferPacketAmountCheckbox.height
+    Label: 
+        text: 'File Size'
+        size_hint_y: None
+        height: WiresharkRingBufferFileSizeCheckbox.height
+
+    CheckBox:
+        id: WiresharkRingBufferDurationCheckbox
+        size_hint_y: None
+        height: '32dp'
+        group: 'RingBufferTypeSelect'
+        active: True
+        on_active: root.parent.parent.parent.NetScanWiresharkRingBufferDurationSelect()
+    CheckBox:
+        id: WiresharkRingBufferPacketAmountCheckbox
+        size_hint_y: None
+        height: '32dp'
+        group: 'RingBufferTypeSelect'
+        on_active: root.parent.parent.parent.NetScanWiresharkRingBufferPacketAmountSelect()
+    CheckBox:
+        id: WiresharkRingBufferFileSizeCheckbox
+        size_hint_y: None
+        height: '32dp'
+        group: 'RingBufferTypeSelect'
+        on_active: root.parent.parent.parent.NetScanWiresharkRingBufferFileSizeSelect()
+
+    TextInput:
+        id: WiresharkRingBufferDurationTextInput
+        hint_text:'Duration (seconds)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'  
+    TextInput:
+        id: WiresharkRingBufferPacketAmountTextInput
+        hint_text:'Packet Amount'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'        
+    TextInput:
+        id: WiresharkRingBufferFileSizeTextInput
+        hint_text:'File Size (kB)'
+        multiline: False
+        size_hint_y: None
+        height: '32dp'
+
+    
+
+
+
+ 
 		
 		
 		
