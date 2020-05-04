@@ -63,6 +63,8 @@ class BasicConfHostname(Screen):
 
         print(output)
 
+        self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameCompleteLabel.text = "Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
+
 
 class BasicConfDomain(Screen):  
     

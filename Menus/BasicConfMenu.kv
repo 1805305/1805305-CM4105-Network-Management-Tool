@@ -56,15 +56,14 @@
             main_menu_root: root
             size_hint: 1, None
             height: 50
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        #anchor_x: 'center'
+        #anchor_y: 'center'
         BasicConfHostnameLayout:
             id: _Basic_Conf_Hostname_Layout_
+            pos_hint:{'center_x':0.5, 'y':0.5}
             main_menu_root: root
             size_hint: 0.9, None
-            #padding: 50
-            #height: root.height - _Menu_Bar.height - _Execute_Button_.height
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -86,19 +85,29 @@
         
 <BasicConfHostnameLayout@GridLayout>:
     orientation: 'vertical' 
-    cols: 2
+    rows: 2
     padding: 5
     spacing: 2
-    Label: 
-        text: 'Enter Desired Hostname of Device'
-        size_hint_y: None
-        height: HostnameTextInput.height
-    TextInput:
-        id: HostnameTextInput
-        hint_text:'Device Hostname'
-        multiline: False
-        size_hint_y: None
+    Label:   
+        id: HostnameCompleteLabel
+        markup: True
+        text: ""
         height: '32dp'
+    GridLayout:
+        orientation: 'vertical' 
+        cols: 2
+        padding: 5
+        spacing: 2
+        Label: 
+            text: 'Enter Desired Hostname of Device'
+            size_hint_y: None
+            height: HostnameTextInput.height
+        TextInput:
+            id: HostnameTextInput
+            hint_text:'Device Hostname'
+            multiline: False
+            size_hint_y: None
+            height: '32dp'
     
         
     

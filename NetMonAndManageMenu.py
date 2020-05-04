@@ -58,8 +58,7 @@ class NetMonSpanConf(Screen):
 
         print(output)
 
-
-
+        self.ids._Net_Mon_Span_Conf_Layout_.ids.SPANCompleteLabel.text = "Successfully configured SPAN with session ID '[b]" +  session_ID + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"
     
         
    

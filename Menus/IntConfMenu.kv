@@ -113,7 +113,7 @@
         #anchor_y: 'center'
         IntConfEthernetIntLayout:
             id: _Int_Conf_Ethernet_Int_Layout_
-            pos_hint:{'center_x':0.6, 'y':0.5}
+            pos_hint:{'center_x':0.6, 'y':0.57}
             main_menu_root: root
             size_hint: 0.7, None
     AnchorLayout:
@@ -139,6 +139,11 @@
     rows: 6
     padding: 5
     spacing: 40
+    Label:   
+        id: InterfaceConfigCompleteLabel
+        markup: True
+        text: ""
+        height: '32dp'
     InterfaceSelectionLayout:
         id:InterfaceSelectionLayout
     IntConfEthernetIntDescriptionLayout:

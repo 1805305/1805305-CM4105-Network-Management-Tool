@@ -134,7 +134,7 @@ class IntConfEthernetInt(Screen):
         print(output)
 
 
-        
+        self.ids._Int_Conf_Ethernet_Int_Layout_.ids.InterfaceConfigCompleteLabel.text = "Successfully configured interface '[b]" +  interface + "[/b]' of device with IP address '[b]" + device_ip_address + "[/b]'"
 
 
 

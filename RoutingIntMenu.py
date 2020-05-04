@@ -63,6 +63,7 @@ class RoutingIntStaticRoute(Screen):
 
         print(output)
 
+        self.ids._Routing_Int_Static_Route_Layout_.ids.StaticRouteCompleteLabel.text = "Successfully configured static route to '[b]" +  destination_address + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"
 
 
     def StaticRouteSelectInterfaceEgress(self):

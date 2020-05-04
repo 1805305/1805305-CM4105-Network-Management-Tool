@@ -59,7 +59,7 @@
         #anchor_y: 'center'
         RoutingIntStaticRouteLayout:
             id: _Routing_Int_Static_Route_Layout_
-            pos_hint:{'center_x':0.5, 'y':0.5}
+            pos_hint:{'center_x':0.5, 'y':0.6}
             size_hint: 0.9, None
     AnchorLayout:
         anchor_x: 'center'
@@ -78,9 +78,14 @@
                     
 <RoutingIntStaticRouteLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 5
+    rows: 6
     padding: 5
     spacing: 40
+    Label:   
+        id: StaticRouteCompleteLabel
+        markup: True
+        text: ""
+        height: '32dp'
     RoutingIntStaticRouteIPRouteLayout:
         id: RoutingIntStaticRouteIPRouteLayout
     RoutingIntStaticRouteInterfaceOrIPSelectCheckboxLayout:

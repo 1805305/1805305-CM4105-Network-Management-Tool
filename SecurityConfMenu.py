@@ -120,7 +120,10 @@ class SecurityConfAuxVtyConLines(Screen):
         if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
             line_range = '0'
         else:
-            line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text + ' ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text #Define the line_range variable from reading user input from the two text inputs
+            start_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text
+            end_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text
+
+            line_range = start_line_range + ' ' + end_line_range #Define the line_range variable from reading user input from the two text inputs
 
         line_command = "line " + line_to_configure + ' ' + line_range #Create a variable to store the command to enter the line to improve ease of reading further down
 
@@ -203,8 +206,18 @@ class SecurityConfAuxVtyConLines(Screen):
 
         print(output)
 
-       
-   
+
+        #If statement to check if VTY was the selected function, and then display the text with a line range, else it will display it as line 0
+        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.VtyTrue.active == True:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.LinesConfCompleteLabel.text = "Successfully configured '[b]" + line_to_configure + "[/b]' Lines '[b]" +  start_line_range +" - " + end_line_range + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
+
+        else:
+
+            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.LinesConfCompleteLabel.text = "Successfully configured '[b]" + line_to_configure + "[/b]' Line '[b]" +  line_range + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
+
+
+
 
     #Function linked to the Console checkbox to modify the various widgets so that only commands that can be performed on the Console line can be set - Remove and reset the Line Range text inputs as Console only allows for line 0 and modifiying which transport methods are available
     def SecurityConfAuxVtyConLinesConSelect(self):

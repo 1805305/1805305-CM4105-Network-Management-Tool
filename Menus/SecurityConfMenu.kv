@@ -244,14 +244,14 @@
         #anchor_y: 'center'
         SecurityConfAuxVtyConLinesFunctionSelect:
             id: _Security_Conf_Aux_Vty_Con_Lines_Function_Select_
-            pos_hint:{'center_x':0.15, 'y':0.02}
+            pos_hint:{'center_x':0.15, 'y':0.05}
             size_hint: 0.2, 0.5
     FloatLayout:
         #anchor_x: 'center'
         #anchor_y: 'center'
         SecurityConfAuxVtyConLinesLayout:
             id: _Security_Conf_Aux_Vty_Con_Lines_Layout_
-            pos_hint:{'center_x':0.6, 'y':0.5}
+            pos_hint:{'center_x':0.6, 'y':0.6}
             main_menu_root: root
             size_hint: 0.7, None
     AnchorLayout:
@@ -272,9 +272,15 @@
         
 <SecurityConfAuxVtyConLinesLayout@GridLayout>:
     orientation: 'vertical'
-    rows: 6
+    rows: 7
     padding: 5
     spacing: 40
+    Label:   
+        id: LinesConfCompleteLabel
+        markup: True
+        text: ""
+        height: '32dp'
+        text_size: self.width, None
     SecurityConfAuxVtyConLinesSelectLineLayout:
         id: SecurityConfAuxVtyConLinesSelectLineLayout
     SecurityConfAuxVtyConLinesLineRangeLayout:
