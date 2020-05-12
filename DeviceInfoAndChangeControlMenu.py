@@ -19,7 +19,16 @@ from kivy.uix.screenmanager import Screen
 
 from kivy.app import App
 
+from kivy.factory import Factory
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label 
+
 from netmiko import ConnectHandler  
+
+import ipaddress
+
+from netmiko.ssh_exception import NetMikoTimeoutException
+from netmiko.ssh_exception import AuthenticationException
 
 #Common modules will be imported to perform certain tasks if neccessary
 
@@ -43,146 +52,170 @@ class DeviceInfoPollAndExtract(Screen):
 
     def DeviceInfoPollAndExtractExecute(self):
 
-        selected_storage_directory = App.get_running_app().selected_storage_directory #Create a local variable using the value in the global property selected_storage_directory. This will allow the script to create and store files in the directory set by the user
+        #Try statement to ensure that any errors connecting and reading the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
+
+            selected_storage_directory = App.get_running_app().selected_storage_directory #Create a local variable using the value in the global property selected_storage_directory. This will allow the script to create and store files in the directory set by the user
+
+       
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
+
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
+
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
 
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
-
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
  
 
-        net_connect = ConnectHandler(**device) 
+            net_connect = ConnectHandler(**device) 
 
 
-        #Create variables to store the state of the data information checkboxes, this will allow them to be easily refrenced in the below if statements. This has been done to improve readablity 
-        extract_hostname_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.HostnameInfoCheckbox.active
-        extract_device_type_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.DeviceTypeInfoCheckbox.active
-        extract_ios_version_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.IOSVersionInfoCheckbox.active
-        extract_domain_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.DomainInfoCheckbox.active
-        extract_uptime_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.UptimeInfoCheckbox.active
+            #Create variables to store the state of the data information checkboxes, this will allow them to be easily refrenced in the below if statements. This has been done to improve readablity 
+            extract_hostname_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.HostnameInfoCheckbox.active
+            extract_device_type_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.DeviceTypeInfoCheckbox.active
+            extract_ios_version_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.IOSVersionInfoCheckbox.active
+            extract_domain_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.DomainInfoCheckbox.active
+            extract_uptime_selection = self.ids._Device_Info_Poll_And_Extract_Info_Select_.ids.UptimeInfoCheckbox.active
 
 
-        #If statement to see if user selected Hostname checkbox, if so it will call the ExtractHostname function
+            #If statement to see if user selected Hostname checkbox, if so it will call the ExtractHostname function
 
-        if extract_hostname_selection == True:
+            if extract_hostname_selection == True:
 
-            output = net_connect.send_command("show version | include (uptime is)")
+                output = net_connect.send_command("show version | include (uptime is)")
 
-            hostname = self.SearchHostname(output)
+                hostname = self.SearchHostname(output)
 
-        else: #Set hostname to N/A if Hostname is not required
+            else: #Set hostname to N/A if Hostname is not required
 
-            hostname = 'N/A'
-
-
+                hostname = 'N/A'
 
 
-        #If statement to see if user selected Device Type checkbox, if so it will call the ExtractHostname function
 
-        if extract_device_type_selection == True:
 
-            output = net_connect.send_command("show version | include (bytes of memory)")
+            #If statement to see if user selected Device Type checkbox, if so it will call the ExtractHostname function
 
-            device_type = self.SearchDeviceType(output)
+            if extract_device_type_selection == True:
 
-        else: #Set device_type to N/A if Device Type is not required
+                output = net_connect.send_command("show version | include (bytes of memory)")
+
+                device_type = self.SearchDeviceType(output)
+
+            else: #Set device_type to N/A if Device Type is not required
             
-            device_type = 'N/A'
+                device_type = 'N/A'
 
 
 
 
-        #If statement to see if user selected IOS Version checkbox, if so it will call the ExtractHostname function
+            #If statement to see if user selected IOS Version checkbox, if so it will call the ExtractHostname function
 
-        if extract_ios_version_selection == True:
+            if extract_ios_version_selection == True:
 
-            output = net_connect.send_command("show version | include (, Version)")
+                output = net_connect.send_command("show version | include (, Version)")
 
-            ios_version = self.SearchIOSVersion(output)
+                ios_version = self.SearchIOSVersion(output)
 
-        else: #Set ios_version to N/A if IOS Version is not required
+            else: #Set ios_version to N/A if IOS Version is not required
            
-            ios_version = 'N/A'
+                ios_version = 'N/A'
 
 
 
 
-        #If statement to see if user selected Domain checkbox, if so it will call the ExtractHostname function
+            #If statement to see if user selected Domain checkbox, if so it will call the ExtractHostname function
 
-        if extract_domain_selection == True:
+            if extract_domain_selection == True:
 
-            output = net_connect.send_command("show run | include domain name")
+                output = net_connect.send_command("show run | include domain name")
                 
-            domain_name = self.SearchDomain(output)
+                domain_name = self.SearchDomain(output)
 
-        else: #Set domain_name to N/A if Domain Name is not required
+            else: #Set domain_name to N/A if Domain Name is not required
             
-            domain_name = 'N/A'
+                domain_name = 'N/A'
 
 
 
 
-        #If statement to see if user selected UpTime checkbox, if so it will call the ExtractHostname function
+            #If statement to see if user selected UpTime checkbox, if so it will call the ExtractHostname function
 
-        if extract_uptime_selection == True:
+            if extract_uptime_selection == True:
 
-            output = net_connect.send_command("show version | include (uptime is)")
+                output = net_connect.send_command("show version | include (uptime is)")
 
-            uptime = self.SearchUptime(output)
+                uptime = self.SearchUptime(output)
 
-        else: #Set uptime to N/A if Uptime is not required
+            else: #Set uptime to N/A if Uptime is not required
             
-            uptime = 'N/A'
+                uptime = 'N/A'
 
 
 
 
-        #If statement to check if user requested for the output to be stored locally, if so it will store the output in a txt file. If not it is passed and nothing is done
+            #If statement to check if user requested for the output to be stored locally, if so it will store the output in a txt file. If not it is passed and nothing is done
 
-        if self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.StoreLocalCheckbox.active == True:
+            if self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.StoreLocalCheckbox.active == True:
 
 
-            poll_info_parent_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
-            poll_info_individual_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' + device_ip_address #Create a variable of the absolute path of where the all output files for devices with the same hostname will be stored
+                poll_info_parent_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
+                poll_info_individual_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' + device_ip_address #Create a variable of the absolute path of where the all output files for devices with the same hostname will be stored
 
-            file_name = self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.FileNameTextInput.text #Create a variable for the desired file name
+                file_name = self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.FileNameTextInput.text #Create a variable for the desired file name
 
-            poll_info_output_file = poll_info_individual_directory + "/" + file_name + '.txt' #Create a variable for the name and location of the file to be saved. It will be stored as a txt file
+                poll_info_output_file = poll_info_individual_directory + "/" + file_name + '.txt' #Create a variable for the name and location of the file to be saved. It will be stored as a txt file
 
-            if not os.path.exists(poll_info_parent_directory): #Check for existence of the parent poll directory - one to store all individual directories - and if not there create it, this is done using the os.path function
-                 os.makedirs(poll_info_parent_directory)
-            else:
-                 pass
+                if not os.path.exists(poll_info_parent_directory): #Check for existence of the parent poll directory - one to store all individual directories - and if not there create it, this is done using the os.path function
+                     os.makedirs(poll_info_parent_directory)
+                else:
+                     pass
 
-            if not os.path.exists(poll_info_individual_directory): #Check for existence of the individual poll directory - One to store the current output - and if not there create it, this is done using the os.path function
-                os.makedirs(poll_info_individual_directory)
+                if not os.path.exists(poll_info_individual_directory): #Check for existence of the individual poll directory - One to store the current output - and if not there create it, this is done using the os.path function
+                    os.makedirs(poll_info_individual_directory)
+                else:
+                    pass
+
+
+
+                #Create a list variable to store the outputs required requested by the user, this will then be written into the file specified by the user
+                poll_info_output_store_local = ['Hostname: ' + hostname, 'Device Type: ' + device_type, 'IOS Version: ' + ios_version, 'Domain: ' + domain_name, 'Uptime: ' + uptime]
+
+                with open(poll_info_output_file, 'w') as f: 
+
+                    f.write('\n'.join(poll_info_output_store_local) + '\n') #Write each entry of poll_info_output_store_local list in the specified file on a seperate line
+
+                f.close()
+
             else:
                 pass
 
 
+            #The following two will update the label to display the IP address of the device that was polled. As well as the text input to display the requested info or input 'N/A' if the user did not request the info
+            self.ids._Device_Info_Poll_And_Extract_Layout_.ids.PolledDeviceInfoLabel.text = 'Device Information for IP Address - [b]' + device_ip_address + '[/b]' 
+            self.ids._Device_Info_Poll_And_Extract_Layout_.ids.PolledDeviceInfoOutput.text = 'Hostname: ' + hostname + ' \nDevice Type: ' + device_type + '\nIOS Version: ' + ios_version + '\nDomain: ' + domain_name + '\nUptime: ' + uptime
+        
 
-            #Create a list variable to store the outputs required requested by the user, this will then be written into the file specified by the user
-            poll_info_output_store_local = ['Hostname: ' + hostname, 'Device Type: ' + device_type, 'IOS Version: ' + ios_version, 'Domain: ' + domain_name, 'Uptime: ' + uptime]
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
 
-            with open(poll_info_output_file, 'w') as f: 
+            Factory.NetmikoAuthenticateFailurePopup().open()
 
-                f.write('\n'.join(poll_info_output_store_local) + '\n') #Write each entry of poll_info_output_store_local list in the specified file on a seperate line
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
 
-            f.close()
-
-        else:
-            pass
-
-
-        #The following two will update the label to display the IP address of the device that was polled. As well as the text input to display the requested info or input 'N/A' if the user did not request the info
-        self.ids._Device_Info_Poll_And_Extract_Layout_.ids.PolledDeviceInfoLabel.text = 'Device Information for IP Address - [b]' + device_ip_address + '[/b]' 
-        self.ids._Device_Info_Poll_And_Extract_Layout_.ids.PolledDeviceInfoOutput.text = 'Hostname: ' + hostname + ' \nDevice Type: ' + device_type + '\nIOS Version: ' + ios_version + '\nDomain: ' + domain_name + '\nUptime: ' + uptime
-
+            Factory.NetmikoTimeoutPopup().open()
 
 
 

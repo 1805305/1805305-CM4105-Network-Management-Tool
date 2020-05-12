@@ -17,7 +17,16 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
-from netmiko import ConnectHandler 
+from kivy.factory import Factory
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label 
+
+from netmiko import ConnectHandler  
+
+import ipaddress
+
+from netmiko.ssh_exception import NetMikoTimeoutException
+from netmiko.ssh_exception import AuthenticationException
 
 class SecurityConfMenuButtons(BoxLayout):
 
@@ -35,186 +44,267 @@ class SecurityConfLocalUsernameDatabase(Screen):
     
     def SecurityConfLocalUsernameDatabaseExecute(self):
 
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
+
+            privilege_level = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabasePrivilegeLayout.ids.PrivilegeLevelSpinner.text
+            new_username = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseUserAndPassLayout.ids.UsernameTextInput.text
+            new_password = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseUserAndPassLayout.ids.PasswordTextInput.text
 
 
-        privilege_level = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabasePrivilegeLayout.ids.PrivilegeLevelSpinner.text
-        new_username = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseUserAndPassLayout.ids.UsernameTextInput.text
-        new_password = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseUserAndPassLayout.ids.PasswordTextInput.text
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
 
-        priv_check = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabasePrivilegeLayout.ids.PrivilegeLevelSpinner.text
-        secret_check = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseSecretLayout.ids.SecretPasswordTrue.active
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
 
-        if secret_check == True and priv_check != 'No Privilege Required': #Priv and Secret
-            config_commands = ["username " + new_username + " privilege " + privilege_level + " secret " + new_password]
-        elif  priv_check != 'No Privilege Required': #Priv and password
-            config_commands = ["username " + new_username + " privilege " + privilege_level + " password " + new_password]
-        elif  secret_check == True:  #Secret       
-            config_commands = ["username " + new_username + " secret " + new_password]
-        else:   
-            config_commands = ["username " + new_username + " password " + new_password] #Standard
 
-        net_connect = ConnectHandler(**device) 
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
 
-        output = net_connect.send_config_set(config_commands)
+            priv_check = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabasePrivilegeLayout.ids.PrivilegeLevelSpinner.text
+            secret_check = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabaseSecretLayout.ids.SecretPasswordTrue.active
 
-        print(output)
+            if secret_check == True and priv_check != 'No Privilege Required': #Priv and Secret
+                config_commands = ["username " + new_username + " privilege " + privilege_level + " secret " + new_password]
+            elif  priv_check != 'No Privilege Required': #Priv and password
+                config_commands = ["username " + new_username + " privilege " + privilege_level + " password " + new_password]
+            elif  secret_check == True:  #Secret       
+                config_commands = ["username " + new_username + " secret " + new_password]
+            else:   
+                config_commands = ["username " + new_username + " password " + new_password] #Standard
+
+            net_connect = ConnectHandler(**device) 
+
+            net_connect.send_config_set(config_commands)
+
+            #Create and display a popup to inform the user of the successful configuration
+            popup = Popup(title='', content=Label(markup = True, text="Successfully added new user '[b]" +  new_username + "[/b]' to device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
+            popup.open()
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open() 
     
 
 class SecurityConfPasswordEncryption(Screen):        
     
     def SecurityConfPasswordEncryptionExecute(self):
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
 
-        if self.ids._Security_Conf_Password_Encryption_Layout_.ids.EnableToggle.state == 'down':
-            config_commands = ["service password-encryption"]
-        else:
-            config_commands = ["no service password-encryption"]
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
 
-        net_connect = ConnectHandler(**device) 
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
 
-        output = net_connect.send_config_set(config_commands)
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
 
-        print(output)
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
+
+
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
+
+            if self.ids._Security_Conf_Password_Encryption_Layout_.ids.EnableToggle.state == 'down':
+                config_commands = ["service password-encryption"]
+                encryption_type = "Enabled"
+            else:
+                config_commands = ["no service password-encryption"]
+                encryption_type = "Disabled"
+
+            net_connect = ConnectHandler(**device) 
+
+            net_connect.send_config_set(config_commands)
+
+            #Create and display a popup to inform the user of the successful configuration
+            popup = Popup(title='', content=Label(markup = True, text="Successfully '[b]" +  encryption_type + "[/b]' password encryption on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
+            popup.open()
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open() 
 
 class SecurityConfAuxVtyConLines(Screen):        
     
 
     def SecurityConfAuxVtyConLinesExecute(self):
         
-        #Define the three potential commands as empty variables
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
 
-        transport_command = ''
-        login_command = ''
-        exec_timeout_command = ''
+            #Define the three potential commands as empty variables
 
-        #Else if to find out which line the user wishes to configure
+            transport_command = ''
+            login_command = ''
+            exec_timeout_command = ''
 
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True:
-            line_to_configure = 'Console'
-        elif self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
-            line_to_configure = 'Aux'
-        else:
-            line_to_configure = 'Vty'
+            #Else if to find out which line the user wishes to configure
 
-
-
-        #Else if to find out the line_range the user wishes to configure, if console is the line to configure set line to 0
-
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
-            line_range = '0'
-        else:
-            start_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text
-            end_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text
-
-            line_range = start_line_range + ' ' + end_line_range #Define the line_range variable from reading user input from the two text inputs
-
-        line_command = "line " + line_to_configure + ' ' + line_range #Create a variable to store the command to enter the line to improve ease of reading further down
-
-
-        #If statement to check if user has selected Transport Method checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
-
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.TransportMethodCheckbox.active == True:
-
-
-            #Creates the variable for input/output dependent on user choice
-            transport_type = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text # Defines wheter the user wants to configure input or output transport method
-
-
-            #If statement for handling if a user does not change method 1 - It will default to ssh
-
-            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text == 'Method 1':
-                transport_method1 = 'SSH'
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True:
+                line_to_configure = 'Console'
+            elif self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
+                line_to_configure = 'Aux'
             else:
-                transport_method1 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text
+                line_to_configure = 'Vty'
 
 
+            #Else if to find out the line_range the user wishes to configure, if console or auxiliary is the line to configure set line to 0
 
-            #If statement for handling if a user does not change method 2 or if N/A was selected. Or if a user entered a value in method 1 - It will default to blank
-
-            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'Method 2' or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'N/A':
-                transport_method2 = ''
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.ConTrue.active == True or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.AuxTrue.active == True:
+                line_range = '0'
             else:
-                transport_method2 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text
+                start_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeStartTextInput.text
+                end_line_range = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLineRangeLayout.ids.LineRangeEndTextInput.text
+
+                line_range = start_line_range + ' ' + end_line_range #Define the line_range variable from reading user input from the two text inputs
+
+            line_command = "line " + line_to_configure + ' ' + line_range #Create a variable to store the command to enter the line to improve ease of reading further down
+
+
+            #If statement to check if user has selected Transport Method checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.TransportMethodCheckbox.active == True:
+
+
+                #Creates the variable for input/output dependent on user choice
+                transport_type = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text # Defines wheter the user wants to configure input or output transport method
+
+
+                #If statement for handling if a user does not change method 1 - It will default to ssh
+
+                if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text == 'Method 1':
+                    transport_method1 = 'SSH'
+                else:
+                    transport_method1 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text
+
+
+
+                #If statement for handling if a user does not change method 2 or if N/A was selected. Or if a user entered a value in method 1 - It will default to blank
+
+                if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'Method 2' or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'N/A':
+                    transport_method2 = ''
+                else:
+                    transport_method2 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text
                 
 
-            #Combines the three variables to create the final command 
+                #Combines the three variables to create the final command 
 
-            transport_command = 'transport ' + transport_type + ' ' + transport_method1 + ' ' + transport_method2 # Creates the final Transport Command
+                transport_command = 'transport ' + transport_type + ' ' + transport_method1 + ' ' + transport_method2 # Creates the final Transport Command
             
-        else:
-            pass
-
-
-
-        #If statement to check if user has selected Login Type checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
-
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.LoginTypeCheckbox.active == True:
-            
-            #If statement to check if user has selected to login using the local user database or a custom password and set the login_type_command variable accordingly
-            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LoginLocalTrue.active == True:
-                login_command = 'login local'
             else:
-                login_command = 'password ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LineLoginPasswordTextInput.text
+                pass
 
-        else:
-            pass
 
-        #If statement to check if user has selected Exec Timeout checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
 
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.ExecTimeoutCheckbox.active == True:
+            #If statement to check if user has selected Login Type checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.LoginTypeCheckbox.active == True:
             
-            exec_timeout_command = 'exec-timeout ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutMinutesTextInput.text + ' ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutSecondsTextInput.text
+                #If statement to check if user has selected to login using the local user database or a custom password and set the login_type_command variable accordingly
+                if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LoginLocalTrue.active == True:
+                    login_command = 'login local'
+                else:
+                    login_command = 'password ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesLoginOptionsLayout.ids.LineLoginPasswordTextInput.text
 
-        else:
-            pass
+            else:
+                pass
+
+            #If statement to check if user has selected Exec Timeout checkbox, if so the command will be created and inserted into the variable. Else the variable will be left blank
+
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Function_Select_.ids.ExecTimeoutCheckbox.active == True:
+            
+                exec_timeout_command = 'exec-timeout ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutMinutesTextInput.text + ' ' + self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout.ids.LineExecTimeoutSecondsTextInput.text
+
+            else:
+                pass
 
 
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
+
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
+
+
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
 
         
-        config_commands = [line_command, transport_command, login_command, exec_timeout_command]
+            config_commands = [line_command, transport_command, login_command, exec_timeout_command]
         
 
-        net_connect = ConnectHandler(**device) 
+            net_connect = ConnectHandler(**device) 
 
-        output = net_connect.send_config_set(config_commands)
-
-        print(output)
+            net_connect.send_config_set(config_commands)
 
 
-        #If statement to check if VTY was the selected function, and then display the text with a line range, else it will display it as line 0
-        if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.VtyTrue.active == True:
 
-            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.LinesConfCompleteLabel.text = "Successfully configured '[b]" + line_to_configure + "[/b]' Lines '[b]" +  start_line_range +" - " + end_line_range + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
+            #If statement to check if VTY was the selected function, and then display the text with a line range, else it will display it as line 0
+            if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesSelectLineLayout.ids.VtyTrue.active == True:
 
-        else:
+                #Create and display a popup to inform the user of the successful configuration
+                popup = Popup(title='', content=Label(markup = True, text="Successfully configured '[b]" + line_to_configure + "[/b]' Lines '[b]" +  start_line_range +" - " + end_line_range + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
+                popup.open()
 
-            self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.LinesConfCompleteLabel.text = "Successfully configured '[b]" + line_to_configure + "[/b]' Line '[b]" +  line_range + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
+            else:
+
+                #Create and display a popup to inform the user of the successful configuration
+                popup = Popup(title='', content=Label(markup = True, text="Successfully configured '[b]" + line_to_configure + "[/b]' Line '[b]" +  line_range + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
+                popup.open()
+
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open() 
 
 
 

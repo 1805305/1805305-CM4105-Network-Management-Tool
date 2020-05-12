@@ -17,7 +17,17 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.factory import Factory
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label 
+
 from netmiko import ConnectHandler  
+
+import ipaddress
+
+from netmiko.ssh_exception import NetMikoTimeoutException
+from netmiko.ssh_exception import AuthenticationException
+
 
 class BasicConfMenuButtons(BoxLayout):
 
@@ -36,96 +46,168 @@ class BasicConfHostname(Screen):
     
 
     def BasicConfHostnameExecute(self):
-        #text = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
-        #self.ids._Basic_Conf_Hostname_Layout_.ids.IPv4AddressTextInput.text = text
-        #print(text)
 
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
+
+            hostname = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
+
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
+
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
+
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
+
+
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
+
+            config_commands = ["hostname " + hostname]
+
+            net_connect = ConnectHandler(**device) 
+
+            net_connect.send_config_set(config_commands)
+    
+            #Create and display a popup to inform the user of the successful configuration
+            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
+            popup.open()
         
-        hostname = self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameTextInput.text
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+            Factory.NetmikoAuthenticateFailurePopup().open()
 
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
 
-        config_commands = ["hostname " + hostname]
+            Factory.NetmikoTimeoutPopup().open()
 
-        net_connect = ConnectHandler(**device) 
-
-        net_connect.send_config_set(config_commands)
-
-        output = net_connect.find_prompt()
-
-        print(output)
-
-        self.ids._Basic_Conf_Hostname_Layout_.ids.HostnameCompleteLabel.text = "Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"
 
 
 class BasicConfDomain(Screen):  
     
     def BasicConfDomainExecute(self):
+        
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
 
-        domain = self.ids._Basic_Conf_Domain_Layout_.ids.DomainTextInput.text
+            domain = self.ids._Basic_Conf_Domain_Layout_.ids.DomainTextInput.text
+    
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
 
-        device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
 
 
-        config_commands = ["ip domain-name " + domain]
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
 
-        net_connect = ConnectHandler(**device) 
 
-        output = net_connect.send_config_set(config_commands)
+            config_commands = ["ip domain-name " + domain]
 
-        print(output)
+            net_connect = ConnectHandler(**device) 
+
+            net_connect.send_config_set(config_commands)
+
+            #Create and display a popup to inform the user of the successful configuration
+            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  domain + "[/b]' as domain of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
+            popup.open()
+  
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
 
 class BasicConfReload(Screen): 
     
     def BasicConfReloadExecute(self):
 
-        device_ip_address = self.ids._Basic_Conf_Reload_Layout_.ids.IPv4AddressTextInput.text
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
 
-        device = { 
-          'device_type': 'cisco_ios', 
-          'ip': device_ip_address, 
-          'username': 'Test', 
-          'password': 'cisco123', 
-          } 
+            
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
 
+                device_ip_address = self.ids._Basic_Conf_Reload_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
 
-        net_connect = ConnectHandler(**device) 
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
 
-        output = net_connect.send_command_timing('reload')
-        if 'Proceed with reload' in output:
-            output += net_connect.send_command_timing('\n')
-            print(output)
-        if 'System configuration has been modified' in output:
-            output += net_connect.send_command_timing('yes')
-            output += net_connect.send_command_timing('\n')
-            print(output)
-        else:
-            # probably should raise an error here (as this is not expected)
-            print('Failed')
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
 
 
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
 
 
-        #output = net_connect.find_prompt()
-        #print(output)
-        #net_connect.send_command('do reload', expect_string='confirm')
-        #net_connect.send_command('\n')
-        #print('Reloading Device')
+            net_connect = ConnectHandler(**device) 
+
+            output = net_connect.send_command_timing('reload')
+            if 'Proceed with reload' in output:
+                output += net_connect.send_command_timing('\n')
+                #print(output)
+
+                #Creates and displays a popup to inform user that reload was successful
+                popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
+                popup.open()
+            if 'System configuration has been modified' in output:
+                output += net_connect.send_command_timing('yes')
+                output += net_connect.send_command_timing('\n')
+                #print(output)
+
+                #Creates and displays a popup to inform user that reload was successful
+                popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
+                popup.open()
+            else:
+                #Creates and displays a popup to inform user that reload has failed
+                popup = Popup(title='', content=Label(markup = True, text="Failed to reload device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
+                popup.open()
+  
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
 
 
     

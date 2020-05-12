@@ -19,8 +19,14 @@ from kivy.uix.screenmanager import Screen
 
 from kivy.properties import ListProperty, StringProperty
 
+from kivy.factory import Factory
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label 
+
 from multiping import MultiPing
 from multiping import multi_ping
+
+import ipaddress
 
 class NetTestingMenuButtons(BoxLayout):
 
@@ -34,43 +40,45 @@ class NetTestingPing(Screen):
     result_of_ping = StringProperty('')
 
     def NetTestingPingExecute(self):
+        
+        device_ip_address = self.device_ip_address
+        result_of_ping = self.result_of_ping
 
-        #Need to add a method of ensuring only ip address or  maybe even valid domain name is entered. Probably best done with an IF statement that checks for a valid IP and if not produces a pop up saying 'Please enter a valid IP' and breaks out the function
+            
+        #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
         try:
 
-        
-            device_ip_address = self.device_ip_address
-            result_of_ping = self.result_of_ping
-
             device_ip_address[0] = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+            ipaddress.ip_address(device_ip_address[0])
+
+        #ipaddress raises a value error when an invalid IP address is used
+        except ValueError:
+
+            Factory.InvalidIPAddressPopup().open() 
+            return #Exit from the function
+
         
+        retry_check = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+
+        if retry_check == 'No Retries':
+            retry_amount = 0
+        else:
+            retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+
         
-            retry_check = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+        responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
 
-            if retry_check == 'No Retries':
-                retry_amount = 0
-            else:
-                retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+        if responses:
+            #print("    reponses: %s" % list(responses.keys()))
+            result_of_ping = 'Success'
+        if no_responses:
+            #print("    no response received in time, even after retries: %s" %no_responses)
+            result_of_ping = 'Failed'
 
-        
-            responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
+        #Changed to no longer ping local host, left code in case it needs to be changed back
+        #if device_ip_address[0] == '':
+            #self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]Local Host[/i]' - [b] " + result_of_ping + " [/b]"
+        #else:       
+            #self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
 
-            if responses:
-                print("    reponses: %s" % list(responses.keys()))
-                result_of_ping = 'Success'
-            if no_responses:
-                print("    no response received in time, even after retries: %s" %
-                        no_responses)
-                result_of_ping = 'Failed'
-
-
-            if device_ip_address[0] == '':
-                self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]Local Host[/i]' - [b] " + result_of_ping + " [/b]"
-            else:       
-                self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
-
-
-
-        except Exception: 
-            
-            self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = '[b]Please enter a valid IP address and try again[/b]'
+        self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"

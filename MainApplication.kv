@@ -148,3 +148,50 @@
                 text: 'Intiate Connection'
                 size_hint: 0.5, 0.2
                 on_release: root.dismiss()
+
+
+
+ #Create a Custom PopUp Widget for when no IP address is entered 
+
+<InvalidIPAddressPopup@Popup>:
+    size_hint: 0.5, 0.3
+    title: ""
+    Label: 
+        text: 'Please enter a valid IP address'
+
+
+
+
+ #Create a Custom PopUp Widget for when Netmiko is unable to connect to a device 
+
+<NetmikoTimeoutPopup@Popup>:
+    size_hint: 0.5, 0.3
+    title: ""
+    Label: 
+        text: 'Unable to connect to device - Connection time out'
+
+
+
+
+ #Create a Custom PopUp Widget for when Netmiko is unable to authenticate to a device 
+
+<NetmikoAuthenticateFailurePopup@Popup>:
+    size_hint: 0.5, 0.3
+    title: ""
+    Label: 
+        text: 'Unable to connect to device - Failed to authenticate'
+
+
+
+
+ #Create a Custom PopUp Widget for when Netmiko is unable to due to SSH not being enabled
+
+<NetmikoSSHFailurePopup@Popup>:
+    size_hint: 0.5, 0.3
+    title: ""
+    Label: 
+        text: 'Unable to connect to device - SSH is not enabled'
+
+
+
+    
