@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GetDeviceUsernameAndPassword.py" />
     <Compile Include="StorageLocation.txt" />
     <Compile Include="SetStorageLocation.py" />
     <Compile Include="NetTestingMenu.py" />
@@ -38,6 +39,7 @@
     <Compile Include="CM4105___GUI_Network_Configuration.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GetDeviceUsernameAndPassowrd.kv" />
     <Content Include="LICENSE" />
     <Content Include="MenuManager.kv" />
     <Content Include="Menus\SetStorageLocation.kv" />

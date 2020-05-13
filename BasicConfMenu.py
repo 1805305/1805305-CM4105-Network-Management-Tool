@@ -21,12 +21,16 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+from kivy.properties import StringProperty
+
 from netmiko import ConnectHandler  
 
 import ipaddress
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
+
+from GetDeviceUsernameAndPassword import DeviceUsernameAndPasswordPopup
 
 
 class BasicConfMenuButtons(BoxLayout):
@@ -44,8 +48,24 @@ class BasicConfMenuButtons(BoxLayout):
 
 class BasicConfHostname(Screen):        
     
+    device_username = StringProperty()
+    device_password = StringProperty()
+
+    def BasicConfHostnameGetDeviceUsernameAndPassword(self, *args):
+
+        check = False
+
+        p = DeviceUsernameAndPasswordPopup()
+        p.ids.UsernameTextInput.bind(text=self.setter('device_username'))
+        p.ids.PasswordTextInput.bind(text=self.setter('device_password'))
+        p.ids.PasswordTextInput.bind(on_release)
+        
+
+        p.open()
 
     def BasicConfHostnameExecute(self):
+
+        
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
         try:
@@ -64,19 +84,26 @@ class BasicConfHostname(Screen):
                 Factory.InvalidIPAddressPopup().open() 
                 return #Exit from the function
 
+            #self.ShowDeviceUsernameAndPasswordPopup()
+
+            device_username = self.device_username
+            device_password = self.device_password
+
+            print(device_username)
+            print(device_password)
 
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             config_commands = ["hostname " + hostname]
 
-            net_connect = ConnectHandler(**device) 
+            #net_connect = ConnectHandler(**device) 
 
-            net_connect.send_config_set(config_commands)
+            #net_connect.send_config_set(config_commands)
     
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
@@ -92,7 +119,6 @@ class BasicConfHostname(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
-
 
 
 class BasicConfDomain(Screen):  
