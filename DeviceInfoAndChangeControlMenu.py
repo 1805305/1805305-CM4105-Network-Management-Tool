@@ -25,6 +25,7 @@ from kivy.uix.label import Label
 
 from netmiko import ConnectHandler  
 
+
 import ipaddress
 
 from netmiko.ssh_exception import NetMikoTimeoutException
@@ -33,10 +34,14 @@ from netmiko.ssh_exception import AuthenticationException
 #Common modules will be imported to perform certain tasks if neccessary
 
 import os
+from datetime import datetime
 
 #Re module is imported to allow for strings to be searched for specified phrases
 
 import re
+
+
+
 
 class DeviceInfoMenuButtons(BoxLayout):
 
@@ -320,8 +325,263 @@ class DeviceInfoPollAndExtract(Screen):
 
 
 
-class DeviceInfoChangeControl(Screen):        
-    pass
+
+
+
+
+class DeviceInfoChangeControlMenuButtons(BoxLayout):
+
+    def DeviceInfoChangeControlSaveConfButton(self, instance):
+        self.main_menu_root.manager.current = 'DeviceInfoChangeControlSaveConfScreen'
+
+    def DeviceInfoChangeControlUploadConfButton(self, instance):
+        self.main_menu_root.manager.current = 'DeviceInfoChangeControlUploadConfScreen'
+
+    def DeviceInfoChangeControlCompareConfButton(self, instance):
+        self.main_menu_root.manager.current = 'DeviceInfoChangeControlCompareConfScreen'
+
+
+class DeviceInfoChangeControlSaveConf(Screen):        
+     
+
+    def DeviceInfoChangeControlSaveConfExecute(self):
+
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try: 
+
+
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
+
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
+
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
+
+
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
+
+            net_connect = ConnectHandler(**device) #Connect to the device using the credentials and IP address
+
+            if self.ids._Device_Info_Change_Control_Save_Conf_Layout_.ids.RunningTrue.active == True:
+
+                self.SaveDeviceRunConf(net_connect)
+
+            else:
+
+                self.SaveDeviceStartupConf(net_connect)
+  
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
+
+        
+
+
+    def SaveDeviceRunConf(self, net_connect):      
+        
+
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try: 
+
+            selected_storage_directory = App.get_running_app().selected_storage_directory #Create a local variable using the value in the global property selected_storage_directory. This will allow the script to create and store files in the directory set by the user
+
+            output = net_connect.send_command("show version | include (uptime is)")
+
+            hostname = DeviceInfoPollAndExtract.SearchHostname(self, output) #Sets hostname as output from search_hostname function - This function is designed to find and return the hostname of a device using regex
+
+            date = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
+
+
+            run_conf_parent_directory = selected_storage_directory + '\\Outputs\\SaveConfOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
+            run_conf_individual_directory = selected_storage_directory + '\\Outputs\\SaveConfOutput\\' + hostname + '\\RunningConf' #Create a variable of the absolute path of where the running configurations files for devices with the same hostname will be stored
+
+            run_conf_output_file = run_conf_individual_directory + "/" + hostname + '_' + date + '_RunningConfiguration.txt' #Create a variable for the name and location of the file to be saved. It will be stored as a txt file
+
+            if not os.path.exists(run_conf_parent_directory): #Check for existence of the parent poll directory - one to store all individual directories - and if not there create it, this is done using the os.path function
+                    os.makedirs(run_conf_parent_directory)
+            else:
+                    pass
+
+            if not os.path.exists(run_conf_individual_directory): #Check for existence of the individual poll directory - One to store the current output - and if not there create it, this is done using the os.path function
+                os.makedirs(run_conf_individual_directory)
+            else:
+                pass
+
+
+            #show and save running conf of routing device
+
+            net_connect.send_command('skip-page-display')
+
+            output_save_conf = net_connect.send_command('show running-config')
+        
+
+
+            file = open(run_conf_output_file, 'w') #Set variable file_run to create/Open new/exisitng file and allow it to be written to
+
+            file.write(output_save_conf) #Write output from running config from device into the file
+
+            file.close() #Close file
+
+            popup = Popup(title='', content=Label(markup = True, text="Successfully saved the '[b]Running Configuration[/b]' of device with hostname '[b]" + hostname + "[/b]'"), size_hint =(0.8, 0.3))
+            popup.open()
+
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
+
+
+
+
+
+
+
+    #Function to save a device startup configuration to a file
+
+    def SaveDeviceStartupConf(self, net_connect):      
+        
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try: 
+
+            selected_storage_directory = App.get_running_app().selected_storage_directory #Create a local variable using the value in the global property selected_storage_directory. This will allow the script to create and store files in the directory set by the user
+
+            output = net_connect.send_command("show version | include (uptime is)")
+
+            hostname = DeviceInfoPollAndExtract.SearchHostname(self, output) #Sets hostname as output from search_hostname function - This function is designed to find and return the hostname of a device using regex
+
+            date = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
+
+
+            start_conf_parent_directory = selected_storage_directory + '\\Outputs\\SaveConfOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
+            start_conf_individual_directory = selected_storage_directory + '\\Outputs\\SaveConfOutput\\' + hostname + '\\StartupConf' #Create a variable of the absolute path of where the running configurations files for devices with the same hostname will be stored
+
+            start_conf_output_file = start_conf_individual_directory + "/" + hostname + '_' + date + '_StartupConfiguration.txt' #Create a variable for the name and location of the file to be saved. It will be stored as a txt file
+
+            if not os.path.exists(start_conf_parent_directory): #Check for existence of the parent poll directory - one to store all individual directories - and if not there create it, this is done using the os.path function
+                    os.makedirs(start_conf_parent_directory)
+            else:
+                    pass
+
+            if not os.path.exists(start_conf_individual_directory): #Check for existence of the individual poll directory - One to store the current output - and if not there create it, this is done using the os.path function
+                os.makedirs(start_conf_individual_directory)
+            else:
+                pass
+
+
+            #show and save running conf of routing device
+
+            net_connect.send_command('skip-page-display')
+
+            output_save_conf = net_connect.send_command('show startup-config')
+        
+
+
+            file = open(start_conf_output_file, 'w') #Set variable file_run to create/Open new/exisitng file and allow it to be written to
+
+            file.write(output_save_conf) #Write output from running config from device into the file
+
+            file.close() #Close file
+
+            popup = Popup(title='', content=Label(markup = True, text="Successfully saved the '[b]Startup Configuration[/b]' of device with hostname '[b]" + hostname + "[/b]'"), size_hint =(0.8, 0.3))
+            popup.open()
+
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
+
+
+
+class DeviceInfoChangeControlUploadConf(Screen):        
+    
+
+    def DeviceInfoChangeControlUploadConfExecute(self):
+
+        #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
+        try:
+
+
+            #Try statement to ensure the IP address entered is valid. If it is an invalid address the ipaddress module will raise a value error, at which point the user is informed that a valid IP address is required using a popup
+            try:
+
+                device_ip_address = self.ids._IPv4_Target_Device_Layout_.ids.IPv4AddressTextInput.text
+                ipaddress.ip_address(device_ip_address)
+
+            #ipaddress raises a value error when an invalid IP address is used
+            except ValueError:
+
+                Factory.InvalidIPAddressPopup().open() 
+                return #Exit from the function
+
+
+            device = { 
+              'device_type': 'cisco_ios', 
+              'ip': device_ip_address, 
+              'username': 'Test', 
+              'password': 'cisco123', 
+              } 
+
+            
+
+            net_connect = ConnectHandler(**device) 
+
+            selected_conf_file = str(self.ids._Device_Info_Change_Control_Upload_Conf_Layout_.ids.FileChooser.selection[0])
+
+            with open(selected_conf_file, 'r') as f: #user_path is the variable i defined which takes the path of file(configuration file) as raw input from the user.
+                config_commands = f.readlines()
+
+
+            net_connect.send_config_set(config_commands)
+
+    
+            #Create and display a popup to inform the user of the successful configuration
+            popup = Popup(title='', content=Label(markup = True, text="Successfully uploaded configuration file to device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.7, 0.3))
+            popup.open()
+        
+
+        #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
+        except AuthenticationException:
+
+            Factory.NetmikoAuthenticateFailurePopup().open()
+
+        #Except error to catch when Netmiko timeouts and is unable to connect to device, informs the user of the error using a popup defined in the MainApplication.kv
+        except NetMikoTimeoutException:
+
+            Factory.NetmikoTimeoutPopup().open()
+
+
+
+       
+
+        
+
+    
+
+class DeviceInfoChangeControlCompareConf(Screen):        
+    
+   def DeviceInfoChangeControlCompareConfExecute(self):
+       pass
+
+    
 
 
 
