@@ -446,17 +446,18 @@
     FloatLayout:
         #anchor_x: 'center'
         #anchor_y: 'center'
-        DeviceInfoChangeControlCompareConfLayout:
-            id: _Device_Info_Change_Control_Compare_Conf_Layout_
-            pos_hint:{'center_x':0.5, 'y':0.7}
+        DeviceInfoChangeControlCompareConfFileSelect
+            id: _Device_Info_Change_Control_Compare_Conf_File_Select_      
+            pos_hint:{'center_x':0.5, 'y':0.70}
             main_menu_root: root
             size_hint: 0.9, None
     FloatLayout:
         padding: 5
-        DeviceInfoChangeControlCompareConfFileSelect
-            id: _Device_Info_Change_Control_Compare_Conf_File_Select_
-            pos_hint:{'center_x':0.5, 'y':0.1}
-            size_hint: 0.9, None
+        DeviceInfoChangeControlCompareConfOpenHTML:
+            id: _Device_Info_Change_Control_Compare_Conf_Open_HTML_
+            pos_hint:{'center_x':0.5, 'y':0.3}
+            size_hint: 0.4, 0.3
+               
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -466,39 +467,19 @@
             on_release: root.DeviceInfoChangeControlCompareConfExecute()
             
 
-        
-<DeviceInfoChangeControlCompareConfLayout@GridLayout>:
-    orientation: 'vertical' 
-    rows: 3
-    padding: 5
-    spacing: 25
-    Label: 
-        id: CompareConfLabel
-        markup: True
-        text: 'Configuration Comparison'
-        size_hint_y: None
-        height: '32dp'
-
-    TextInput:
-        id: PolledDeviceInfoOutput
-        readonly: True
-        size_hint_y: None
-        height: '280dp'
-        line_spacing: 13
-        text: ''
 
 <DeviceInfoChangeControlCompareConfFileSelect@GridLayout>:
     orientation: 'vertical' 
     cols: 2
-    spacing: 5
+    spacing: 10
     Button:
         text: 'Set File 1'
-        on_release: root.DeviceInfoChangeControlButton(*args)
+        on_release: root.parent.parent.OpenFile1Popup()
         size_hint_y: None
         height: '32dp'
     Button:
         text: 'Set File 2'
-        on_release: root.DeviceInfoChangeControlButton(*args)
+        on_release: root.parent.parent.OpenFile2Popup()
         size_hint_y: None
         height: '32dp'
     Label: 
@@ -507,7 +488,7 @@
         text: 'File 1: '
         size_hint_y: None
         height: '32dp'
-        text_size: self.size
+        text_size: self.width, None
         halign: 'left'
     Label: 
         id: CompareConfFile2Label
@@ -515,10 +496,112 @@
         text: 'File 2: '
         size_hint_y: None
         height: '32dp'
-        text_size: self.size
+        text_size: self.width, None
         halign: 'left'
-            
+        
 
-		
-		
-		
+
+<DeviceInfoChangeControlCompareConfOpenHTML@GridLayout>:
+    orientation: 'vertical' 
+    rows: 2
+    spacing: 5
+    Label:   
+        id: CurrentHTMLSelection
+        markup: True
+        text: "No Comparison Has Been Executed"
+        text_size: self.width, None
+        height: self.texture_size[1]
+    Button:
+        id: CurrentHTMLButton
+	    text: 'Open Configuration File Comparison'
+        on_release: root.parent.parent.OpenHtmlComparison()         
+		disabled: True
+    
+
+
+
+
+<File1ChoosePopup>:
+    title: "Choose Configuration File 2"
+    size_hint: .9, .9
+    auto_dismiss: False
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            padding: 5
+            spacing: 20
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}   
+            ToggleButton:
+                text: 'Icon View'
+                state: 'down'
+                group: 'filechooser'
+                on_release: FileChooser.view_mode = 'icon'
+            ToggleButton:
+                text: 'List View'
+                group: 'filechooser'
+                on_release: FileChooser.view_mode = 'list' 
+                
+        FileChooser:
+            id: FileChooser
+            path: app.selected_storage_directory + '/Outputs/SaveConfOutput/'
+
+            FileChooserIconLayout
+            FileChooserListLayout
+
+        BoxLayout:
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            spacing: 20
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+            Button:
+                text: "Load"
+                on_release: root.load(FileChooser.selection)
+                id: ldbtn
+                disabled: True if FileChooser.selection==[] else False
+
+
+<File2ChoosePopup>:
+    title: "Choose Configuration File 2"
+    size_hint: .9, .9
+    auto_dismiss: False
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            padding: 5
+            spacing: 20
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}   
+            ToggleButton:
+                text: 'Icon View'
+                state: 'down'
+                group: 'filechooser'
+                on_release: FileChooser.view_mode = 'icon'
+            ToggleButton:
+                text: 'List View'
+                group: 'filechooser'
+                on_release: FileChooser.view_mode = 'list' 
+                
+        FileChooser:
+            id: FileChooser
+            path: app.selected_storage_directory + '/Outputs/SaveConfOutput/'
+
+            FileChooserIconLayout
+            FileChooserListLayout
+
+        BoxLayout:
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            spacing: 20
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+            Button:
+                text: "Load"
+                on_release: root.load(FileChooser.selection)
+                id: ldbtn
+                disabled: True if FileChooser.selection==[] else False

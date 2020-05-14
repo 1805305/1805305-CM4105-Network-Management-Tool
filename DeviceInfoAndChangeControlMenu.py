@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.properties import ObjectProperty, StringProperty
+
 from kivy.app import App
 
 from kivy.factory import Factory
@@ -35,12 +37,17 @@ from netmiko.ssh_exception import AuthenticationException
 
 import os
 from datetime import datetime
+import ntpath
+from pathlib import Path
+import webbrowser
 
 #Re module is imported to allow for strings to be searched for specified phrases
 
 import re
 
+#Import difflib module to allow fils to be compared
 
+import difflib 
 
 
 class DeviceInfoMenuButtons(BoxLayout):
@@ -578,9 +585,145 @@ class DeviceInfoChangeControlUploadConf(Screen):
 
 class DeviceInfoChangeControlCompareConf(Screen):        
     
-   def DeviceInfoChangeControlCompareConfExecute(self):
-       pass
+    #Define the file path properties
 
+    file1_path = StringProperty()
+    file2_path = StringProperty()
+
+    the_popup = ObjectProperty(None)
+
+    current_compared_file = StringProperty()
+
+    def DeviceInfoChangeControlCompareConfExecute(self):
+       
+        selected_storage_directory = App.get_running_app().selected_storage_directory #Create a local variable using the value in the global property selected_storage_directory. This will allow the script to create and store files in the directory set by the user
+
+        #If statement to ensure a user has selected two files, if not a popup informs the user to select 2 files and returns the function
+        if self.file1_path == '' or self.file2_path == '':
+
+            popup = Popup(title='', content=Label(text="Please ensure that two files have been selected for comparison"), size_hint =(0.65, 0.3))
+            popup.open()
+
+            return
+
+        else: #If user has selected two files continue on
+
+            pass
+
+
+        date = datetime.now().strftime("%Y-%m-%d")
+
+        compare_conf_parent_directory = selected_storage_directory + '\\Outputs\\CompareConfOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
+        compare_conf_individual_directory = selected_storage_directory + '\\Outputs\\CompareConfOutput\\' + date #Create a variable of the absolute path of where the running configurations files for devices with the same hostname will be stored
+
+        file1_name = Path(self.file1_path).stem #Get the filename of File1 with no file extension
+        file2_name = Path(self.file2_path).stem #Get the filename of File2 with no file extension
+
+        if not os.path.exists(compare_conf_parent_directory): #Check for existence of the parent poll directory - one to store all individual directories - and if not there create it, this is done using the os.path function
+                os.makedirs(compare_conf_parent_directory)
+        else:
+                pass
+
+        if not os.path.exists(compare_conf_individual_directory): #Check for existence of the individual poll directory - One to store the current output - and if not there create it, this is done using the os.path function
+            os.makedirs(compare_conf_individual_directory)
+        else:
+            pass
+
+        file1_diff = open(self.file1_path, 'r') #Set variable file1_diff to open the specified file and read it using the file1_path property to locate it
+        file2_diff = open(self.file2_path, 'r') #Set variable file2_diff to open the specified file and read it using the file1_path property to locate it
+
+        file1_diff_list = file1_diff.readlines() #Set variable file1_diff_list to split the running config into a list
+        file2_diff_list = file2_diff.readlines() #Set variable file2_diff_list to split the startup config into a list and save as variable
+
+
+        differ = difflib.HtmlDiff( tabsize=4, wrapcolumn=40 ) #Formatting for html page
+        html = differ.make_file( file1_diff_list, file2_diff_list, context=False ) #Compare the running config to the startup config and assign to variable
+
+        html_output_file = compare_conf_individual_directory + '\\' +file1_name + '_To_' + file2_name + '_Difference.html' #Creates the variable for file where the html output will be stored
+ 
+
+        #Try statement to create a HTML version of the file for storage
+        try:
+        
+            outfile = open(html_output_file, 'w' ) #Create/Open new/exisitng file and allow it to be written to variable outfile
+            outfile.write(html) #Write the output of comparison of the config files to the new file
+            outfile.close() #Close the file
+        
+            self.current_compared_file = html_output_file #Updates the current_compared_file property with the most recently compared file. It is done in the Try to ensure that it will not change if the comparison fails to write
+            self.ids._Device_Info_Change_Control_Compare_Conf_Open_HTML_.ids.CurrentHTMLSelection.text = "The current comparison is between '[b]" +  file1_name + "[/b]' and '[b]" + file2_name + "[/b]'"#Updates the recent comparison label to state which two files were compared last
+            self.ids._Device_Info_Change_Control_Compare_Conf_Open_HTML_.ids.CurrentHTMLButton.disabled = False #Enable the comparison button to allow user to open file
+
+
+            #Create and display a popup to inform the user of the successful comparison
+            popup = Popup(title='', content=Label(markup = True, text="Successfully performed comparison of configuration files \n\nThe HTML output has been stored in the selected storage location"), size_hint =(0.65, 0.3))
+            popup.open()
+
+
+        except: #If unable to open and write to the file inform the user
+
+            popup = Popup(title='', content=Label(text="Unable to compare files please try again"), size_hint =(0.65, 0.3))
+            popup.open()
+
+
+
+
+    def OpenHtmlComparison(self):
+
+        new = 2 # opens the url in a new tab
+
+        url = self.current_compared_file #Sets the variable url as the property current_compared_file
+        webbrowser.open(url,new=new) #Opens the url
+
+
+
+    def OpenFile1Popup(self):
+
+        self.the_popup = File1ChoosePopup(load=self.loadFile1)
+        self.the_popup.open()
+
+
+    def OpenFile2Popup(self):
+
+        self.the_popup = File2ChoosePopup(load=self.loadFile2)
+        self.the_popup.open()
+
+
+
+    def loadFile1(self, selection):
+
+        self.file1_path = str(selection[0])
+        self.the_popup.dismiss()
+
+        # check for non-empty list i.e. file selected
+        if self.file1_path:
+            file1_path = self.file1_path
+
+            file1_name = ntpath.basename(file1_path) #Use ntpath to get the filename from the path
+
+            self.ids._Device_Info_Change_Control_Compare_Conf_File_Select_.ids.CompareConfFile1Label.text = 'File 1: [b]' + file1_name + '[/b]'
+
+
+    def loadFile2(self, selection):
+
+        self.file2_path = str(selection[0])
+        self.the_popup.dismiss()
+
+        # check for non-empty list i.e. file selected
+        if self.file2_path:
+
+            file2_path = self.file2_path
+
+            file2_name = ntpath.basename(file2_path) #Use ntpath to get the filename from the path
+
+            self.ids._Device_Info_Change_Control_Compare_Conf_File_Select_.ids.CompareConfFile2Label.text = 'File 2: [b]' + file2_name + '[/b]'
+
+
+class File1ChoosePopup(Popup):
+    load = ObjectProperty()
+
+
+class File2ChoosePopup(Popup):
+    load = ObjectProperty()
     
 
 
