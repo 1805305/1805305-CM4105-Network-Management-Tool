@@ -65,7 +65,8 @@ class MainApplicationApp(App):
     #current_directory = StringProperty('')
     selected_storage_directory = StringProperty('') # Instead maybe have the open file and search file for location as a module that can be quickly ran from any function, this would stop the need for a global property
 
-    
+    device_username = StringProperty()
+    device_password = StringProperty()
 
     def build(self):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window

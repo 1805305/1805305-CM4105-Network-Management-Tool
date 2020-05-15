@@ -69,6 +69,15 @@
             main_menu_root: root
             size_hint: 0.7, None
     AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
+    AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 15
@@ -271,6 +280,15 @@
             main_menu_root: root
             size_hint: 0.9, None
     AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
+    AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 15
@@ -348,12 +366,15 @@
             padding: 25
             size_hint: 0.9, 0.7
             height: root.height - _Menu_Bar.height - _IPv4_Target_Device_Layout_.height - _Execute_Button_.height - _Device_Info_Change_Control_Upload_Conf_Label_.height
-    #FloatLayout: #To be used if NAPALM can be fixed to allow user to select configuration upload type
-        #padding: 5
-        #DeviceInfoChangeControlUploadConfUploadType
-            #id: _Device_Info_Change_Control_Upload_Conf_Upload_Type_
-           #pos_hint:{'center_x':0.5, 'y':0.2}
-            #size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'

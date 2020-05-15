@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.app import App
+
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
@@ -27,6 +29,8 @@ import ipaddress
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
+
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 class SecurityConfMenuButtons(BoxLayout):
 
@@ -65,6 +69,18 @@ class SecurityConfLocalUsernameDatabase(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -88,6 +104,10 @@ class SecurityConfLocalUsernameDatabase(Screen):
 
             net_connect.send_config_set(config_commands)
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully added new user '[b]" +  new_username + "[/b]' to device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
             popup.open()
@@ -102,6 +122,12 @@ class SecurityConfLocalUsernameDatabase(Screen):
 
             Factory.NetmikoTimeoutPopup().open() 
     
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
+
 
 class SecurityConfPasswordEncryption(Screen):        
     
@@ -124,6 +150,18 @@ class SecurityConfPasswordEncryption(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -142,6 +180,10 @@ class SecurityConfPasswordEncryption(Screen):
 
             net_connect.send_config_set(config_commands)
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully '[b]" +  encryption_type + "[/b]' password encryption on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
             popup.open()
@@ -155,6 +197,12 @@ class SecurityConfPasswordEncryption(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open() 
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 class SecurityConfAuxVtyConLines(Screen):        
     
@@ -265,6 +313,18 @@ class SecurityConfAuxVtyConLines(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -280,6 +340,10 @@ class SecurityConfAuxVtyConLines(Screen):
 
             net_connect.send_config_set(config_commands)
 
+
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
 
 
             #If statement to check if VTY was the selected function, and then display the text with a line range, else it will display it as line 0
@@ -306,6 +370,12 @@ class SecurityConfAuxVtyConLines(Screen):
 
             Factory.NetmikoTimeoutPopup().open() 
 
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 
 

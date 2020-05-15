@@ -49,6 +49,7 @@ import re
 
 import difflib 
 
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 class DeviceInfoMenuButtons(BoxLayout):
 
@@ -81,6 +82,18 @@ class DeviceInfoPollAndExtract(Screen):
 
                 Factory.InvalidIPAddressPopup().open() 
                 return #Exit from the function
+
+
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
 
 
             device = { 
@@ -219,6 +232,11 @@ class DeviceInfoPollAndExtract(Screen):
             self.ids._Device_Info_Poll_And_Extract_Layout_.ids.PolledDeviceInfoOutput.text = 'Hostname: ' + hostname + ' \nDevice Type: ' + device_type + '\nIOS Version: ' + ios_version + '\nDomain: ' + domain_name + '\nUptime: ' + uptime
         
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
+
         #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
         except AuthenticationException:
 
@@ -228,6 +246,13 @@ class DeviceInfoPollAndExtract(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
+
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 
 
@@ -370,6 +395,18 @@ class DeviceInfoChangeControlSaveConf(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -387,7 +424,7 @@ class DeviceInfoChangeControlSaveConf(Screen):
 
                 self.SaveDeviceStartupConf(net_connect)
   
-
+            
         #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv
         except AuthenticationException:
 
@@ -398,7 +435,13 @@ class DeviceInfoChangeControlSaveConf(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
 
-        
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()    
+
 
 
     def SaveDeviceRunConf(self, net_connect):      
@@ -445,6 +488,10 @@ class DeviceInfoChangeControlSaveConf(Screen):
             file.write(output_save_conf) #Write output from running config from device into the file
 
             file.close() #Close file
+
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
 
             popup = Popup(title='', content=Label(markup = True, text="Successfully saved the '[b]Running Configuration[/b]' of device with hostname '[b]" + hostname + "[/b]'"), size_hint =(0.8, 0.3))
             popup.open()
@@ -507,6 +554,10 @@ class DeviceInfoChangeControlSaveConf(Screen):
 
             file.close() #Close file
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             popup = Popup(title='', content=Label(markup = True, text="Successfully saved the '[b]Startup Configuration[/b]' of device with hostname '[b]" + hostname + "[/b]'"), size_hint =(0.8, 0.3))
             popup.open()
 
@@ -515,6 +566,8 @@ class DeviceInfoChangeControlSaveConf(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
+
+
 
 
 
@@ -540,6 +593,18 @@ class DeviceInfoChangeControlUploadConf(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -559,7 +624,10 @@ class DeviceInfoChangeControlUploadConf(Screen):
 
             net_connect.send_config_set(config_commands)
 
-    
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+                
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully uploaded configuration file to device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.7, 0.3))
             popup.open()
@@ -577,7 +645,10 @@ class DeviceInfoChangeControlUploadConf(Screen):
 
 
 
-       
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()  
 
         
 

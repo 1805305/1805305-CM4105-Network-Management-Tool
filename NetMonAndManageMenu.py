@@ -28,6 +28,7 @@ import ipaddress
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException 
 
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 class NetMonMenuButtons(BoxLayout):
 
@@ -64,6 +65,18 @@ class NetMonSpanConf(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -77,6 +90,10 @@ class NetMonSpanConf(Screen):
             net_connect = ConnectHandler(**device) 
 
             net_connect.send_config_set(config_commands)
+
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
 
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully configured SPAN with session ID '[b]" +  session_ID + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.8, 0.3))
@@ -93,5 +110,9 @@ class NetMonSpanConf(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
     
-        
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
    

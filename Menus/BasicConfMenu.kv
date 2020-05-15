@@ -65,6 +65,15 @@
             main_menu_root: root
             size_hint: 0.9, None
     AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
+    AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 15
@@ -135,6 +144,15 @@
             main_menu_root: root
             size_hint: 0.9, None
     AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
+    AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
         padding: 15
@@ -188,6 +206,15 @@
             id: _Basic_Conf_Reload_Layout_
             main_menu_root: root
             size_hint: 0.9, None
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: 5
+        Button:
+            id: _Device_Credentials_Button_
+            text: 'Set Device \nCredentials'
+            size_hint: 0.16, 0.08
+            on_release: root.OpenCredentialPopup()
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'

@@ -109,9 +109,10 @@
 
  #Create a Custom PopUp Widget for Username and Password Entry
 
-<DeviceUsernameAndPasswordPopup@Popup>:
+<DeviceUsernameAndPasswordPopup>:
     auto_dismiss: False
     size_hint: 0.5, 0.5
+    title: ""
     RelativeLayout:
         RelativeLayout:
             GridLayout:
@@ -145,11 +146,11 @@
             anchor_y: 'bottom'
             padding: 5
             Button:
-                text: 'Intiate Connection'
+                text: 'Save Credentials'
                 size_hint: 0.5, 0.2
+                on_release: app.device_username = UsernameTextInput.text 
+                on_release: app.device_password = PasswordTextInput.text
                 on_release: root.dismiss()
-
-
 
  #Create a Custom PopUp Widget for when no IP address is entered 
 
@@ -191,6 +192,15 @@
     title: ""
     Label: 
         text: 'Unable to connect to device - SSH is not enabled'
+
+
+ #Create a Custom PopUp Widget for when a Username or Password is not entered
+
+<NoUserOrPassPopup@Popup>:
+    size_hint: 0.6, 0.3
+    title: ""
+    Label: 
+        text: 'Please ensure both a username and password have been entered'
 
 
 

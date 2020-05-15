@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.app import App
+
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
@@ -27,6 +29,8 @@ import ipaddress
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
+
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 
 class BasicConfMenuButtons(BoxLayout):
@@ -43,7 +47,6 @@ class BasicConfMenuButtons(BoxLayout):
 
 
 class BasicConfHostname(Screen):        
-    
 
     def BasicConfHostnameExecute(self):
 
@@ -65,11 +68,22 @@ class BasicConfHostname(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             config_commands = ["hostname " + hostname]
@@ -78,8 +92,12 @@ class BasicConfHostname(Screen):
 
             net_connect.send_config_set(config_commands)
     
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
-            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
+            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  hostname + "[/b]' as hostname of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.7, 0.3))
             popup.open()
         
 
@@ -94,6 +112,10 @@ class BasicConfHostname(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 class BasicConfDomain(Screen):  
     
@@ -117,6 +139,18 @@ class BasicConfDomain(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -131,8 +165,12 @@ class BasicConfDomain(Screen):
 
             net_connect.send_config_set(config_commands)
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
-            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  domain + "[/b]' as domain of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
+            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  domain + "[/b]' as domain of device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.7, 0.3))
             popup.open()
   
 
@@ -145,6 +183,12 @@ class BasicConfDomain(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 class BasicConfReload(Screen): 
     
@@ -167,6 +211,18 @@ class BasicConfReload(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -182,6 +238,10 @@ class BasicConfReload(Screen):
                 output += net_connect.send_command_timing('\n')
                 #print(output)
 
+                #Set the password and username back to empty after completion of configuration
+                App.get_running_app().device_username = ''
+                App.get_running_app().device_password = ''
+
                 #Creates and displays a popup to inform user that reload was successful
                 popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
                 popup.open()
@@ -189,6 +249,10 @@ class BasicConfReload(Screen):
                 output += net_connect.send_command_timing('yes')
                 output += net_connect.send_command_timing('\n')
                 #print(output)
+
+                #Set the password and username back to empty after completion of configuration
+                App.get_running_app().device_username = ''
+                App.get_running_app().device_password = ''
 
                 #Creates and displays a popup to inform user that reload was successful
                 popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
@@ -210,6 +274,9 @@ class BasicConfReload(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
-    
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
         
    

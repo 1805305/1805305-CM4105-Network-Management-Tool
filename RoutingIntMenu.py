@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.app import App
+
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
@@ -27,6 +29,8 @@ import ipaddress
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
+
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 class RoutingIntMenuButtons(BoxLayout):
 
@@ -69,6 +73,18 @@ class RoutingIntStaticRoute(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -83,6 +99,10 @@ class RoutingIntStaticRoute(Screen):
 
             net_connect.send_config_set(config_commands)
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully configured static route to '[b]" +  destination_address + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.9, 0.3))
             popup.open()
@@ -96,6 +116,12 @@ class RoutingIntStaticRoute(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
+    
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 
     def StaticRouteSelectInterfaceEgress(self):
@@ -149,6 +175,18 @@ class RoutingIntDefaultRoute(Screen):
                 return #Exit from the function
 
 
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -163,6 +201,10 @@ class RoutingIntDefaultRoute(Screen):
 
             net_connect.send_config_set(config_commands)
 
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
+
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully configured default route on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.7, 0.3))
             popup.open()
@@ -176,6 +218,12 @@ class RoutingIntDefaultRoute(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
+
+
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
 
 
     def DefaultRouteSelectInterfaceEgress(self):
@@ -219,6 +267,19 @@ class RoutingIntDefaultGateway(Screen):
                 Factory.InvalidIPAddressPopup().open() 
                 return #Exit from the function
 
+
+            #If statement to ensure user has entered a username or password
+            if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
+
+                Factory.NoUserOrPassPopup().open() 
+                return #Exit from the function
+
+            else:
+
+                device_username = App.get_running_app().device_username
+                device_password = App.get_running_app().device_password
+
+
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
@@ -232,6 +293,10 @@ class RoutingIntDefaultGateway(Screen):
             net_connect = ConnectHandler(**device) 
 
             net_connect.send_config_set(config_commands)
+
+            #Set the password and username back to empty after completion of configuration
+            App.get_running_app().device_username = ''
+            App.get_running_app().device_password = ''
 
             #Create and display a popup to inform the user of the successful configuration
             popup = Popup(title='', content=Label(markup = True, text="Successfully configured default gateway as '[b]" +  default_gateway + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.85, 0.3))
@@ -248,5 +313,8 @@ class RoutingIntDefaultGateway(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
     
-        
+    def OpenCredentialPopup(self):
+
+        self.the_popup = DeviceUsernameAndPasswordPopup()
+        self.the_popup.open()
    
