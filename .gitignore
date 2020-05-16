@@ -353,3 +353,6 @@ MigrationBackup/
 /Outputs/PollDeviceOutput/192.168.1.1
 /Outputs/SaveConfOutput/R1
 /Outputs/CompareConfOutput/2020-05-14
+/Outputs/CompareConfOutput/2020-05-16
+/Outputs/SaveConfOutput/R2/RunningConf
+/Outputs/SaveConfOutput/R2/StartupConf

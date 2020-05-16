@@ -25,6 +25,7 @@ from kivy.app import App
 
 import os
 import sys
+from datetime import datetime
 
 #Call will be imported from subprocess to allow a cli command to be executed using python
 from subprocess import call
@@ -93,7 +94,14 @@ class NetScanWireshark(Screen):
         pcapSuffix = '.pcap'
         
 
-        output_name = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkFilenameLayout.ids.WiresharkFilenameTextInput.text
+        #If statement to check if user has entered an output name, if not the current time and date will be used
+        if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkFilenameLayout.ids.WiresharkFilenameTextInput.text == '':
+
+            output_name = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
+
+        else:
+
+            output_name = self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkFilenameLayout.ids.WiresharkFilenameTextInput.text
 
 
 
@@ -145,7 +153,7 @@ class NetScanWireshark(Screen):
         #If statement to ensure to get the user input for amount of files to use for the buffer ring. If left at unchanged it will default to 1
         if self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkRingBufferCheckbox.ids.WiresharkRingBufferFileAmountSpinner.text == 'File Amount':
 
-            buffer_ring_file_count = 1
+            buffer_ring_file_count = '1'
 
         else:
 

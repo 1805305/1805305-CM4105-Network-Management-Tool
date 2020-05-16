@@ -104,7 +104,7 @@ class RoutingIntStaticRoute(Screen):
             App.get_running_app().device_password = ''
 
             #Create and display a popup to inform the user of the successful configuration
-            popup = Popup(title='', content=Label(markup = True, text="Successfully configured static route to '[b]" +  destination_address + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.9, 0.3))
+            popup = Popup(title='', content=Label(markup = True, text="Successfully configured static route to '[b]" +  destination_address + "[/b]' on device with IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.95, 0.3))
             popup.open()
 
         #Except error to catch when Credentials are incorrect, informs the user of the error using a popup defined in the MainApplication.kv

@@ -98,7 +98,7 @@ class IntConfAssignIPv4(Screen):
             App.get_running_app().device_password = ''
 
             #Create and display a popup to inform the user of the successful configuration
-            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  interface + "[/b]' with an of IP address '[b]" + device_ip_address + "[/b]'"), size_hint =(0.65, 0.3))
+            popup = Popup(title='', content=Label(markup = True, text="Successfully set '[b]" +  interface + "[/b]' with an of IP address '[b]" + ip_address + "[/b]'"), size_hint =(0.65, 0.3))
             popup.open()
 
             

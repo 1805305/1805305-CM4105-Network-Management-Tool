@@ -259,9 +259,9 @@ class SecurityConfAuxVtyConLines(Screen):
 
 
 
-                #If statement for handling if a user does not change method 2 or if N/A was selected. Or if a user entered a value in method 1 - It will default to blank
+                #If statement for handling if a user does not change method 2 or if N/A was selected. Or if a user has entered 'none' as the value in method 1 - It will default to blank
 
-                if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'Method 2' or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'N/A':
+                if self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'Method 2' or self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text == 'N/A' or transport_method1 == 'none':
                     transport_method2 = ''
                 else:
                     transport_method2 = self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text

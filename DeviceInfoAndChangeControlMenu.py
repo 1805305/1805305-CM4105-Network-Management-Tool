@@ -198,7 +198,17 @@ class DeviceInfoPollAndExtract(Screen):
                 poll_info_parent_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' #Create a variable of the absolute path of where the parent directory for output of data capture will be stored
                 poll_info_individual_directory = selected_storage_directory + '\\Outputs\\PollDeviceOutput\\' + device_ip_address #Create a variable of the absolute path of where the all output files for devices with the same hostname will be stored
 
-                file_name = self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.FileNameTextInput.text #Create a variable for the desired file name
+
+                #If statement to check if user has entered an output name, if not the current time and date will be used
+                if self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.FileNameTextInput.text == '':
+
+                    file_name = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
+
+                else:
+
+                    file_name = self.ids._Device_Info_Poll_And_Extract_Layout_.ids.DeviceInfoPollAndExtractStoreLocalLayout.ids.FileNameTextInput.text #Create a variable for the desired file name
+
+
 
                 poll_info_output_file = poll_info_individual_directory + "/" + file_name + '.txt' #Create a variable for the name and location of the file to be saved. It will be stored as a txt file
 

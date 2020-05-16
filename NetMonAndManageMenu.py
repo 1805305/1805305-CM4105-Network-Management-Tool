@@ -17,6 +17,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 
+from kivy.app import App
+
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
