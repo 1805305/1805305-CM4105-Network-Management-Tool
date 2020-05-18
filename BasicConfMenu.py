@@ -154,8 +154,8 @@ class BasicConfDomain(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
 
@@ -226,8 +226,8 @@ class BasicConfReload(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
 

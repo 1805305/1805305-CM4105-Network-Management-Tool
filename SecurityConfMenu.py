@@ -84,8 +84,8 @@ class SecurityConfLocalUsernameDatabase(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             priv_check = self.ids._Security_Conf_Local_Username_Database_Layout_.ids.SecurityConfLocalUsernameDatabasePrivilegeLayout.ids.PrivilegeLevelSpinner.text
@@ -165,8 +165,8 @@ class SecurityConfPasswordEncryption(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             if self.ids._Security_Conf_Password_Encryption_Layout_.ids.EnableToggle.state == 'down':
@@ -328,8 +328,8 @@ class SecurityConfAuxVtyConLines(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
         

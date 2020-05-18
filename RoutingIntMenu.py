@@ -88,8 +88,8 @@ class RoutingIntStaticRoute(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
 
@@ -190,8 +190,8 @@ class RoutingIntDefaultRoute(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
 
@@ -283,8 +283,8 @@ class RoutingIntDefaultGateway(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
 

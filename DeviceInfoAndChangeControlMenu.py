@@ -99,8 +99,8 @@ class DeviceInfoPollAndExtract(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
  
 
@@ -420,8 +420,8 @@ class DeviceInfoChangeControlSaveConf(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             net_connect = ConnectHandler(**device) #Connect to the device using the credentials and IP address
@@ -618,8 +618,8 @@ class DeviceInfoChangeControlUploadConf(Screen):
             device = { 
               'device_type': 'cisco_ios', 
               'ip': device_ip_address, 
-              'username': 'Test', 
-              'password': 'cisco123', 
+              'username': device_username, 
+              'password': device_password, 
               } 
 
             
