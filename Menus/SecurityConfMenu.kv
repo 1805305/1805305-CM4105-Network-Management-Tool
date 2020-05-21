@@ -153,6 +153,7 @@
         Label:
             text:''
 
+
 <SecurityConfLocalUsernameDatabasePrivilegeLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -170,7 +171,6 @@
         values: '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', 'No Privilege Required'
     Label:
         text:''
-
 
 
 
@@ -220,6 +220,7 @@
             id: _Execute_Button_
             on_release: root.SecurityConfPasswordEncryptionExecute()
                     
+
 <SecurityConfPasswordEncryptionLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -244,6 +245,7 @@
         text: 'Disable'
         group: 'ServicePasswordEncryption'
     
+
 
 
 
@@ -299,7 +301,7 @@
             id: _Execute_Button_
             on_release: root.SecurityConfAuxVtyConLinesExecute()
         
-        
+       
 <SecurityConfAuxVtyConLinesLayout@GridLayout>:
     orientation: 'vertical'
     rows: 7
@@ -329,8 +331,6 @@
         id: SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout
         opacity: 0
         disabled: True
-
-
 
 
 <SecurityConfAuxVtyConLinesSelectLineLayout@GridLayout>:
@@ -432,7 +432,6 @@
         values: 'SSH', 'Telnet', 'rlogin', 'N/A'
     
 
-
 <SecurityConfAuxVtyConLinesLoginOptionsLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -470,8 +469,6 @@
         height: '32dp'
 
 
-
-
 <SecurityConfAuxVtyConLinesExecTimeoutOptionsLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -498,9 +495,6 @@
         size_hint_y: None
         height: LineExecTimeoutSecondsTextInput.height
         text_size: self.width, None
-
-
-
 
 
 <SecurityConfAuxVtyConLinesFunctionSelect@GridLayout>:

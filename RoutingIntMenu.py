@@ -56,6 +56,9 @@ class RoutingIntMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'RoutingIntDefaultGatewayScreen'
 
 
+
+#Create the class for the 'Set Static Route' Screen using the Screen class for inheritiance
+
 class RoutingIntStaticRoute(Screen):       
     
     #Function to configure a static route on a device
@@ -167,6 +170,10 @@ class RoutingIntStaticRoute(Screen):
         self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text = ''
 
 
+
+
+#Create the class for the 'Set Default Route' Screen using the Screen class for inheritiance
+
 class RoutingIntDefaultRoute(Screen):        
     
 
@@ -275,6 +282,11 @@ class RoutingIntDefaultRoute(Screen):
         self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.opacity = 0
 
         self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.ids.InterfaceNumberTextInput.text = ''
+
+
+
+
+#Create the class for the 'Set Default Gatewat' Screen using the Screen class for inheritiance
 
 class RoutingIntDefaultGateway(Screen):        
     

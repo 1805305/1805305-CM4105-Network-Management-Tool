@@ -46,7 +46,6 @@
 
 
 
-
 <BasicConfHostname>:
     on_pre_enter: app.current_screen = "Basic Configuration - Hostname"
     on_pre_enter: app.previous_screen.append('BasicConfHostnameScreen')
@@ -91,10 +90,7 @@
             id: _Execute_Button_
             on_release: root.BasicConfHostnameExecute()
             
-
-
-
-        
+      
 <BasicConfHostnameLayout@GridLayout>:
     orientation: 'vertical' 
     rows: 2
@@ -123,8 +119,6 @@
     
         
     
-
-
 
 
 <BasicConfDomain>:
@@ -186,6 +180,7 @@
         multiline: False
         size_hint_y: None
         height: '32dp'
+
 
 
 

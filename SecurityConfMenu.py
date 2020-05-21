@@ -58,6 +58,10 @@ class SecurityConfMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'SecurityConfAuxVtyConLinesScreen'
 
 
+
+
+#Create the class for the 'Configure Local Username Databse' Screen using the Screen class for inheritiance
+
 class SecurityConfLocalUsernameDatabase(Screen):        
     
     #Function to add a new user account to a device
@@ -146,6 +150,10 @@ class SecurityConfLocalUsernameDatabase(Screen):
         self.the_popup.open()
 
 
+
+
+#Create the class for the 'Set Password Encryption' Screen using the Screen class for inheritiance
+
 class SecurityConfPasswordEncryption(Screen):        
     
 
@@ -225,6 +233,11 @@ class SecurityConfPasswordEncryption(Screen):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
+
+
+
+
+#Create the class for the 'Configure Aux, Con and Vty Lines' Screen using the Screen class for inheritiance
 
 class SecurityConfAuxVtyConLines(Screen):        
     
@@ -404,6 +417,7 @@ class SecurityConfAuxVtyConLines(Screen):
 
 
 
+
     #Function linked to the Console checkbox to modify the various widgets so that only commands that can be performed on the Console line can be set - Remove and reset the Line Range text inputs as Console only allows for line 0 and modifiying which transport methods are available
     def SecurityConfAuxVtyConLinesConSelect(self):
 
@@ -458,6 +472,7 @@ class SecurityConfAuxVtyConLines(Screen):
             self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportInputOutputSpinner.text = 'Output'
             self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo1Spinner.text = 'Method 1'
             self.ids._Security_Conf_Aux_Vty_Con_Lines_Layout_.ids.SecurityConfAuxVtyConLinesTransportOptionsLayout.ids.TransportMethodNo2Spinner.text = 'Method 2'
+
 
 
     #Function linked to the Login checkbox to modify the Login Type widgets so that they are visible when checked and disabled and hidden from view when unchecked, the text input will have it's value reset

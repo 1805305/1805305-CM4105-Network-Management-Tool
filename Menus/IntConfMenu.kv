@@ -28,7 +28,6 @@
             height: root.height - _Menu_Bar.height
 
 
-
 <IntConfMenuButtons>:
     orientation: 'vertical'
     padding: 5
@@ -87,7 +86,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.IntConfAssignIPv4Execute()
-                    
+    
+    
 <IntConfAssignIPv4Layout@GridLayout>:
     orientation: 'vertical'
     rows: 2
@@ -98,6 +98,7 @@
     IPv4AndSubnetMaskLayout:
         id: IPv4AndSubnetMaskLayout
     
+
 
 
 
@@ -151,9 +152,7 @@
         Execute:
             id: _Execute_Button_
             on_release: root.IntConfEthernetIntExecute()
-        
-
-
+       
         
 <IntConfEthernetIntLayout@GridLayout>:
     orientation: 'vertical'
@@ -181,10 +180,6 @@
         disabled: True
 
 
-
-
-
-
 <IntConfEthernetIntDescriptionLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -201,7 +196,6 @@
         multiline: False
         size_hint_y: None
         height: '32dp'
-
 
 
 <IntConfEthernetIntDuplexLayout@GridLayout>:
@@ -223,8 +217,6 @@
         values: 'Full', 'Half', 'Auto'
 
 
-
-
 <IntConfEthernetIntBandwidthLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -241,9 +233,6 @@
         multiline: False
         size_hint_y: None
         height: '32dp'
-
-
-
 
 
 <IntConfEthernetIntFunctionSelect@GridLayout>:

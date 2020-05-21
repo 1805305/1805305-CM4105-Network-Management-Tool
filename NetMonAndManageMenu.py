@@ -52,6 +52,8 @@ class NetMonMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'NetMonSpanConfScreen'
 
 
+
+
 #Create the class for the 'SPAN Configuration' Screen using the Screen class for inheritiance
 
 class NetMonSpanConf(Screen):   

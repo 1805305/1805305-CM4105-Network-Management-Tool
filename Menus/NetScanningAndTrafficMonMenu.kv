@@ -28,7 +28,6 @@
             height: root.height - _Menu_Bar.height
 
 
-
 <NetScanMenuButtons>:
     orientation: 'vertical'
     padding: 5
@@ -36,6 +35,8 @@
     Button:
         text: 'Monitor Network Traffic With Wireshark'
         on_release: root.NetScanWiresharkButton(*args)
+
+
 
 
 
@@ -76,8 +77,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.NetworkTrafficCapture()
-            
-                    
+                     
+
 <NetScanWiresharkLayout@GridLayout>:
     orientation: 'vertical'
     rows: 6
@@ -95,8 +96,6 @@
         id: NetScanWiresharkRingBufferLayout
         opacity: 0
         disabled: True
-
-
 
 
 <NetScanWiresharkFilenameLayout@GridLayout>:
@@ -152,8 +151,6 @@
         height: '32dp'
 
 
-
-
 <NetScanWiresharkRingBufferCheckbox@GridLayout>:
     orientation: 'vertical'
     cols: 4
@@ -187,7 +184,6 @@
         values: '1', '2', '3', '4', '5'
         opacity: 0
         disabled: True
-
 
 
 <NetScanWiresharkRingBufferLayout@GridLayout>:
@@ -233,12 +229,6 @@
         size_hint_y: None
         height: '32dp'
 
-    
-
-
-
- 
-		
 		
 <NetScanWiresharkStatusOfMonitorLayout@GridLayout>:
     orientation: 'vertical'

@@ -28,7 +28,6 @@
             height: root.height - _Menu_Bar.height
 
 
-
 <NetMonMenuButtons>:
     orientation: 'vertical'
     padding: 5
@@ -82,7 +81,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.NetMonSpanConfExecute()
-                    
+       
+       
 <NetMonSpanConfLayout@GridLayout>:
     orientation: 'vertical'
     rows: 4
@@ -117,6 +117,7 @@
         size_hint_y: None
         height: '32dp' 
     Label:
+
 
 <NetMonSpanConfSourcePortLayout@GridLayout>:
     orientation: 'vertical'

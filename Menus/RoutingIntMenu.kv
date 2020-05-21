@@ -28,7 +28,6 @@
             height: root.height - _Menu_Bar.height
 
 
-
 <RoutingIntMenuButtons>:
     orientation: 'vertical'
     padding: 5
@@ -42,6 +41,9 @@
     Button:
         text: 'Configure A Default Gateway'
         on_release: root.RoutingIntDefaultGatewayButton(*args)
+
+
+
 
 
 
@@ -87,7 +89,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.RoutingIntStaticRouteExecute()
-                    
+          
+          
 <RoutingIntStaticRouteLayout@GridLayout>:
     orientation: 'vertical'
     rows: 6
@@ -110,7 +113,6 @@
         disabled: True
     RoutingIntStaticRouteMetricDistanceLayout:
         id: RoutingIntStaticRouteMetricDistanceLayout
-
 
 
 <RoutingIntStaticRouteIPRouteLayout@GridLayout>:
@@ -165,7 +167,6 @@
             on_active: root.parent.parent.parent.StaticRouteSelectIPEgress()
             
 
-
 <RoutingIntStaticRouteForwardIPLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -177,6 +178,7 @@
         height: IPv4AddressTextInput.height
     IPv4AddressInput:
         id: IPv4AddressTextInput
+
 
 <RoutingIntStaticRouteMetricDistanceLayout@GridLayout>:
     orientation: 'vertical'
@@ -195,6 +197,7 @@
         height: '32dp'
 
     
+
 
 
 
@@ -241,7 +244,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.RoutingIntDefaultRouteExecute()
-                    
+            
+            
 <RoutingIntDefaultRouteLayout@GridLayout>:
     orientation: 'vertical'
     rows: 4
@@ -257,7 +261,6 @@
         disabled: True
     RoutingIntDefaultRouteMetricDistanceLayout:
         id: RoutingIntDefaultRouteMetricDistanceLayout
-
 
 
 <RoutingIntDefaultRouteInterfaceOrIPSelectCheckboxLayout@GridLayout>:
@@ -288,7 +291,6 @@
             group: 'DefaultInterfaceOrIP'
             active: True
             on_active: root.parent.parent.parent.DefaultRouteSelectInterfaceEgress()
-
         CheckBox:
             id: ForwardIPTrue
             size_hint_y: None
@@ -310,6 +312,7 @@
     IPv4AddressInput:
         id: IPv4AddressTextInput 
 
+
 <RoutingIntDefaultRouteMetricDistanceLayout@GridLayout>:
     orientation: 'vertical'
     rows: 1
@@ -325,6 +328,8 @@
         multiline: False
         size_hint_y: None
         height: '32dp'
+
+
 
 
 
@@ -371,7 +376,8 @@
         Execute:
             id: _Execute_Button_
             on_release: root.RoutingIntDefaultGatewayExecute()
-                    
+             
+             
 <RoutingIntDefaultGatewayLayout@GridLayout>:
     orientation: 'vertical'
     cols: 2

@@ -65,6 +65,8 @@ import re
 import difflib 
 
 
+
+
 #Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class DeviceInfoMenuButtons(BoxLayout):
@@ -74,6 +76,8 @@ class DeviceInfoMenuButtons(BoxLayout):
 
     def DeviceInfoChangeControlButton(self, instance):
         self.main_menu_root.manager.current = 'DeviceInfoChangeControlScreen'
+
+
 
 
 #Create the class for the 'Device Info Poll And Extract' Screen using the Screen class for inheritiance
@@ -286,6 +290,7 @@ class DeviceInfoPollAndExtract(Screen):
 
 
 
+
     #Function linked to the Local Store checkbox to modify the various widgets so that they are only visible and useable when the user wishes to store the output from device polling
     def DeviceInfoPollAndExtractStoreLocalSelect(self):
 
@@ -400,6 +405,8 @@ class DeviceInfoChangeControlMenuButtons(BoxLayout):
 
     def DeviceInfoChangeControlCompareConfButton(self, instance):
         self.main_menu_root.manager.current = 'DeviceInfoChangeControlCompareConfScreen'
+
+
 
 
 #Create the class for the 'Save Confiugration' Screen using the Screen class for inheritiance
@@ -600,6 +607,9 @@ class DeviceInfoChangeControlSaveConf(Screen):
 
 
 
+
+
+
 #Create the class for the 'Upload Configuration' Screen using the Screen class for inheritiance
 
 class DeviceInfoChangeControlUploadConf(Screen):        
@@ -684,6 +694,9 @@ class DeviceInfoChangeControlUploadConf(Screen):
         self.the_popup.open()  
 
         
+
+
+
 
 #Create the class for the 'Compare Configurations' Screen using the Screen class for inheritiance    
 
@@ -833,10 +846,14 @@ class DeviceInfoChangeControlCompareConf(Screen):
 
 
 
+
+
 #Creates the class that inherits from the Popup class, this class provides the base for the Set File 1 popup
 
 class File1ChoosePopup(Popup):
     load = ObjectProperty() #Sets load as an object property
+
+
 
 
 

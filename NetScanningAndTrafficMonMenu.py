@@ -47,13 +47,12 @@ class NetScanMenuButtons(BoxLayout):
 
 
 
+
+
 #Create the class for the 'Capture Network Traffic Using Wireshark' Screen using the Screen class for inheritiance
 
 class NetScanWireshark(Screen):        
    
-
-    
-
 
     #Function to get the network interfaces present on the device using netifaces.interfaces()
     
@@ -203,8 +202,6 @@ class NetScanWireshark(Screen):
 
                
         
-
-
 
     #Function linked to the Ring Buffer checkbox to modify the various widgets so that they are only visible and useable when the user wishes to enable ring buffer
     def NetScanWiresharkRingBufferSelect(self):

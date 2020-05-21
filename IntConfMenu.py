@@ -55,6 +55,9 @@ class IntConfMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'IntConfEthernetIntScreen'
 
 
+
+
+
 #Create the class for the 'Assign IPv4' Screen using the Screen class for inheritiance
 
 class IntConfAssignIPv4(Screen): 
@@ -136,6 +139,9 @@ class IntConfAssignIPv4(Screen):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
+
+
+
 
 
 #Create the class for the 'Configure Ethernet Interface' Screen using the Screen class for inheritiance
@@ -257,12 +263,14 @@ class IntConfEthernetInt(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
 
+
     #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
+
 
 
 
@@ -280,6 +288,8 @@ class IntConfEthernetInt(Screen):
             self.ids._Int_Conf_Ethernet_Int_Layout_.ids.IntConfEthernetIntDescriptionLayout.disabled = True
 
             self.ids._Int_Conf_Ethernet_Int_Layout_.ids.IntConfEthernetIntDescriptionLayout.ids.EthernetIntDescriptionTextInput.text = ''
+
+
 
 
     #Function linked to the Duplex checkbox to modify the Duplex Type widgets so that they are visible when checked and disabled and hidden from view when unchecked, the Spinner input will have it's value reset
