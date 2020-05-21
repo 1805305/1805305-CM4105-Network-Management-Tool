@@ -69,16 +69,8 @@ class NetTestingPing(Screen):
         responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
 
         if responses:
-            #print("    reponses: %s" % list(responses.keys()))
             result_of_ping = 'Success'
         if no_responses:
-            #print("    no response received in time, even after retries: %s" %no_responses)
             result_of_ping = 'Failed'
-
-        #Changed to no longer ping local host, left code in case it needs to be changed back
-        #if device_ip_address[0] == '':
-            #self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]Local Host[/i]' - [b] " + result_of_ping + " [/b]"
-        #else:       
-            #self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
 
         self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"

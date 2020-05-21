@@ -32,9 +32,7 @@
     <Compile Include="IntConfMenu.py" />
     <Compile Include="DeviceInfoAndChangeControlMenu.py" />
     <Compile Include="BasicConfMenu.py" />
-    <Compile Include="ConnectDevices.py" />
     <Compile Include="MainMenu.py" />
-    <Compile Include="MenuManager.py" />
     <Compile Include="MenuBar.py" />
     <Compile Include="CM4105___GUI_Network_Configuration.py" />
   </ItemGroup>

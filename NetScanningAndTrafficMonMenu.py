@@ -24,7 +24,6 @@ from kivy.app import App
 #Common modules will be imported to perform certain tasks if neccessary
 
 import os
-import sys
 from datetime import datetime
 
 #Call will be imported from subprocess to allow a cli command to be executed using python
