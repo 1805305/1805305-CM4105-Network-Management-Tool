@@ -22,15 +22,27 @@ from kivy.app import App
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
+ 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
 
 from netmiko import ConnectHandler  
 
-import ipaddress
+#Imports two execption types to allow for better error handling
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
 
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
+import ipaddress
+
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
+
 from MiscModules import DeviceUsernameAndPasswordPopup
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class RoutingIntMenuButtons(BoxLayout):
 
@@ -44,7 +56,9 @@ class RoutingIntMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'RoutingIntDefaultGatewayScreen'
 
 
-class RoutingIntStaticRoute(Screen):        
+class RoutingIntStaticRoute(Screen):       
+    
+    #Function to configure a static route on a device
     
     def RoutingIntStaticRouteExecute(self):
 
@@ -118,11 +132,15 @@ class RoutingIntStaticRoute(Screen):
             Factory.NetmikoTimeoutPopup().open()
     
 
+    #Function to open the credential entry popup
+
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
 
+    
+    #Function linked to the Interface Egress radio button to modify the various widgets so that they are only visible and useable when the user wishes to use the interface egress
 
     def StaticRouteSelectInterfaceEgress(self):
 
@@ -134,6 +152,8 @@ class RoutingIntStaticRoute(Screen):
 
         self.ids._Routing_Int_Static_Route_Layout_.ids.RoutingIntStaticRouteForwardIPLayout.ids.IPv4AddressTextInput.text = ''
   
+
+    #Function linked to the Forward IP Egress radio button to modify the various widgets so that they are only visible and useable when the user wishes to use the forward ip egress
 
     def StaticRouteSelectIPEgress(self):
 
@@ -149,6 +169,9 @@ class RoutingIntStaticRoute(Screen):
 
 class RoutingIntDefaultRoute(Screen):        
     
+
+     #Function to configure a default route on a device
+
     def RoutingIntDefaultRouteExecute(self):
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -220,11 +243,15 @@ class RoutingIntDefaultRoute(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
+    #Function to open the credential entry popup
+
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
 
+
+    #Function linked to the Interface Egress radio button to modify the various widgets so that they are only visible and useable when the user wishes to use the interface egress
 
     def DefaultRouteSelectInterfaceEgress(self):
 
@@ -235,6 +262,9 @@ class RoutingIntDefaultRoute(Screen):
         self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardInterfaceLayout.opacity = 1
 
         self.ids._Routing_Int_Default_Route_Layout_.ids.RoutingIntDefaultRouteForwardIPLayout.ids.IPv4AddressTextInput.text = ''
+
+
+    #Function linked to the Forward IP Egress radio button to modify the various widgets so that they are only visible and useable when the user wishes to use the forward ip egress
 
     def DefaultRouteSelectIPEgress(self):
 
@@ -248,6 +278,9 @@ class RoutingIntDefaultRoute(Screen):
 
 class RoutingIntDefaultGateway(Screen):        
     
+
+    #Function to configure a default gateway on a device
+
     def RoutingIntDefaultGatewayExecute(self):
         
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -312,6 +345,8 @@ class RoutingIntDefaultGateway(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
 
+
+    #Function to open the credential entry popup
     
     def OpenCredentialPopup(self):
 

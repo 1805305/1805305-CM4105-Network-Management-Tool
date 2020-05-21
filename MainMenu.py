@@ -12,7 +12,12 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.boxlayout import BoxLayout
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class MainMenuButtons(BoxLayout):
     

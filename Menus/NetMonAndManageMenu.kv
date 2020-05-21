@@ -2,6 +2,9 @@
 
 #:import NetMonAndManageMenu NetMonAndManageMenu
 
+#This KV file defines the various Network Monitoring And Management screens and widgets it is linked to the NetMonAndManageMenu.py for defining the type of widget and the functions that are called
+
+
 <NetMonMenu@Screen>:
     on_pre_enter: app.current_screen = "Network Monitoring and Management"
     on_pre_enter: app.previous_screen.append('NetMonMenuScreen')

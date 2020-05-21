@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -25,21 +27,34 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
+
 from netmiko import ConnectHandler  
 
-
-import ipaddress
+#Imports two execption types to allow for better error handling
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
+
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
+import ipaddress
+
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
+
+from MiscModules import DeviceUsernameAndPasswordPopup
 
 #Common modules will be imported to perform certain tasks if neccessary
 
 import os
 from datetime import datetime
+import webbrowser
+
+#Import modules to allow for the maniuplation of filesystems
+
 import ntpath
 from pathlib import Path
-import webbrowser
 
 #Re module is imported to allow for strings to be searched for specified phrases
 
@@ -49,7 +64,8 @@ import re
 
 import difflib 
 
-from MiscModules import DeviceUsernameAndPasswordPopup
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class DeviceInfoMenuButtons(BoxLayout):
 
@@ -60,8 +76,11 @@ class DeviceInfoMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'DeviceInfoChangeControlScreen'
 
 
+#Create the class for the 'Device Info Poll And Extract' Screen using the Screen class for inheritiance
+
 class DeviceInfoPollAndExtract(Screen):        
     
+    #This function will allow for certain information to be extracted from a device and displayed on screen or saved to a file
 
     def DeviceInfoPollAndExtractExecute(self):
 
@@ -258,6 +277,7 @@ class DeviceInfoPollAndExtract(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 
@@ -368,8 +388,7 @@ class DeviceInfoPollAndExtract(Screen):
 
 
 
-
-
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class DeviceInfoChangeControlMenuButtons(BoxLayout):
 
@@ -382,6 +401,8 @@ class DeviceInfoChangeControlMenuButtons(BoxLayout):
     def DeviceInfoChangeControlCompareConfButton(self, instance):
         self.main_menu_root.manager.current = 'DeviceInfoChangeControlCompareConfScreen'
 
+
+#Create the class for the 'Save Confiugration' Screen using the Screen class for inheritiance
 
 class DeviceInfoChangeControlSaveConf(Screen):        
      
@@ -446,6 +467,7 @@ class DeviceInfoChangeControlSaveConf(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 
@@ -453,6 +475,8 @@ class DeviceInfoChangeControlSaveConf(Screen):
         self.the_popup.open()    
 
 
+
+     #Function to save a device running configuration to a file
 
     def SaveDeviceRunConf(self, net_connect):      
         
@@ -511,9 +535,6 @@ class DeviceInfoChangeControlSaveConf(Screen):
         except NetMikoTimeoutException:
 
             Factory.NetmikoTimeoutPopup().open()
-
-
-
 
 
 
@@ -579,10 +600,12 @@ class DeviceInfoChangeControlSaveConf(Screen):
 
 
 
-
+#Create the class for the 'Upload Configuration' Screen using the Screen class for inheritiance
 
 class DeviceInfoChangeControlUploadConf(Screen):        
-    
+        
+
+     #This function will upload a configuration file to a network device to make a list of configuration changes at once
 
     def DeviceInfoChangeControlUploadConfExecute(self):
 
@@ -662,11 +685,11 @@ class DeviceInfoChangeControlUploadConf(Screen):
 
         
 
-    
+#Create the class for the 'Compare Configurations' Screen using the Screen class for inheritiance    
 
 class DeviceInfoChangeControlCompareConf(Screen):        
     
-    #Define the file path properties
+    #Define the properties for the function
 
     file1_path = StringProperty()
     file2_path = StringProperty()
@@ -674,6 +697,9 @@ class DeviceInfoChangeControlCompareConf(Screen):
     the_popup = ObjectProperty(None)
 
     current_compared_file = StringProperty()
+
+
+    #This function will create a HTML file comparing two sepeate set of sequences
 
     def DeviceInfoChangeControlCompareConfExecute(self):
        
@@ -747,6 +773,7 @@ class DeviceInfoChangeControlCompareConf(Screen):
 
 
 
+    #This function will open the most recently compared file in a webbrowser
 
     def OpenHtmlComparison(self):
 
@@ -756,12 +783,15 @@ class DeviceInfoChangeControlCompareConf(Screen):
         webbrowser.open(url,new=new) #Opens the url
 
 
-
+    #This function will open the popup to set the first file
+    
     def OpenFile1Popup(self):
 
         self.the_popup = File1ChoosePopup(load=self.loadFile1)
         self.the_popup.open()
 
+
+    #This function will open the popup to set the second file
 
     def OpenFile2Popup(self):
 
@@ -769,6 +799,7 @@ class DeviceInfoChangeControlCompareConf(Screen):
         self.the_popup.open()
 
 
+    #This function will set the file selectd by the user as file 1 
 
     def loadFile1(self, selection):
 
@@ -783,6 +814,8 @@ class DeviceInfoChangeControlCompareConf(Screen):
 
             self.ids._Device_Info_Change_Control_Compare_Conf_File_Select_.ids.CompareConfFile1Label.text = 'File 1: [b]' + file1_name + '[/b]'
 
+
+    #This function will set the file selectd by the user as file 2 
 
     def loadFile2(self, selection):
 
@@ -799,12 +832,18 @@ class DeviceInfoChangeControlCompareConf(Screen):
             self.ids._Device_Info_Change_Control_Compare_Conf_File_Select_.ids.CompareConfFile2Label.text = 'File 2: [b]' + file2_name + '[/b]'
 
 
-class File1ChoosePopup(Popup):
-    load = ObjectProperty()
 
+#Creates the class that inherits from the Popup class, this class provides the base for the Set File 1 popup
+
+class File1ChoosePopup(Popup):
+    load = ObjectProperty() #Sets load as an object property
+
+
+
+#Creates the class that inherits from the Popup class, this class provides the base for the Set File 2 popup
 
 class File2ChoosePopup(Popup):
-    load = ObjectProperty()
+    load = ObjectProperty() #Sets load as an object property
     
 
 

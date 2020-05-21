@@ -12,18 +12,17 @@
 import kivy
 kivy.require('1.11.1')
 
-
-
-
+#Import various Kivy modules
 
 from kivy.uix.popup import Popup
 
 from kivy.properties import ObjectProperty
 
 
+#Creates the class that inherits from the Popup class, this class provides the base for the Device Credential Popup
 
 class DeviceUsernameAndPasswordPopup(Popup):
-    load = ObjectProperty()
+    load = ObjectProperty() #Sets load as an object property
 
 
 

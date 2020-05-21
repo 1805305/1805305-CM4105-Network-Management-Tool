@@ -12,7 +12,12 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.boxlayout import BoxLayout
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class MenuBar(BoxLayout):
     
@@ -22,6 +27,4 @@ class MenuBar(BoxLayout):
     def SetStorageLocationButton(self, instance):
         self.main_menu_root.manager.current = 'SetStorageLocationScreen'
 
-    def PreviousScreen(self, instance):
-        self.main_menu_root.manager.current = 'MainMenuScreen'
         

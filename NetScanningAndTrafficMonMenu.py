@@ -12,27 +12,33 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty
 
-
 from kivy.app import App
+
 
 #Common modules will be imported to perform certain tasks if neccessary
 
 import os
 from datetime import datetime
 
-#Call will be imported from subprocess to allow a cli command to be executed using python
+#Call will be imported from subprocess to allow CLI commands to be executed using python
+
 from subprocess import call
 
 #Import netifaces and winref to discover the interfaces on the computer to allow dynamic population of the network interface spinner
 
 import netifaces
 import winreg
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class NetScanMenuButtons(BoxLayout):
 
@@ -41,31 +47,21 @@ class NetScanMenuButtons(BoxLayout):
 
 
 
+#Create the class for the 'Capture Network Traffic Using Wireshark' Screen using the Screen class for inheritiance
+
 class NetScanWireshark(Screen):        
    
 
-   
-    #Function provided by Gord Thompson and posted on StackOverflow to convert the GUID provided by netifaces.interfaces() to the actual interface names. The link to the orignal post can be found at https://stackoverflow.com/questions/29913516/how-to-get-meaningful-network-interface-names-instead-of-guids-with-netifaces-un
-    def get_connection_name_from_guid(self, iface_guids):
-        iface_names = ['(unknown)' for i in range(len(iface_guids))]
-        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
-        reg_key = winreg.OpenKey(reg, r'SYSTEM\CurrentControlSet\Control\Network\{4d36e972-e325-11ce-bfc1-08002be10318}')
-        for i in range(len(iface_guids)):
-            try:
-                reg_subkey = winreg.OpenKey(reg_key, iface_guids[i] + r'\Connection')
-                iface_names[i] = winreg.QueryValueEx(reg_subkey, 'Name')[0]
-            except FileNotFoundError:
-                pass
-        return iface_names
+    
 
 
-
+    #Function to get the network interfaces present on the device using netifaces.interfaces()
     
     def NetScanWiresharkPopulateNetworkInterfaces(self):
 
         x = netifaces.interfaces() #Sets 'x' as the output from netifaces.interfaces()
 
-        network_interfaces = self.get_connection_name_from_guid(x) #Sets network_interfaces as the output from get_connection_name_from_guid, this function is needed on windows OS to convert the GUID that is returned with with netifaces.interfaces() to a
+        network_interfaces = self.get_connection_name_from_guid(x) #Sets network_interfaces as the output from get_connection_name_from_guid, this function is needed on windows OS to convert the GUID that is returned with with netifaces.interfaces() 
 
         #If statement to check if an interface has been categorised as unknown and if so remove it
         if '(unknown)' in network_interfaces:
@@ -78,9 +74,22 @@ class NetScanWireshark(Screen):
         self.ids._Net_Scan_Wireshark_Layout_.ids.NetScanWiresharkCaptureIntLayout.ids.WiresharkCaptureInterfaceSpinner.values = network_interfaces #Set the values for WiresharkCaptureInterfaceSpinner to the list returned by get_connection_name_from_guid(). This will allow for the spinner to dynamically change dependent on what network interfaces the user has 
 
         
+
+    #Function provided by Gord Thompson and posted on StackOverflow to convert the GUID provided by netifaces.interfaces() to the actual interface names. The link to the orignal post can be found at https://stackoverflow.com/questions/29913516/how-to-get-meaningful-network-interface-names-instead-of-guids-with-netifaces-un
+    def get_connection_name_from_guid(self, iface_guids):
+        iface_names = ['(unknown)' for i in range(len(iface_guids))]
+        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
+        reg_key = winreg.OpenKey(reg, r'SYSTEM\CurrentControlSet\Control\Network\{4d36e972-e325-11ce-bfc1-08002be10318}')
+        for i in range(len(iface_guids)):
+            try:
+                reg_subkey = winreg.OpenKey(reg_key, iface_guids[i] + r'\Connection')
+                iface_names[i] = winreg.QueryValueEx(reg_subkey, 'Name')[0]
+            except FileNotFoundError:
+                pass
+        return iface_names
         
 
-	#Function to set up storage location of network traffic capture files and run a while loop till the users wishes to return to the menu
+	#Function to capture network using TShark, it is written as wireshark in text to the user as this is the main GUI version of the process and would be more recognised than Tshark, the output from the function can be viewed on wireshark when required
 
     def NetworkTrafficCapture(self):
 
@@ -190,7 +199,6 @@ class NetScanWireshark(Screen):
 
 
         call(tshark_commands) #Runs the commands within the tshark_commands variable using the call function from the subprocess module, it preforms the operation described above.
-        #pcap = directory + '/' + filenamePrefix + pcapSuffix
 
 
                

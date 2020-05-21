@@ -2,6 +2,9 @@
 
 #:import IntConfMenu IntConfMenu
 
+#This KV file defines the various Interface Configuration screens and widgets it is linked to the IntConfMenu.py for defining the type of widget and the functions that are called
+
+
 <IntConfMenu@Screen>:
     on_pre_enter: app.current_screen = "Interface Configuration"
     on_pre_enter: app.previous_screen.append('IntConfMenuScreen')

@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -23,14 +25,26 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
+
 from netmiko import ConnectHandler  
 
-import ipaddress
+#Imports two execption types to allow for better error handling
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
 
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
+import ipaddress
+
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
+
 from MiscModules import DeviceUsernameAndPasswordPopup
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class SecurityConfMenuButtons(BoxLayout):
 
@@ -46,6 +60,8 @@ class SecurityConfMenuButtons(BoxLayout):
 
 class SecurityConfLocalUsernameDatabase(Screen):        
     
+    #Function to add a new user account to a device
+
     def SecurityConfLocalUsernameDatabaseExecute(self):
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -122,6 +138,7 @@ class SecurityConfLocalUsernameDatabase(Screen):
 
             Factory.NetmikoTimeoutPopup().open() 
     
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 
@@ -131,6 +148,9 @@ class SecurityConfLocalUsernameDatabase(Screen):
 
 class SecurityConfPasswordEncryption(Screen):        
     
+
+    #Function to enable or disable password encryption on a device
+
     def SecurityConfPasswordEncryptionExecute(self):
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -199,6 +219,8 @@ class SecurityConfPasswordEncryption(Screen):
             Factory.NetmikoTimeoutPopup().open() 
 
 
+    #Function to open the credential entry popup
+
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
@@ -206,6 +228,8 @@ class SecurityConfPasswordEncryption(Screen):
 
 class SecurityConfAuxVtyConLines(Screen):        
     
+
+    #Function to configure a the Aux, Con or Vty lines on a device
 
     def SecurityConfAuxVtyConLinesExecute(self):
         
@@ -371,6 +395,7 @@ class SecurityConfAuxVtyConLines(Screen):
             Factory.NetmikoTimeoutPopup().open() 
 
 
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 

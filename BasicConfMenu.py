@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -23,15 +25,26 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
+
 from netmiko import ConnectHandler  
 
-import ipaddress
+#Imports two execption types to allow for better error handling
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
 
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
+import ipaddress
+
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
+
 from MiscModules import DeviceUsernameAndPasswordPopup
 
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class BasicConfMenuButtons(BoxLayout):
 
@@ -46,7 +59,12 @@ class BasicConfMenuButtons(BoxLayout):
 
 
 
+#Create the class for the 'Set Hostname' Screen using the Screen class for inheritiance
+
 class BasicConfHostname(Screen):        
+
+
+    #Creates the function to execute the hostname function
 
     def BasicConfHostnameExecute(self):
 
@@ -68,7 +86,7 @@ class BasicConfHostname(Screen):
                 return #Exit from the function
 
 
-            #If statement to ensure user has entered a username or password
+            #If statement to ensure user has entered a username or password, if not a warning popup is raised
             if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
 
                 Factory.NoUserOrPassPopup().open() 
@@ -117,8 +135,15 @@ class BasicConfHostname(Screen):
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
 
+
+
+
+#Create the class for the 'Set Domain' Screen using the Screen class for inheritiance
+
 class BasicConfDomain(Screen):  
     
+    #Creates the function to execute the domain function
+
     def BasicConfDomainExecute(self):
         
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -139,7 +164,7 @@ class BasicConfDomain(Screen):
                 return #Exit from the function
 
 
-            #If statement to ensure user has entered a username or password
+            #If statement to ensure user has entered a username or password, if not a warning popup is raised
             if App.get_running_app().device_username == '' or App.get_running_app().device_password == '':
 
                 Factory.NoUserOrPassPopup().open() 
@@ -185,13 +210,20 @@ class BasicConfDomain(Screen):
             Factory.NetmikoTimeoutPopup().open()
 
 
+    #Function to open the credential entry popup
+
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
 
+
+#Create the class for the 'Set Domain' Screen using the Screen class for inheritiance
+
 class BasicConfReload(Screen): 
     
+    #Creates the function to execute the reload function
+
     def BasicConfReloadExecute(self):
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -234,9 +266,11 @@ class BasicConfReload(Screen):
             net_connect = ConnectHandler(**device) 
 
             output = net_connect.send_command_timing('reload')
-            if 'Proceed with reload' in output:
+
+
+            #If statements that check the output for various strings to ensure that the correct commands are sent
+            if 'Proceed with reload' in output: #If this string is detected the tool will send a newline, which will start the reload
                 output += net_connect.send_command_timing('\n')
-                #print(output)
 
                 #Set the password and username back to empty after completion of configuration
                 App.get_running_app().device_username = ''
@@ -245,7 +279,8 @@ class BasicConfReload(Screen):
                 #Creates and displays a popup to inform user that reload was successful
                 popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
                 popup.open()
-            if 'System configuration has been modified' in output:
+
+            if 'System configuration has been modified' in output: #If this string is detected the tool will send the below commands to start the reload
                 output += net_connect.send_command_timing('yes')
                 output += net_connect.send_command_timing('\n')
                 #print(output)
@@ -257,7 +292,8 @@ class BasicConfReload(Screen):
                 #Creates and displays a popup to inform user that reload was successful
                 popup = Popup(title='', content=Label(markup = True, text="Succesful reload of device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
                 popup.open()
-            else:
+
+            else: #If neither set of strings are detected the tool will display a failed configuration popup
                 #Creates and displays a popup to inform user that reload has failed
                 popup = Popup(title='', content=Label(markup = True, text="Failed to reload device with IP address '[b]"+ device_ip_address + "[/b]'"), size_hint =(0.5, 0.3))
                 popup.open()
@@ -273,6 +309,8 @@ class BasicConfReload(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
 
+
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 

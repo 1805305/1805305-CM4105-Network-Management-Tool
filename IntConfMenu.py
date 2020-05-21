@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -23,15 +25,26 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
+
 from netmiko import ConnectHandler  
 
-import ipaddress
+#Imports two execption types to allow for better error handling
 
 from netmiko.ssh_exception import NetMikoTimeoutException
 from netmiko.ssh_exception import AuthenticationException
 
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
+import ipaddress
+
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
+
 from MiscModules import DeviceUsernameAndPasswordPopup
 
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class IntConfMenuButtons(BoxLayout):
 
@@ -42,9 +55,13 @@ class IntConfMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'IntConfEthernetIntScreen'
 
 
+#Create the class for the 'Assign IPv4' Screen using the Screen class for inheritiance
 
 class IntConfAssignIPv4(Screen): 
     
+
+    #Function to assign an IPv4 address to an interface
+
     def IntConfAssignIPv4Execute(self):
 
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -113,15 +130,20 @@ class IntConfAssignIPv4(Screen):
             Factory.NetmikoTimeoutPopup().open()
     
 
+    #Function to open the credential entry popup
+
     def OpenCredentialPopup(self):
 
         self.the_popup = DeviceUsernameAndPasswordPopup()
         self.the_popup.open()
 
 
+#Create the class for the 'Configure Ethernet Interface' Screen using the Screen class for inheritiance
+
 class IntConfEthernetInt(Screen):        
     
 
+    #Function to make configuration changes to a ethernet interface
 
     def IntConfEthernetIntExecute(self):
         
@@ -235,6 +257,7 @@ class IntConfEthernetInt(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
 
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 

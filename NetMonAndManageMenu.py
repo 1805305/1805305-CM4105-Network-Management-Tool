@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -23,14 +25,26 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Imports ConnectHandler from netmiko to handle SSH connections with devices
+
 from netmiko import ConnectHandler  
+
+#Imports two execption types to allow for better error handling
+
+from netmiko.ssh_exception import NetMikoTimeoutException
+from netmiko.ssh_exception import AuthenticationException
+
+#Imports ipaddress to provide the ability to maniuplate IP addresses
 
 import ipaddress
 
-from netmiko.ssh_exception import NetMikoTimeoutException
-from netmiko.ssh_exception import AuthenticationException 
+#Imports DeviceUsernameAndPasswordPopup from the tool itself to allow for the device credentials to be entered
 
 from MiscModules import DeviceUsernameAndPasswordPopup
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class NetMonMenuButtons(BoxLayout):
 
@@ -38,9 +52,13 @@ class NetMonMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'NetMonSpanConfScreen'
 
 
+#Create the class for the 'SPAN Configuration' Screen using the Screen class for inheritiance
 
 class NetMonSpanConf(Screen):   
     
+
+    #Function to configure SPAN on a switcing device
+
     def NetMonSpanConfExecute(self):
         
         #Try statement to ensure that any errors connecting and configuring the device are handled gracefully and the user is informed of what the potential error was using popups
@@ -112,6 +130,8 @@ class NetMonSpanConf(Screen):
 
             Factory.NetmikoTimeoutPopup().open()
     
+
+    #Function to open the credential entry popup
 
     def OpenCredentialPopup(self):
 

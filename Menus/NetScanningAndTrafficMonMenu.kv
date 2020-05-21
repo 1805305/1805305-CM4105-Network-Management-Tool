@@ -2,6 +2,9 @@
 
 #:import NetScanningAndTrafficMonMenu NetScanningAndTrafficMonMenu
 
+#This KV file defines the various Network Scanning And Traffic Monitoring screens and widgets it is linked to the NetScanningAndTrafficMonMenu.py for defining the type of widget and the functions that are called
+
+
 <NetScanMenu@Screen>:
     on_pre_enter: app.current_screen = "Network Scanning and Traffic Monitoring"
     on_pre_enter: app.previous_screen.append('NetScanMenuScreen')

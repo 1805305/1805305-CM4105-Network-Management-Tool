@@ -2,7 +2,7 @@
 
 #:import MenuBar MenuBar
 
-
+#This KV file defines the Menu bar and the widget type is defined in MenuBar.py
 
 <MenuBar>:
     
@@ -12,8 +12,7 @@
             use_separator: True
             ActionPrevious:
                 title:  app.current_screen
-                with_previous: False
-                #on_release: app.GoPreviousScreen()
+                with_previous: False           
             ActionOverflow:
             ActionButton:
                 text: 'Return To Main Menu'

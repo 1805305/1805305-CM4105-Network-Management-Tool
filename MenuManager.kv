@@ -2,6 +2,8 @@
 
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
 
+#This KV file defines how the screens are managed
+
 
 <MenuManager>:
     id: _Menu_Manager_
@@ -11,7 +13,7 @@
         #Main Menu and Sub Menu Screens
 
     
-    MainMenu:
+    MainMenu: #As the MainMenu screen is set first it will be the default screen
     BasicConfMenu:
     IntConfMenu:
     RoutingIntMenu:

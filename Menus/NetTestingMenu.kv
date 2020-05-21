@@ -2,6 +2,9 @@
 
 #:import NetTestingMenu NetTestingMenu
 
+#This KV file defines the various Network Testing screens and widgets it is linked to the NetTestingMenu.py for defining the type of widget and the functions that are called
+
+
 <NetTestingMenu@Screen>:
     on_pre_enter: app.current_screen = "Network Testing"
     on_pre_enter: app.previous_screen.append('NetTestingMenuScreen')

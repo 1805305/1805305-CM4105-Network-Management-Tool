@@ -12,6 +12,8 @@
 import kivy
 kivy.require('1.11.1')
 
+#Import various Kivy modules
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -23,10 +25,18 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label 
 
+
+#Import multiping to allow for the sending of pings and the gathering of the results
+
 from multiping import MultiPing
 from multiping import multi_ping
 
+#Imports ipaddress to provide the ability to maniuplate IP addresses
+
 import ipaddress
+
+
+#Creates the class that inherits from the BoxLayout class, this class provides the functions to swtich to screens as required
 
 class NetTestingMenuButtons(BoxLayout):
 
@@ -34,13 +44,23 @@ class NetTestingMenuButtons(BoxLayout):
         self.main_menu_root.manager.current = 'NetTestingPingScreen'
 
 
+#Create the class for the 'Ping A Network Device' Screen using the Screen class for inheritiance
+
 class NetTestingPing(Screen):        
     
+
+    #Defines the properties used throughout the class
+
     device_ip_address = ListProperty([''])
     result_of_ping = StringProperty('')
 
+
+    #Creates the function to execute the Ping Device function
+
     def NetTestingPingExecute(self):
         
+        #Defines the variables based on properties set above
+
         device_ip_address = self.device_ip_address
         result_of_ping = self.result_of_ping
 
@@ -58,19 +78,22 @@ class NetTestingPing(Screen):
             return #Exit from the function
 
         
-        retry_check = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+        retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text #retry_amount is set a the value of the retry spinner
 
-        if retry_check == 'No Retries':
+        #If statement to check if the user set a retry anount, if not the retry amount is set to 0
+        if retry_amount == 'No Retries':
             retry_amount = 0
         else:
-            retry_amount = self.ids._Net_Testing_Ping_Layout_.ids.RetryAmountSpinner.text
+           pass
 
         
+       #Intiates the ping using the variables set, the responses will be outputted to 'responses' and 'no_response' depending if a response to the ping is recieved
         responses, no_responses = multi_ping(device_ip_address, timeout=0.5, retry= retry_amount, ignore_lookup_errors=True)
 
-        if responses:
+        #If statement to check the result of the ping
+        if responses: #If a respone is found it is set as successful
             result_of_ping = 'Success'
-        if no_responses:
+        if no_responses: #If no response is found it is set as failed
             result_of_ping = 'Failed'
 
-        self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]"
+        self.ids._Net_Testing_Ping_Layout_.ids.ResultsLabel.text = "Result of ping to '[i]" + str(device_ip_address[0]) + "[/i]' - [b] " + result_of_ping + " [/b]" #Sets the label on the screen stating the device pinged and the result of the ping

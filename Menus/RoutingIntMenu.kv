@@ -2,6 +2,9 @@
 
 #:import RoutingIntMenu RoutingIntMenu
 
+#This KV file defines the various Routing Configuration screens and widgets it is linked to the RoutingIntMenu.py for defining the type of widget and the functions that are called
+
+
 <RoutingIntMenu@Screen>:
     on_pre_enter: app.current_screen = "Routing Configuration"
     on_pre_enter: app.previous_screen.append('RoutingIntMenuScreen')

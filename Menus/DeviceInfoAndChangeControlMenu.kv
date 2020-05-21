@@ -2,6 +2,9 @@
 
 #:import DeviceInfoAndChangeControlMenu DeviceInfoAndChangeControlMenu
 
+#This KV file defines the various Device Information and Change Control screens and widgets it is linked to the DeviceInfoAndChangeControlMenu.py for defining the type of widget and the functions that are called
+
+
 <DeviceInfoMenu@Screen>:
     on_pre_enter: app.current_screen = "Device Information and Change Control"
     on_pre_enter: app.previous_screen.append('DeviceInfoMenuScreen')
