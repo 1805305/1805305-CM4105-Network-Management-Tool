@@ -23,6 +23,11 @@ from kivy.app import App
 
 from kivy.properties import StringProperty
 
+#Common modules will be imported to perform certain tasks if neccessary
+
+import os
+import sys
+
 #Import OS path to allow for access to system functions
 
 from os.path import dirname
@@ -37,7 +42,7 @@ class SetStorageLocation(Screen):
 
     def SetStorageLocationChangeExecute(self):
         
-        with open('StorageLocation.txt', 'r') as f: #Open the storage location text file in read mode
+        with open(os.path.join(sys.path[0], 'StorageLocation.txt'), 'r') as f: #Open the storage location text file in read mode
             new_storage_location_file = f.readlines() #Read each line and store as a list
            
         new_storage_location_file[2] = self.ids._Set_Storage_Location_File_Chooser_.ids.FileChooser.path #Sets index 2 of the list as the file path selected by the user
@@ -45,7 +50,7 @@ class SetStorageLocation(Screen):
         f.close() #Close the file
 
 
-        with open('StorageLocation.txt', 'w') as f: #Open the storage location text file in write mode
+        with open(os.path.join(sys.path[0], 'StorageLocation.txt'), 'w') as f: #Open the storage location text file in write mode
             f.writelines( new_storage_location_file ) #Write the new list to the file
 
         f.close() #Close the file
@@ -58,7 +63,7 @@ class SetStorageLocation(Screen):
 
     def ResetStorageLocationChangeExecute(self):
         
-        with open('StorageLocation.txt', 'r') as f: #Open the storage location text file in read mode
+        with open(os.path.join(sys.path[0], 'StorageLocation.txt'), 'r') as f: #Open the storage location text file in read mode
             reset_storage_location_file = f.readlines() #Read each line and store as a list
            
         reset_storage_location_file[2] = dirname(__file__)  #Sets index 2 of the list as the directory of the tool
@@ -66,7 +71,7 @@ class SetStorageLocation(Screen):
         f.close() #Close the file
 
 
-        with open('StorageLocation.txt', 'w') as f: #Open the storage location text file in write mode
+        with open(os.path.join(sys.path[0], 'StorageLocation.txt'), 'w') as f: #Open the storage location text file in write mode
             f.writelines( reset_storage_location_file ) #Write the new list to the file
         
         f.close() #Close the file

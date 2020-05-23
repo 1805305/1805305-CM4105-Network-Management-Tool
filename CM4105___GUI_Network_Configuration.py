@@ -29,6 +29,10 @@ from kivy.uix.label import Label
 from kivy.properties import ListProperty, StringProperty
 
 
+#Common modules will be imported to perform certain tasks if neccessary
+
+import os
+import sys
 
 #The following instructions loads the Kivy files that contain instructions for how the GUI is structured
 
@@ -76,7 +80,7 @@ class MainApplicationApp(App):
         self.title = 'CM4105 Network Management Tool - 1805305' #Set the title for the application window
 
         #Opens the StorageLocation.txt to see what the current desired storage location is and sets the global property as the this location so that other functions can find quickly find the directory to store outputs 
-        with open('StorageLocation.txt') as f:
+        with open(os.path.join(sys.path[0], 'StorageLocation.txt')) as f:
             storage_location_file = f.readlines()
             self.selected_storage_directory = storage_location_file[2]
             f.close()
