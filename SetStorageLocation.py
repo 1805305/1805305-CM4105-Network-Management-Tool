@@ -77,6 +77,3 @@ class SetStorageLocation(Screen):
         f.close() #Close the file
 
         App.get_running_app().selected_storage_directory =  reset_storage_location_file[2]  #Set the global property 'selected_storage_directory' as the new file path
-
-
-        f.close()
